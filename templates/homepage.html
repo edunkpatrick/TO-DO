@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} Task Tracker Home {% endblock %}
+
+{% block body %}
+    <h1>Welcome!</h1>
+
+    <h2>Create an Account</h2>
+    <form action="/users" method="POST">
+        <p>
+            Account name <input type="text" name="account_name">
+            name must be 8 letter characters
+            <!-- can change requirements for account name based on db -->
+        </p>
+        <p>
+            Password <input type="password" name="password">
+            password must be 8 characters, mix of number and letters
+            <!-- can change requirements for password based on db -->
+        </p>
+        <p>
+            <input type="submit">
+        </p>
+    </form>
+
+    <h2>Login to account</h2>
+    <form action="/users" method="POST">
+        <p>
+            Account name <input type="text" name="account_name">
+        </p>
+        <p>
+            Password <input type="password" name="password">
+        </p>
+        <p>
+            <input type="submit">
+        </p>
+    </form>
+
+
+{% endblock %}
