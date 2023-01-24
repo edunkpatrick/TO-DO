@@ -35,7 +35,7 @@ class Users(db.Model):
 
     def __repr__(self):
         """Show info about user"""
-        return f"<User user_id={self.user_id} name={self.user_name}>"
+        return f"<Users user_id={self.user_id} name={self.user_name}>"
 
     household = db.relationship("Household", back_populates="users")
 
@@ -49,15 +49,14 @@ class Tasks(db.Model):
     task_name = db.Column(db.String(50))
     user_completed = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     task_description = db.Column(db.Text)
-    # should i add a date column to track when something is completed?
     date = db.Column(db.Date)
 
 
     def __repr__(self):
         """Show info about task"""
-        return f"<Task task_id={self.task_id} name={self.task_name} completed={self.task_completed}>"
+        return f"<Tasks task_id={self.task_id} name={self.task_name} completed={self.user_completed}>"
 
-    user = db.relationship("Users", back_populates="tasks")
+    # users = db.relationship("Users", back_populates="tasks")
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///ratings", echo=True):
