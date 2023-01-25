@@ -15,7 +15,7 @@ class Household(db.Model):
     # revisit length of log in and password requirements
     account_login = db.Column(db.String(20), nullable=False)
     account_password = db.Column(db.String(20), nullable=False)
-    household_name = db.Column(db.String(50), nullable=False)
+    # household_name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         """Show info about household"""
@@ -35,10 +35,10 @@ class Users(db.Model):
 
     def __repr__(self):
         """Show info about user"""
-        return f"<Users user_id={self.user_id} name={self.user_name}>"
+        return f"<Users user_id={self.user_id} name={self.user_name} household_id={self.household_id}>"
 
     household = db.relationship("Household", back_populates="users")
-
+    tasks = db.relationship("Tasks", back_populates="users")
 
 class Tasks(db.Model):
     """Tasks"""
@@ -47,19 +47,20 @@ class Tasks(db.Model):
 
     task_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_name = db.Column(db.String(50))
-    user_completed = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    task_description = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    task_description = db.Column(db.Text, nullable=True)
     date = db.Column(db.Date)
+    frequency = db.Column(db.String(20))
 
 
     def __repr__(self):
         """Show info about task"""
-        return f"<Tasks task_id={self.task_id} name={self.task_name} completed={self.user_completed}>"
+        return f"<Tasks task_id={self.task_id} name={self.task_name}>"
 
-    # users = db.relationship("Users", back_populates="tasks")
+    users = db.relationship("Users", back_populates="tasks")
 
 
-def connect_to_db(flask_app, db_uri="postgresql:///ratings", echo=True):
+def connect_to_db(flask_app, db_uri="postgresql:///tasks_db", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
