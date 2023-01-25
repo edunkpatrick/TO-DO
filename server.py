@@ -40,7 +40,7 @@ def register_household():
 
     return redirect('/')
 
-@app.route('/login', methods=["POST"])
+@app.route('/household_home', methods=["POST"])
 def login_household():
     """Login household"""
 
@@ -55,11 +55,29 @@ def login_household():
         session["account_name"] = household.account_login
         flash(f"Welcome back, {household_name}!")
 
-    # change below to redirect to households landing page to select user 
-    return redirect('/')
+    return render_template('household.html')
 
+# @app.route('/landing')
+# app route for picking household user
+@app.route('/add_user', methods=["POST"])
+def create_user():
+    """Creates a new user for household"""
+
+    user_name = request.form.get("user_name")
+
+    user = crud.get_user_by_name(user_name)
+
+    if user:
+        flash("That user profile already exists, please select user from dropdown")
+    else:
+        # need to add return household_id to login for crud function
+        user = crud.create_user(household_id, user_name)
+        db.session.add(user)
+        db.session.commit()
+        flash("User created succesfully, please select from dropdown")
 
 if __name__ == "__main__":
     connect_to_db(app)
+    # look up in notes how to store secret key in .gitignore
     app.secret_key = "supersecret"
     app.run(host="0.0.0.0", debug=True)

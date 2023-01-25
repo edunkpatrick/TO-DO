@@ -24,6 +24,12 @@ def create_user(household_id, user_name):
 
     return user
 
+def get_user_by_name(user_name):
+    """Return a user by name"""
+
+    return Users.query.filter(Users.user_name == user_name)
+
+
 def create_task(task_name, user_assigned, frequency):
     """Create and return a new task"""
 
