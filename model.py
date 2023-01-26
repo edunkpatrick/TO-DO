@@ -13,7 +13,7 @@ class Household(db.Model):
 
     household_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # revisit length of log in and password requirements
-    account_login = db.Column(db.String(20), nullable=False)
+    account_login = db.Column(db.String(20), nullable=False, unique=True)
     account_password = db.Column(db.String(20), nullable=False)
     # household_name = db.Column(db.String(50), nullable=False)
 
@@ -49,13 +49,12 @@ class Tasks(db.Model):
     task_name = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     task_description = db.Column(db.Text, nullable=True)
-    date = db.Column(db.Date)
+    date_completed = db.Column(db.Date)
     frequency = db.Column(db.String(20))
-
 
     def __repr__(self):
         """Show info about task"""
-        return f"<Tasks task_id={self.task_id} name={self.task_name}>"
+        return f"<Tasks task_id={self.task_id} task_name={self.task_name}>"
 
     users = db.relationship("Users", back_populates="tasks")
 

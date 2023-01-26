@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} Tasks {% endblock %}
+
+{% block body %}
+<h1> {{ user_profile_selected }}'s home </h1>
+
+<h2>Here's your tasks</h2>
+
+<li>{{ get_tasks }}</li>
+
+
+{% endblock %}

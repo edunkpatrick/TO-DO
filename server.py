@@ -48,36 +48,53 @@ def login_household():
     password = request.form.get("password")
 
     household = crud.get_household_by_login(household_name)
-
+    
     if not household or household.account_password != password:
         flash("The household name or password was incorrect, please try again.")
+        return redirect('/')
     else:
+        user_list = crud.get_users_by_household(household_name)
         session["account_name"] = household.account_login
         flash(f"Welcome back, {household_name}!")
+        return render_template('household.html', household_name=household_name, user_list=user_list)
 
-    return render_template('household.html')
 
-# @app.route('/landing')
-# app route for picking household user
 @app.route('/add_user', methods=["POST"])
 def create_user():
     """Creates a new user for household"""
 
     user_name = request.form.get("user_name")
-
     user = crud.get_user_by_name(user_name)
+    household_name = session["account_name"]
 
     if user:
         flash("That user profile already exists, please select user from dropdown")
     else:
-        # need to add return household_id to login for crud function
+        household_id = crud.get_household_id_by_name(household_name)
         user = crud.create_user(household_id, user_name)
         db.session.add(user)
         db.session.commit()
         flash("User created succesfully, please select from dropdown")
 
+    user_list = crud.get_users_by_household(household_name)
+
+    return render_template('household.html', household_name=household_name, user_name=user_name, user_list=user_list)
+
+# to do next: create flask route for /user_profile to process user dropdown form in household.html
+# directing to next page which will be user's dashboard for tasks
+@app.route('/user_profile', methods=["POST"])
+def show_user_landing():
+
+    user_profile_selected = request.form.get("available_users")
+    
+    get_tasks = crud.get_tasks(user_profile_selected)
+
+    return render_template('assigned_tasks.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected)
+
+
+
 if __name__ == "__main__":
     connect_to_db(app)
-    # look up in notes how to store secret key in .gitignore
+    # look up in notes how to store secret key in .gitignor/secrets.sh
     app.secret_key = "supersecret"
     app.run(host="0.0.0.0", debug=True)
