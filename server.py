@@ -80,18 +80,37 @@ def create_user():
 
     return render_template('household.html', household_name=household_name, user_name=user_name, user_list=user_list)
 
-# to do next: create flask route for /user_profile to process user dropdown form in household.html
-# directing to next page which will be user's dashboard for tasks
+
 @app.route('/user_profile', methods=["POST"])
 def show_user_landing():
-
+    """Shows tasks for user profile activated"""
+    # gets user selected 
     user_profile_selected = request.form.get("available_users")
-    
+    user = crud.get_user_by_name(user_profile_selected)
+    session["user_name"] = user.user_name
+    # get_tasks returns a list of assigned tasks, will unpack 
+    # list in jinja loop on assigned_tasks.html
     get_tasks = crud.get_tasks(user_profile_selected)
 
     return render_template('assigned_tasks.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected)
 
+@app.route('/add_task')
+def add_task():
+    """Adds task to user profile"""
 
+    add_task = request.args.get("assign_task")
+    user_assigned = session["user_name"]
+    user_profile_selected = user_assigned
+
+    if add_task:
+        user_selected = crud.get_user_id(user_profile_selected)
+        task = crud.create_task(task_name=add_task, user_assigned=user_selected, frequency="monthly")
+        db.session.add(task)
+        db.session.commit()
+    
+    get_tasks = crud.get_tasks(user_profile_selected)
+
+    return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
 
 if __name__ == "__main__":
     connect_to_db(app)

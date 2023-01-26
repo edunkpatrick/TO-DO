@@ -36,6 +36,13 @@ def get_user_by_name(user_name):
 
     return Users.query.filter(Users.user_name == user_name).first()
 
+def get_user_id(user_name):
+    """Return a user id given a name"""
+    user = Users.query.filter(Users.user_name == user_name).first()
+    user_id = user.user_id
+
+    return user_id
+
 def get_users_by_household(household_name):
     """Return a list of user names for given household"""
     
@@ -57,11 +64,19 @@ def get_tasks(user_assigned):
     """Get list of tasks assigned to selected user"""
 
     user = Users.query.filter(Users.user_name == user_assigned).first()
+    # get user_id for user_assigned entered
     user_id = user.user_id
-    # change below to .all() and need to unpack list returned
-    tasks = Tasks.query.filter(Tasks.user_id == user_id).first()
-    
-    return tasks.task_name
+
+    # query for all tasks assigned to that user_id
+    tasks = Tasks.query.filter(Tasks.user_id == user_id).all()
+
+    # unpack query and put each task_name into a list
+    tasks_list = []
+    for task in tasks:
+        tasks_list.append(task.task_name)
+
+    return tasks_list
+
 
 
 if __name__ == '__main__':

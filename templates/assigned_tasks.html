@@ -5,8 +5,18 @@
 <h1> {{ user_profile_selected }}'s home </h1>
 
 <h2>Here's your tasks</h2>
+{% for task in get_tasks %}
+    <li>{{ task }}</li>
+{% endfor %}
 
-<li>{{ get_tasks }}</li>
+</form>
 
+<form action="/add_task">
+    <p>
+        Add task <input type="text" name="assign_task">
+
+<br><br>
+<input type="submit">
+</form>
 
 {% endblock %}
