@@ -1,12 +1,13 @@
 """Server for task tracking app."""
 
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 
 from model import connect_to_db, db
 
 import crud
 
 from jinja2 import StrictUndefined
+
 
 app = Flask(__name__)
 # app.secret_key = "supersecret"
@@ -98,19 +99,25 @@ def show_user_landing():
 def add_task():
     """Adds task to user profile"""
 
-    add_task = request.args.get("assign_task")
+    add_task = request.args.get("add_task")
+    frequency_task = request.args.get("frequency")
     user_assigned = session["user_name"]
     user_profile_selected = user_assigned
 
     if add_task:
         user_selected = crud.get_user_id(user_profile_selected)
-        task = crud.create_task(task_name=add_task, user_assigned=user_selected, frequency="monthly")
+        task = crud.create_task(task_name=add_task, user_assigned=user_selected, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
     
     get_tasks = crud.get_tasks(user_profile_selected)
 
     return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
+
+# TO DO:
+# add functions to remove/edit tasks and to mark complete
+# add DOM manipulation to change tasks
+# add chart that shows task contributions per user of household
 
 if __name__ == "__main__":
     connect_to_db(app)

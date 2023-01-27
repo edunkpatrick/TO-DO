@@ -70,14 +70,18 @@ def get_tasks(user_assigned):
     # query for all tasks assigned to that user_id
     tasks = Tasks.query.filter(Tasks.user_id == user_id).all()
 
-    # unpack query and put each task_name into a list
+    # unpack query list and put each task_name into a list
     tasks_list = []
     for task in tasks:
         tasks_list.append(task.task_name)
 
     return tasks_list
 
+# def get_count_of_tasks(household_id):
+#     """Get a data set of counts of tasks per user"""
 
+
+#     return task_counts
 
 if __name__ == '__main__':
     from server import app

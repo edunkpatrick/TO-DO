@@ -7,16 +7,28 @@
 <h2>Here's your tasks</h2>
 {% for task in get_tasks %}
     <li>{{ task }}</li>
+
 {% endfor %}
 
 </form>
 
 <form action="/add_task">
     <p>
-        Add task <input type="text" name="assign_task">
+        Add task <input type="text" name="add_task">
+        Frequency <select name="frequency" id="frequency_id">
+            <option value="as_needed">As Needed</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="other">Other</option>
+            </select>
+        <!-- <button class="add_task" id={{ task }}> Add task </button> -->
 
 <br><br>
 <input type="submit">
 </form>
+<br><br>
 
+
+<!-- <script src="/static/updateTasks.js"></script> -->
 {% endblock %}

@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} Welcome {{ household_name }} {% endblock %}
+{% block head %}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+{% endblock %}
+</head>
 {% block body %}
 <h1> {{ household_name }}'s home </h1>
-
+<div id="user_profile">
 <h2>Pick your user profile</h2>
 <form action="/user_profile" method="POST">
 <select name="available_users" id="users">
@@ -15,7 +19,8 @@
 </select>
 <br><br>
 <input type="submit" value="Show my tasks">
-
+</div>
+<div id="add_user">
 </form>
 
 <form action="/add_user" method="POST">
@@ -24,4 +29,14 @@
 <br><br>
 <input type="submit">
 </form>
+</div>
+<br><br>
+<div id="chart-test">
+<h2> Test Chart </h2>
+<canvas id="bar-chart"></canvas>
+
+</div>
+{% endblock %}
+{% block js %}
+<script src="/static/charts.js"></script>
 {% endblock %}
