@@ -6,6 +6,7 @@
 {% endblock %}
 </head>
 {% block body %}
+<div>
 <h1> {{ household_name }}'s home </h1>
 <div id="user_profile">
 <h2>Pick your user profile</h2>
@@ -31,12 +32,42 @@
 </form>
 </div>
 <br><br>
-<div id="chart-test">
+<!-- <div id="chart-test">
 <h2> Test Chart </h2>
 <canvas id="bar-chart"></canvas>
+</div> -->
+
+</div>
+<div>
+<h1> {{ user_profile_selected }}'s home </h1>
+
+<h2>Here's your tasks</h2>
+{% for task in get_tasks %}
+    <li>{{ task }}</li>
+
+{% endfor %}
+
+</form>
+
+<form action="/add_task">
+    <p>
+        Add task <input type="text" name="add_task">
+        Frequency <select name="frequency" id="frequency_id">
+            <option value="as_needed">As Needed</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="other">Other</option>
+            </select>
+        <!-- <button class="add_task" id={{ task }}> Add task </button> -->
+
+<br><br>
+<input type="submit">
+</form>
+<br><br>
 
 </div>
 {% endblock %}
 {% block js %}
-<script src="/static/charts.js"></script>
+<!-- <script src="/static/charts.js"></script> -->
 {% endblock %}

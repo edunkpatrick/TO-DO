@@ -82,9 +82,43 @@ def create_user():
     return render_template('household.html', household_name=household_name, user_name=user_name, user_list=user_list)
 
 
+# @app.route('/user_profile', methods=["POST"])
+# def show_user_landing():
+#     """Shows tasks for user profile activated"""
+#     # gets user selected 
+#     user_profile_selected = request.form.get("available_users")
+#     user = crud.get_user_by_name(user_profile_selected)
+#     session["user_name"] = user.user_name
+#     # get_tasks returns a list of assigned tasks, will unpack 
+#     # list in jinja loop on assigned_tasks.html
+#     get_tasks = crud.get_tasks(user_profile_selected)
+
+#     return render_template('assigned_tasks.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected)
+
+# @app.route('/add_task')
+# def add_task():
+#     """Adds task to user profile"""
+
+#     add_task = request.args.get("add_task")
+#     frequency_task = request.args.get("frequency")
+#     user_assigned = session["user_name"]
+#     user_profile_selected = user_assigned
+
+#     if add_task:
+#         user_selected = crud.get_user_id(user_profile_selected)
+#         task = crud.create_task(task_name=add_task, user_assigned=user_selected, frequency=frequency_task)
+#         db.session.add(task)
+#         db.session.commit()
+    
+#     get_tasks = crud.get_tasks(user_profile_selected)
+
+#     return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
+
 @app.route('/user_profile', methods=["POST"])
 def show_user_landing():
     """Shows tasks for user profile activated"""
+    household_name = session["account_name"]
+    user_list = crud.get_users_by_household(household_name)
     # gets user selected 
     user_profile_selected = request.form.get("available_users")
     user = crud.get_user_by_name(user_profile_selected)
@@ -93,11 +127,14 @@ def show_user_landing():
     # list in jinja loop on assigned_tasks.html
     get_tasks = crud.get_tasks(user_profile_selected)
 
-    return render_template('assigned_tasks.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected)
+    return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
 
 @app.route('/add_task')
 def add_task():
     """Adds task to user profile"""
+
+    household_name = session["account_name"]
+    user_list = crud.get_users_by_household(household_name)
 
     add_task = request.args.get("add_task")
     frequency_task = request.args.get("frequency")
@@ -112,7 +149,7 @@ def add_task():
     
     get_tasks = crud.get_tasks(user_profile_selected)
 
-    return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
+    return render_template('household.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks, household_name=household_name, user_list=user_list)
 
 # TO DO:
 # add functions to remove/edit tasks and to mark complete
