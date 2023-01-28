@@ -43,8 +43,12 @@
 
 <h2>Here's your tasks</h2>
 {% for task in get_tasks %}
-    <li>{{ task }}</li>
+    <!-- <li>{{ task }}</li> -->
 
+    <input type="checkbox" id="task" name="{{ task }}">
+    <label for="task">{{ task }}</label>
+    <button type="button" id="delete_checkbox" name="delete_task" button onClick="deleteTask()">Delete</button>
+    <br>
 {% endfor %}
 
 </form>
@@ -69,5 +73,6 @@
 </div>
 {% endblock %}
 {% block js %}
+<script src="/static/updateTasks.js"></script>
 <!-- <script src="/static/charts.js"></script> -->
 {% endblock %}

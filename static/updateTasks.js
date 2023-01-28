@@ -36,3 +36,28 @@
 //     });
 //   });
 // }
+
+// deletes selected task
+
+// deleteButtons = document.querySelectorAll('.delete_checkbox');
+
+// for (const button of deleteButtons) {
+//   button.addEventListener('click', () => {
+//     if (document.getElementById('delete_checkbox').checked){
+//           const answer = confirm('Are you sure you want to delete this task?');
+//            if (answer)
+//              {
+//              $("#delete_checkbox").remove();
+//              }
+//            }
+//         })};
+
+function deleteTask() {
+    let answer = confirm("Are you sure you want to delete this task?");
+    if (answer)
+        {
+            ("#delete_checkbox").remove();
+            //   then update the list with server/crud
+        }
+
+}

@@ -58,6 +58,7 @@ class Tasks(db.Model):
 
     users = db.relationship("Users", back_populates="tasks")
 
+# CODE REVIEW 1/25/23 COMPLETED #
 
 def connect_to_db(flask_app, db_uri="postgresql:///tasks_db", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

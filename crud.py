@@ -60,6 +60,8 @@ def create_task(task_name, user_assigned, frequency):
 
     return task
 
+# FIRST CODE REVIEW 1/25/23 FINISHED HERE #
+
 def get_tasks(user_assigned):
     """Get list of tasks assigned to selected user"""
 
@@ -76,6 +78,14 @@ def get_tasks(user_assigned):
         tasks_list.append(task.task_name)
 
     return tasks_list
+
+def delete_task(task_name):
+    """Delete selected task from list"""
+    # selected_task = Tasks.query.filter(Tasks.task_name == task_name).all()
+    # print("this is task", selected_task)
+
+    return Tasks.query.filter(Tasks.task_name == task_name).delete()
+
 
 # def get_count_of_tasks(household_id):
 #     """Get a data set of counts of tasks per user"""

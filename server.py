@@ -81,6 +81,7 @@ def create_user():
 
     return render_template('household.html', household_name=household_name, user_name=user_name, user_list=user_list)
 
+# FIRST CODE REVIEW 1/25/23 FINISHED HERE #
 
 # @app.route('/user_profile', methods=["POST"])
 # def show_user_landing():
@@ -150,6 +151,21 @@ def add_task():
     get_tasks = crud.get_tasks(user_profile_selected)
 
     return render_template('household.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks, household_name=household_name, user_list=user_list)
+
+@app.route('/delete_task')
+def delete_selected_task():
+    """Deletes task from list"""
+    household_name = session["account_name"]
+    user_list = crud.get_users_by_household(household_name)
+    user_assigned = session["user_name"]
+
+    # need to query for task_id to make sure exact row is deleted
+    selected_task = request.args.get('delete_task')
+
+    delete = crud.delete_task(selected_task)
+
+    return render_template('household.html', household_name=household_name, user_assigned=user_assigned, user_list=user_list)
+
 
 # TO DO:
 # add functions to remove/edit tasks and to mark complete
