@@ -49,6 +49,7 @@ class Tasks(db.Model):
     task_name = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     task_description = db.Column(db.Text, nullable=True)
+    completed = db.Column(db.Boolean)
     date_completed = db.Column(db.Date)
     frequency = db.Column(db.String(20))
 

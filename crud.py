@@ -94,6 +94,21 @@ def delete_task(user_name, task_name):
 
     return deleted_task
 
+def complete_task(user_name, task_name):
+    """Marks task complete"""
+    # selected_task = Tasks.query.filter(Tasks.task_name == task_name).all()
+    # print("this is task", selected_task)
+    user = Users.query.filter(Users.user_name == user_name).first()
+    # print("this is user", user)
+    user_id = user.user_id
+    # print("this is user id", user_id)
+    # task_id = tasks.user_id
+    completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
+    completed_task.completed = True
+    # print("this is deleted tasks", deleted_tasts)
+
+    return completed_task
+
 # def get_count_of_tasks(household_id):
 #     """Get a data set of counts of tasks per user"""
 

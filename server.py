@@ -129,6 +129,13 @@ def show_user_landing():
     # get_tasks returns a list of assigned tasks, will unpack 
     # list in jinja loop on assigned_tasks.html
     get_tasks = crud.get_tasks(user_profile_selected)
+    
+    # try to display "no list" if empty list
+    # if len(get_tasks) < 1:
+    #     get_tasks = None
+    # else:
+    #     pass
+
 
     return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
 
@@ -170,14 +177,31 @@ def delete_selected_task():
         db.session.delete(delete)
         db.session.commit()
         # flash(f"you have successfully deleted {selected_task}")
-        return f"you have succesfully deleted {selected_task}"
+        return selected_task
     else:
         return "that didnt work"
 
+@app.route('/complete_task')
+def complete_selected_task():
+    """Marks selected task complete"""
+
+    # household_name = session["account_name"]
+    # user_list = crud.get_users_by_household(household_name)
+    user_assigned = session["user_name"]
     
+    # need to query for task_id to make sure exact row is deleted
+    selected_task = request.args.get("task")
+
+    if selected_task:
+        complete = crud.complete_task(user_assigned, selected_task)
+        db.session.commit()
+        completed_task = complete.task_name
+        return completed_task
+    else:
+        return "that didnt work"    
 
 # TO DO:
-# add functions to remove/edit tasks and to mark complete
+# add functions to mark complete
 # add DOM manipulation to change tasks
 # add chart that shows task contributions per user of household
 

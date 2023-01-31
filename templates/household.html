@@ -42,12 +42,13 @@
 <h1> {{ user_profile_selected }}'s tasks </h1>
 
 <h2>Here's your tasks</h2>
-{% for task in get_tasks %}  
-    <label for="task">{{ task }}</label>
-    <form action="/delete_task">
+{% for task in get_tasks %}
+    <label for="task" id="taskid">{{ task }}</label>
+    <!-- <form action="/delete_task"> -->
     <input type="checkbox" id="task" value="{{ task }}">
-    <button onclick='deleteButton()'>Delete</button>
-    </form>
+    <button id="delete" onclick='deleteButton()'>Delete</button>
+    <button id="complete" onclick='completeButton()'>Mark Complete</button>
+    <!-- </form> -->
     <br>
 {% endfor %}
 
