@@ -60,14 +60,16 @@ def login_household():
         return render_template('household.html', household_name=household_name, user_list=user_list)
 
 
-@app.route('/add_user', methods=["POST"])
+@app.route('/add_user')
 def create_user():
     """Creates a new user for household"""
 
-    user_name = request.form.get("user_name")
+    user_name = request.args.get("user_name")
     user = crud.get_user_by_name(user_name)
     household_name = session["account_name"]
 
+    # below checks for any user with that name, regardless of household
+    # need to fix to allow duplicate names bw diff households
     if user:
         flash("That user profile already exists, please select user from dropdown")
     else:
@@ -115,13 +117,13 @@ def create_user():
 
 #     return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
 
-@app.route('/user_profile', methods=["POST"])
+@app.route('/user_profile')
 def show_user_landing():
     """Shows tasks for user profile activated"""
     household_name = session["account_name"]
     user_list = crud.get_users_by_household(household_name)
     # gets user selected 
-    user_profile_selected = request.form.get("available_users")
+    user_profile_selected = request.args.get("available_users")
     user = crud.get_user_by_name(user_profile_selected)
     session["user_name"] = user.user_name
     # get_tasks returns a list of assigned tasks, will unpack 
@@ -155,17 +157,24 @@ def add_task():
 @app.route('/delete_task')
 def delete_selected_task():
     """Deletes task from list"""
-    household_name = session["account_name"]
-    user_list = crud.get_users_by_household(household_name)
+
+    # household_name = session["account_name"]
+    # user_list = crud.get_users_by_household(household_name)
     user_assigned = session["user_name"]
-
+    
     # need to query for task_id to make sure exact row is deleted
-    selected_task = request.args.get('delete_task')
+    selected_task = request.args.get("task")
 
-    delete = crud.delete_task(selected_task)
+    if selected_task:
+        delete = crud.delete_task(user_assigned, selected_task)
+        db.session.delete(delete)
+        db.session.commit()
+        # flash(f"you have successfully deleted {selected_task}")
+        return f"you have succesfully deleted {selected_task}"
+    else:
+        return "that didnt work"
 
-    return render_template('household.html', household_name=household_name, user_assigned=user_assigned, user_list=user_list)
-
+    
 
 # TO DO:
 # add functions to remove/edit tasks and to mark complete

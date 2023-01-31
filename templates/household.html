@@ -10,7 +10,7 @@
 <h1> {{ household_name }}'s home </h1>
 <div id="user_profile">
 <h2>Pick your user profile</h2>
-<form action="/user_profile" method="POST">
+<form action="/user_profile">
 <select name="available_users" id="users">
     {% for user in user_list %}
 
@@ -24,7 +24,7 @@
 <div id="add_user">
 </form>
 
-<form action="/add_user" method="POST">
+<form action="/add_user">
     <p>
         Add user to household <input type="text" name="user_name">
 <br><br>
@@ -39,15 +39,15 @@
 
 </div>
 <div>
-<h1> {{ user_profile_selected }}'s home </h1>
+<h1> {{ user_profile_selected }}'s tasks </h1>
 
 <h2>Here's your tasks</h2>
-{% for task in get_tasks %}
-    <!-- <li>{{ task }}</li> -->
-
-    <input type="checkbox" id="task" name="{{ task }}">
+{% for task in get_tasks %}  
     <label for="task">{{ task }}</label>
-    <button type="button" id="delete_checkbox" name="delete_task" button onClick="deleteTask()">Delete</button>
+    <form action="/delete_task">
+    <input type="checkbox" id="task" value="{{ task }}">
+    <button onclick='deleteButton()'>Delete</button>
+    </form>
     <br>
 {% endfor %}
 
@@ -63,7 +63,6 @@
             <option value="monthly">Monthly</option>
             <option value="other">Other</option>
             </select>
-        <!-- <button class="add_task" id={{ task }}> Add task </button> -->
 
 <br><br>
 <input type="submit">
@@ -74,5 +73,4 @@
 {% endblock %}
 {% block js %}
 <script src="/static/updateTasks.js"></script>
-<!-- <script src="/static/charts.js"></script> -->
 {% endblock %}

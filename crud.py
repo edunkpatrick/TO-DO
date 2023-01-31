@@ -33,6 +33,7 @@ def create_user(household_id, user_name):
 
 def get_user_by_name(user_name):
     """Return a user by name"""
+    # need to change so that it returns a name from selected household
 
     return Users.query.filter(Users.user_name == user_name).first()
 
@@ -79,13 +80,19 @@ def get_tasks(user_assigned):
 
     return tasks_list
 
-def delete_task(task_name):
+def delete_task(user_name, task_name):
     """Delete selected task from list"""
     # selected_task = Tasks.query.filter(Tasks.task_name == task_name).all()
     # print("this is task", selected_task)
+    user = Users.query.filter(Users.user_name == user_name).first()
+    # print("this is user", user)
+    user_id = user.user_id
+    # print("this is user id", user_id)
+    # task_id = tasks.user_id
+    deleted_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
+    # print("this is deleted tasks", deleted_tasts)
 
-    return Tasks.query.filter(Tasks.task_name == task_name).delete()
-
+    return deleted_task
 
 # def get_count_of_tasks(household_id):
 #     """Get a data set of counts of tasks per user"""

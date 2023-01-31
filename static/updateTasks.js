@@ -1,63 +1,57 @@
-// 'use strict';
+'use strict';
 
-// editButtons = document.querySelectorAll('.add_task');
+// DELETE SELECTED TASK
+// deleteButton selects button and gives popup but checkbox irrelevant
+function deleteButton() {
+    const toDel = document.getElementById('task').value;
+    const answer = confirm(`are you sure you want to delete ${toDel}`);
+    if (answer) {
+        const queryString = new URLSearchParams({ task: toDel }).toString();
+        const url = `/delete_task?${queryString}`;
+        fetch(url)
+            .then((response) => response.text())
+            .then((delete_task) => {
+                // use dom manipulation to remove task from page
+                // const toRemove = document.querySelector(status);
+                // console.log(`this is status${status}`)
+                // toRemove.remove();
+                toDel.remove();
+                // const toRemove = document.getElementById('task');
+                // toRemove.remove(delete_task);
+                console.log('worked and didnt reload');
+            });
+    }
+    else {
+        console.log('that didnt work');
+    }
+    }
 
-// for (const button of editButtons) {
-//   button.addEventListener('click', () => {
-//     // first ask the user what they want the new rating to be
-//     const newTask = prompt('What is this task');
-//     // console.log('hi');
-//     // const formInputs = {
-//     //   add_task: newTask,
-//     //   task_id: button.id,
-// //   };
+// const button = document.querySelector('#delete_checkbox');
+// button.addEventListener('submit', () => {
+//     const task = document.querySelector('#task').value;
+//     const url = `/delete_task?${task}`;
 
-//     fetch('/add_task')
+//     fetch(url)
+//     })
 //         .then((response) => response.text())
-//         .then((status) => {
-//             document.querySelector('#task').innerHTML = status;
-//             console.log('hola');
-//         })
-//     })}
+//         .then((task) => {
+//             document.querySelector('#task').innerHTML = task;
+//         });
 
-//     // send a fetch request to the add_task route
-//     fetch('/add_task', {
-//     //   method: 'POST',
-//     //   body: JSON.stringify(formInputs),
-//     //   headers: {
-//     //     'Content-Type': 'application/json',
-//     //   },
-//     }).then((response) => {
-//       if (response.ok) {
-//         // document.querySelector(`span.rating_num_${button.id}`).innerHTML = newTask;
-//       } else {
-//         alert('Failed to update task.');
-//       }
-//     });
-//   });
+
+// function deleteTask() {
+//     let answer = confirm("Are you sure you want to delete this task?");
+//     if (answer)
+//         {
+//             ("#delete_checkbox").remove();
+//             //   then update the list with server/crud
+//         }
+
 // }
 
-// deletes selected task
+// MARKS COMPLETE
 
-// deleteButtons = document.querySelectorAll('.delete_checkbox');
-
-// for (const button of deleteButtons) {
-//   button.addEventListener('click', () => {
-//     if (document.getElementById('delete_checkbox').checked){
-//           const answer = confirm('Are you sure you want to delete this task?');
-//            if (answer)
-//              {
-//              $("#delete_checkbox").remove();
-//              }
-//            }
-//         })};
-
-function deleteTask() {
-    let answer = confirm("Are you sure you want to delete this task?");
-    if (answer)
-        {
-            ("#delete_checkbox").remove();
-            //   then update the list with server/crud
-        }
-
-}
+// completeTask = document.querySelector('#mark_complete');
+// function handleTask() {
+//     completeTask.innerH
+// }
