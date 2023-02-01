@@ -31,11 +31,12 @@ def create_user(household_id, user_name):
 
     return user
 
-def get_user_by_name(user_name):
+def get_user_by_name(user_name, household_name):
     """Return a user by name"""
     # need to change so that it returns a name from selected household
-
-    return Users.query.filter(Users.user_name == user_name).first()
+    household = Household.query.filter(Household.account_login == household_name).first()
+    household_id = household.household_id
+    return Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
 
 def get_user_id(user_name):
     """Return a user id given a name"""
@@ -54,10 +55,10 @@ def get_users_by_household(household_name):
 
     return user_list
 
-def create_task(task_name, user_assigned, frequency):
+def create_task(task_name, user_assigned, completed, frequency):
     """Create and return a new task"""
 
-    task = Tasks(task_name=task_name, user_id=user_assigned, frequency=frequency)
+    task = Tasks(task_name=task_name, user_id=user_assigned, completed=completed, frequency=frequency)
 
     return task
 
@@ -70,8 +71,8 @@ def get_tasks(user_assigned):
     # get user_id for user_assigned entered
     user_id = user.user_id
 
-    # query for all tasks assigned to that user_id
-    tasks = Tasks.query.filter(Tasks.user_id == user_id).all()
+    # query for all uncompleted tasks assigned to that user_id
+    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed != True).all()
 
     # unpack query list and put each task_name into a list
     tasks_list = []
@@ -96,16 +97,18 @@ def delete_task(user_name, task_name):
 
 def complete_task(user_name, task_name):
     """Marks task complete"""
-    # selected_task = Tasks.query.filter(Tasks.task_name == task_name).all()
-    # print("this is task", selected_task)
+
     user = Users.query.filter(Users.user_name == user_name).first()
-    # print("this is user", user)
     user_id = user.user_id
-    # print("this is user id", user_id)
-    # task_id = tasks.user_id
     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
     completed_task.completed = True
-    # print("this is deleted tasks", deleted_tasts)
+
+    return completed_task
+
+def clear_task(task_name):
+    """Clears task from list"""
+
+    completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.completed == True).first()
 
     return completed_task
 

@@ -42,18 +42,19 @@
 <h1> {{ user_profile_selected }}'s tasks </h1>
 
 <h2>Here's your tasks</h2>
+<div id="tasksdiv">
 {% for task in get_tasks %}
+    <div id="{{ task }}div">
     <label for="task" id="taskid">{{ task }}</label>
-    <!-- <form action="/delete_task"> -->
     <input type="checkbox" id="task" value="{{ task }}">
     <button id="delete" onclick='deleteButton()'>Delete</button>
     <button id="complete" onclick='completeButton()'>Mark Complete</button>
-    <!-- </form> -->
-    <br>
+    </div>
 {% endfor %}
-
-</form>
-
+    <br>
+    <button id="remove_complete" onclick='clearButton()'>Remove Completed Tasks</button>
+    </div>
+    <div id="add_task_div">
 <form action="/add_task">
     <p>
         Add task <input type="text" name="add_task">
@@ -68,8 +69,8 @@
 <br><br>
 <input type="submit">
 </form>
+</div>
 <br><br>
-
 </div>
 {% endblock %}
 {% block js %}

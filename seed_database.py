@@ -58,8 +58,9 @@ for n in range(1, 21):
     random_user = randint(1, 20)
     random_task = choice(tasks_in_db)
     random_frequency = choice(frequency_in_db)
+    completed = False
 
-    task = crud.create_task(random_task, random_user, random_frequency)
+    task = crud.create_task(random_task, random_user, completed, random_frequency)
     model.db.session.add(task)
 
 model.db.session.commit()

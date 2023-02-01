@@ -65,8 +65,8 @@ def create_user():
     """Creates a new user for household"""
 
     user_name = request.args.get("user_name")
-    user = crud.get_user_by_name(user_name)
     household_name = session["account_name"]
+    user = crud.get_user_by_name(user_name, household_name)
 
     # below checks for any user with that name, regardless of household
     # need to fix to allow duplicate names bw diff households
@@ -124,7 +124,7 @@ def show_user_landing():
     user_list = crud.get_users_by_household(household_name)
     # gets user selected 
     user_profile_selected = request.args.get("available_users")
-    user = crud.get_user_by_name(user_profile_selected)
+    user = crud.get_user_by_name(user_profile_selected, household_name)
     session["user_name"] = user.user_name
     # get_tasks returns a list of assigned tasks, will unpack 
     # list in jinja loop on assigned_tasks.html
@@ -153,7 +153,7 @@ def add_task():
 
     if add_task:
         user_selected = crud.get_user_id(user_profile_selected)
-        task = crud.create_task(task_name=add_task, user_assigned=user_selected, frequency=frequency_task)
+        task = crud.create_task(task_name=add_task, user_assigned=user_selected, completed=False, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
     
@@ -199,6 +199,24 @@ def complete_selected_task():
         return completed_task
     else:
         return "that didnt work"    
+
+@app.route('/clear_task')
+def clear_selected_task():
+    """Clears task from list"""
+
+    # household_name = session["account_name"]
+    # user_list = crud.get_users_by_household(household_name)
+    # user_assigned = session["user_name"]
+    
+    # need to query for task_id to make sure exact row is deleted
+    selected_task = request.args.get("task")
+
+    if selected_task:
+        clear = crud.clear_task(selected_task)
+        cleared_task = clear.task_name
+        return cleared_task
+    else:
+        return "that didnt work" 
 
 # TO DO:
 # add functions to mark complete
