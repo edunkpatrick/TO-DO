@@ -153,7 +153,7 @@ def add_task():
 
     if add_task:
         user_selected = crud.get_user_id(user_profile_selected)
-        task = crud.create_task(task_name=add_task, user_assigned=user_selected, completed=False, frequency=frequency_task)
+        task = crud.create_task(task_name=add_task, user_assigned=user_selected, household_name=household_name, completed=False, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
     
@@ -204,11 +204,6 @@ def complete_selected_task():
 def clear_selected_task():
     """Clears task from list"""
 
-    # household_name = session["account_name"]
-    # user_list = crud.get_users_by_household(household_name)
-    # user_assigned = session["user_name"]
-    
-    # need to query for task_id to make sure exact row is deleted
     selected_task = request.args.get("task")
 
     if selected_task:
@@ -219,9 +214,21 @@ def clear_selected_task():
         return "that didnt work" 
 
 # TO DO:
-# add functions to mark complete
-# add DOM manipulation to change tasks
 # add chart that shows task contributions per user of household
+
+@app.route('/tasks_per_week.json')
+def get_weekly_tasks_complete():
+    """Gets the total # of weekly tasks completed"""
+
+    user_id = session["user_name"]
+    tasks_complete = crud.get_count_of_tasks(user_id)
+
+    tasks_this_week = []
+
+    for task, frequency in tasks_complete:
+        tasks_this_week.append({'task': task, 'frequency': frequency})
+    
+    return jsonify({'data': tasks_this_week})
 
 if __name__ == "__main__":
     connect_to_db(app)

@@ -44,15 +44,15 @@
 <h2>Here's your tasks</h2>
 <div id="tasksdiv">
 {% for task in get_tasks %}
-    <div id="{{ task }}div">
-    <label for="task" id="taskid">{{ task }}</label>
-    <input type="checkbox" id="task" value="{{ task }}">
-    <button id="delete" onclick='deleteButton()'>Delete</button>
-    <button id="complete" onclick='completeButton()'>Mark Complete</button>
+    <div id="{{ task }}div" value="{{ task }}">
+    <label for="task" id="tasklabel" value ="{{ task }}">{{ task }}</label>
+    <input type="checkbox" id="taskinput" value="{{ task }}">
+    <button id="{{ task }}" class="complete">Mark Complete</button>
+    <button id="{{ task }}" class="delete">Delete</button>
     </div>
 {% endfor %}
     <br>
-    <button id="remove_complete" onclick='clearButton()'>Remove Completed Tasks</button>
+    <button id="remove_complete" onclick='clearButton()'>Remove Completed Task(not functional yet)</button>
     </div>
     <div id="add_task_div">
 <form action="/add_task">
@@ -72,7 +72,39 @@
 </div>
 <br><br>
 </div>
+<div>
+    Charts
+    <canvas id = "test-chart"></canvas>
+    <script>
+        const testChart = new Chart(document.querySelector('#bar-chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Call', 'Me', 'Maybe', '?'],
+    datasets: [
+      {
+        label: 'As Needed',
+        data: [10, 36, 27],
+      },
+      {
+        label: 'Daily',
+        data: [5, 0, 7],
+      },
+      {
+        label: 'Weekly',
+        data: [5, 0, 7],
+      },      {
+        label: 'Monthly',
+        data: [5, 0, 7],
+      },
+    ],
+  },
+});
+
+    </script>
+</div>
+
 {% endblock %}
 {% block js %}
 <script src="/static/updateTasks.js"></script>
+<!-- <script src="/static/charts.js"></script> -->
 {% endblock %}

@@ -58,6 +58,9 @@ def get_users_by_household(household_name):
 def create_task(task_name, user_assigned, completed, frequency):
     """Create and return a new task"""
 
+    # user = Users.query.filter(Users.user_id == user_assigned)
+    # user_household = user.household_id
+
     task = Tasks(task_name=task_name, user_id=user_assigned, completed=completed, frequency=frequency)
 
     return task
@@ -83,15 +86,10 @@ def get_tasks(user_assigned):
 
 def delete_task(user_name, task_name):
     """Delete selected task from list"""
-    # selected_task = Tasks.query.filter(Tasks.task_name == task_name).all()
-    # print("this is task", selected_task)
+
     user = Users.query.filter(Users.user_name == user_name).first()
-    # print("this is user", user)
     user_id = user.user_id
-    # print("this is user id", user_id)
-    # task_id = tasks.user_id
     deleted_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
-    # print("this is deleted tasks", deleted_tasts)
 
     return deleted_task
 
@@ -112,11 +110,24 @@ def clear_task(task_name):
 
     return completed_task
 
-# def get_count_of_tasks(household_id):
-#     """Get a data set of counts of tasks per user"""
+def get_count_of_tasks(user_id):
+    """Returns a tuple of tasks, frequency per user"""
+    
+    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
 
+    completed_list = []
+    for task in tasks:
+        completed_list.append(task.task_name)
 
-#     return task_counts
+    frequency = []
+    for task in tasks:
+        frequency.append(task.frequency)
+
+    merge = [(completed_list[i], frequency[i]) for i in range(0, len(completed_list))]
+    print('this is merge', merge)
+
+    return
+
 
 if __name__ == '__main__':
     from server import app

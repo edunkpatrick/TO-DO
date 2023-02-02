@@ -1,18 +1,30 @@
 'use strict';
 
-new Chart(document.querySelector('#bar-chart'), {
+fetch('/tasks_per_week.json')
+.then(response => response.json())
+.then(responseJson => {
+  let data = [];
+  for(const dailyTotal of responseJson.data){
+    data.push({x: dailyTotal.tasks, y: dailyTotal.frequency
+  });
+  new Chart(document.querySelector('#bar-chart'), {
   type: 'bar',
   data: {
-    labels: ['Please', 'Help', 'Me'],
+    labels: ['Call', 'Me', 'Maybe', '?'],
     datasets: [
       {
-        label: 'Today',
+        label: 'As Needed',
         data: [10, 36, 27],
       },
       {
-        label: 'Yesterday',
+        label: 'Daily',
         data: [5, 0, 7],
       },
-    ],
-  },
-});
+      {
+        label: 'Weekly',
+        data: [5, 0, 7],
+      },      {
+        label: 'Monthly',
+        data: [5, 0, 7],
+      },]
+    }})}});

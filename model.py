@@ -22,6 +22,7 @@ class Household(db.Model):
         return f"<Household id={self.household_id} account_login={self.account_login}>"
 
     users = db.relationship("Users", back_populates="household")
+    tasks = db.relationship("Tasks", back_populates="household")
 
 
 class Users(db.Model):
@@ -48,6 +49,7 @@ class Tasks(db.Model):
     task_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_name = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    household_id = db.Column(db.Integer, db.ForeignKey('household.household_id'))
     task_description = db.Column(db.Text, nullable=True)
     completed = db.Column(db.Boolean)
     date_completed = db.Column(db.Date)
@@ -58,6 +60,7 @@ class Tasks(db.Model):
         return f"<Tasks task_id={self.task_id} task_name={self.task_name}>"
 
     users = db.relationship("Users", back_populates="tasks")
+    household = db.relationship("Household", back_populates="tasks")
 
 # CODE REVIEW 1/25/23 COMPLETED #
 

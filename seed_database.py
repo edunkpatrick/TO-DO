@@ -47,20 +47,22 @@ for n in range(1, 11):
     household = crud.create_household(login, password)
     model.db.session.add(household)
 
-for n in range(1, 21):
-    household_id = randint(1, 10)
+for n in range(1, 42):
+    household_id = choice(households_in_db)
     user_name = f"user{n}"
 
     user = crud.create_user(household_id, user_name)
     model.db.session.add(user)
 
     # assigning random tasks to user from list
-    random_user = randint(1, 20)
-    random_task = choice(tasks_in_db)
-    random_frequency = choice(frequency_in_db)
-    completed = False
+    for n in range(1,10):
+        random_user = randint(1, 40)
+        random_task = choice(tasks_in_db)
+        random_frequency = choice(frequency_in_db)
+        completed = False
+        # household_name = f"house{n}"
 
-    task = crud.create_task(random_task, random_user, completed, random_frequency)
-    model.db.session.add(task)
+        task = crud.create_task(random_task, random_user, completed, random_frequency)
+        model.db.session.add(task)
 
 model.db.session.commit()
