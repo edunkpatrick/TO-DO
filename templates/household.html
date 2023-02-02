@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block title %} Welcome {{ household_name }} {% endblock %}
 {% block head %}
-
+<!-- SAMPLE CHART -->
+{# ChartJS #}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+{# If you want to use time scales, you have to import a date library and the Chart.js adapter #}
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.1.0/dist/chartjs-adapter-luxon.min.js"></script>
+
+{# randomColor: generate random colors #}
+<script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
 {% endblock %}
 </head>
 {% block body %}
@@ -74,31 +82,8 @@
 </div>
 <div>
     Charts
-    <canvas id = "test-chart"></canvas>
-    <script>
-        const testChart = new Chart(document.querySelector('#bar-chart'), {
-  type: 'bar',
-  data: {
-    labels: ['Call', 'Me', 'Maybe', '?'],
-    datasets: [
-      {
-        label: 'As Needed',
-        data: [10, 36, 27],
-      },
-      {
-        label: 'Daily',
-        data: [5, 0, 7],
-      },
-      {
-        label: 'Weekly',
-        data: [5, 0, 7],
-      },      {
-        label: 'Monthly',
-        data: [5, 0, 7],
-      },
-    ],
-  },
-});
+    <h2>Simple Bar Chart</h2>
+    <canvas id="bar-chart"></canvas>
 
     </script>
 </div>
@@ -106,5 +91,5 @@
 {% endblock %}
 {% block js %}
 <script src="/static/updateTasks.js"></script>
-<!-- <script src="/static/charts.js"></script> -->
+<script src="/static/charts.js"></script>
 {% endblock %}

@@ -152,8 +152,8 @@ def add_task():
     user_profile_selected = user_assigned
 
     if add_task:
-        user_selected = crud.get_user_id(user_profile_selected)
-        task = crud.create_task(task_name=add_task, user_assigned=user_selected, household_name=household_name, completed=False, frequency=frequency_task)
+        user_selected = crud.get_user_id(user_profile_selected, household_name)
+        task = crud.create_task(task_name=add_task, user_assigned=user_selected, completed=False, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
     
@@ -218,17 +218,14 @@ def clear_selected_task():
 
 @app.route('/tasks_per_week.json')
 def get_weekly_tasks_complete():
-    """Gets the total # of weekly tasks completed"""
+    """Gets the total # of tasks completed"""
 
-    user_id = session["user_name"]
+    household_name = session["account_name"]
+    user_name = session["user_name"]
+    user_id = crud.get_user_id(user_name, household_name)
     tasks_complete = crud.get_count_of_tasks(user_id)
-
-    tasks_this_week = []
-
-    for task, frequency in tasks_complete:
-        tasks_this_week.append({'task': task, 'frequency': frequency})
     
-    return jsonify({'data': tasks_this_week})
+    return jsonify({'data': tasks_complete})
 
 if __name__ == "__main__":
     connect_to_db(app)

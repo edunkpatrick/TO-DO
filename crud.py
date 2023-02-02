@@ -38,9 +38,12 @@ def get_user_by_name(user_name, household_name):
     household_id = household.household_id
     return Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
 
-def get_user_id(user_name):
-    """Return a user id given a name"""
-    user = Users.query.filter(Users.user_name == user_name).first()
+def get_user_id(user_name, household_name):
+    """Return a user id given a name"""    
+    # need to change so that it returns a name from selected household
+    household = Household.query.filter(Household.account_login == household_name).first()
+    household_id = household.household_id
+    user = Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
     user_id = user.user_id
 
     return user_id
@@ -111,8 +114,10 @@ def clear_task(task_name):
     return completed_task
 
 def get_count_of_tasks(user_id):
-    """Returns a tuple of tasks, frequency per user"""
-    
+    # """Returns a tuple of tasks, frequency per user"""
+    """Returns a dictionary of # tasks completed"""
+    get_user = Users.query.filter(Users.user_id == user_id).first()
+    user_name = get_user.user_name
     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
 
     completed_list = []
@@ -122,9 +127,42 @@ def get_count_of_tasks(user_id):
     frequency = []
     for task in tasks:
         frequency.append(task.frequency)
+    
+    # num_completed = len(completed_list)
 
-    merge = [(completed_list[i], frequency[i]) for i in range(0, len(completed_list))]
-    print('this is merge', merge)
+    as_needed_comp = 0
+    daily_comp = 0
+    weekly_comp = 0
+    monthly_comp = 0
+
+    for item in frequency:
+        if item == "as needed":
+            as_needed_comp += 1
+        elif item == "daily":
+            daily_comp += 1
+        elif item == "weekly":
+            weekly_comp += 1
+        elif item == "monthly":
+            monthly_comp += 1
+
+    freq_tasks_dict = {}
+    freq_tasks_dict["user"] = user_name
+    freq_tasks_dict["as needed"] = as_needed_comp
+    freq_tasks_dict["daily"] = daily_comp
+    freq_tasks_dict["weekly"] = weekly_comp
+    freq_tasks_dict["monthly"] = monthly_comp
+
+    tasks_data_list = []
+    tasks_data_list.append(freq_tasks_dict)
+
+
+    # tasks_dict = {}
+    # tasks_dict["tasks"] = completed_list
+    # tasks_dict["frequency"] = frequency
+    # tasks_dict["num_comp"] = num_completed
+
+    # merge = [(completed_list[i], frequency[i]) for i in range(0, len(completed_list))]
+    # print('this is merge', merge)
 
     return
 

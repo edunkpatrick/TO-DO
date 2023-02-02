@@ -54,3 +54,4 @@ for (const button of document.querySelectorAll('.complete')) {
 //             alert(`${status} has successfully been cleared`);
 //         })
 // };
+
