@@ -68,8 +68,6 @@ def create_user():
     household_name = session["account_name"]
     user = crud.get_user_by_name(user_name, household_name)
 
-    # below checks for any user with that name, regardless of household
-    # need to fix to allow duplicate names bw diff households
     if user:
         flash("That user profile already exists, please select user from dropdown")
     else:
@@ -85,6 +83,109 @@ def create_user():
 
 # FIRST CODE REVIEW 1/25/23 FINISHED HERE #
 
+@app.route('/user_profile')
+def show_user_landing():
+    """Shows tasks for user profile activated"""
+
+    household_name = session["account_name"]
+    user_list = crud.get_users_by_household(household_name)
+
+    user_profile_selected = request.args.get("available_users")
+    user = crud.get_user_by_name(user_profile_selected, household_name)
+    session["user_name"] = user.user_name
+
+    get_tasks = crud.get_tasks(user_profile_selected, household_name)
+
+    return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
+
+@app.route('/add_task')
+def add_task():
+    """Adds task to user profile"""
+
+    household_name = session["account_name"]
+    user_list = crud.get_users_by_household(household_name)
+    household_id = crud.get_household_id_by_name(household_name)
+   
+    add_task = request.args.get("add_task")
+    frequency_task = request.args.get("frequency")
+    user_assigned = session["user_name"]
+
+    if add_task:
+        user_id = crud.get_user_id(user_assigned, household_id)
+        task = crud.create_task(task_name=add_task, user_id=user_id, completed=False, frequency=frequency_task)
+        db.session.add(task)
+        db.session.commit()
+    
+    get_tasks = crud.get_tasks(user_assigned, household_name)
+
+    return render_template('household.html', user_profile_selected=user_assigned, get_tasks=get_tasks, household_name=household_name, user_list=user_list)
+
+@app.route('/delete_task')
+def delete_selected_task():
+    """Deletes task from list"""
+
+    user_assigned = session["user_name"]
+    
+    selected_task = request.args.get("task")
+
+    if selected_task:
+        delete = crud.delete_task(user_assigned, selected_task)
+        db.session.delete(delete)
+        db.session.commit()
+        return selected_task
+    else:
+        return "that didnt work"
+
+@app.route('/complete_task')
+def complete_selected_task():
+    """Marks selected task complete"""
+
+    user_assigned = session["user_name"]
+    
+    selected_task = request.args.get("task")
+
+    if selected_task:
+        complete = crud.complete_task(user_assigned, selected_task)
+        db.session.commit()
+        completed_task = complete.task_name
+        return completed_task
+    else:
+        return "that didnt work"    
+
+# @app.route('/clear_task')
+# def clear_selected_task():
+#     """Clears task from list"""
+
+#     selected_task = request.args.get("task")
+
+#     if selected_task:
+#         clear = crud.clear_task(selected_task)
+#         cleared_task = clear.task_name
+#         return cleared_task
+#     else:
+#         return
+
+# TO DO:
+# add chart that shows task contributions per user of household
+
+@app.route('/tasks_complete.json')
+def get_weekly_tasks_complete():
+    """Gets the total # of tasks completed"""
+
+    household_name = session["account_name"]
+    household_id = crud.get_household_id_by_name(household_name)
+    user_name = session["user_name"]
+    user_id = crud.get_user_id(user_name, household_id)
+    tasks_complete = crud.get_count_of_tasks(user_id)
+
+    tasks_complete = []
+    for frequency, total in tasks_complete:
+        tasks_complete.append({'freq': frequency, 'num': total})
+    
+    return jsonify({'data': tasks_complete})
+
+
+# FORMER HTML ROUTE, REMOVE WHEN MVP COMPLETE
 # @app.route('/user_profile', methods=["POST"])
 # def show_user_landing():
 #     """Shows tasks for user profile activated"""
@@ -116,116 +217,6 @@ def create_user():
 #     get_tasks = crud.get_tasks(user_profile_selected)
 
 #     return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
-
-@app.route('/user_profile')
-def show_user_landing():
-    """Shows tasks for user profile activated"""
-    household_name = session["account_name"]
-    user_list = crud.get_users_by_household(household_name)
-    # gets user selected 
-    user_profile_selected = request.args.get("available_users")
-    user = crud.get_user_by_name(user_profile_selected, household_name)
-    session["user_name"] = user.user_name
-    # get_tasks returns a list of assigned tasks, will unpack 
-    # list in jinja loop on assigned_tasks.html
-    get_tasks = crud.get_tasks(user_profile_selected)
-    
-    # try to display "no list" if empty list
-    # if len(get_tasks) < 1:
-    #     get_tasks = None
-    # else:
-    #     pass
-
-
-    return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
-
-@app.route('/add_task')
-def add_task():
-    """Adds task to user profile"""
-
-    household_name = session["account_name"]
-    user_list = crud.get_users_by_household(household_name)
-
-    add_task = request.args.get("add_task")
-    frequency_task = request.args.get("frequency")
-    user_assigned = session["user_name"]
-    user_profile_selected = user_assigned
-
-    if add_task:
-        user_selected = crud.get_user_id(user_profile_selected, household_name)
-        task = crud.create_task(task_name=add_task, user_assigned=user_selected, completed=False, frequency=frequency_task)
-        db.session.add(task)
-        db.session.commit()
-    
-    get_tasks = crud.get_tasks(user_profile_selected)
-
-    return render_template('household.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks, household_name=household_name, user_list=user_list)
-
-@app.route('/delete_task')
-def delete_selected_task():
-    """Deletes task from list"""
-
-    # household_name = session["account_name"]
-    # user_list = crud.get_users_by_household(household_name)
-    user_assigned = session["user_name"]
-    
-    # need to query for task_id to make sure exact row is deleted
-    selected_task = request.args.get("task")
-
-    if selected_task:
-        delete = crud.delete_task(user_assigned, selected_task)
-        db.session.delete(delete)
-        db.session.commit()
-        # flash(f"you have successfully deleted {selected_task}")
-        return selected_task
-    else:
-        return "that didnt work"
-
-@app.route('/complete_task')
-def complete_selected_task():
-    """Marks selected task complete"""
-
-    # household_name = session["account_name"]
-    # user_list = crud.get_users_by_household(household_name)
-    user_assigned = session["user_name"]
-    
-    # need to query for task_id to make sure exact row is deleted
-    selected_task = request.args.get("task")
-
-    if selected_task:
-        complete = crud.complete_task(user_assigned, selected_task)
-        db.session.commit()
-        completed_task = complete.task_name
-        return completed_task
-    else:
-        return "that didnt work"    
-
-@app.route('/clear_task')
-def clear_selected_task():
-    """Clears task from list"""
-
-    selected_task = request.args.get("task")
-
-    if selected_task:
-        clear = crud.clear_task(selected_task)
-        cleared_task = clear.task_name
-        return cleared_task
-    else:
-        return "that didnt work" 
-
-# TO DO:
-# add chart that shows task contributions per user of household
-
-@app.route('/tasks_per_week.json')
-def get_weekly_tasks_complete():
-    """Gets the total # of tasks completed"""
-
-    household_name = session["account_name"]
-    user_name = session["user_name"]
-    user_id = crud.get_user_id(user_name, household_name)
-    tasks_complete = crud.get_count_of_tasks(user_id)
-    
-    return jsonify({'data': tasks_complete})
 
 if __name__ == "__main__":
     connect_to_db(app)

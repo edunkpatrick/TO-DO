@@ -33,17 +33,21 @@ def create_user(household_id, user_name):
 
 def get_user_by_name(user_name, household_name):
     """Return a user by name"""
-    # need to change so that it returns a name from selected household
+
     household = Household.query.filter(Household.account_login == household_name).first()
     household_id = household.household_id
+
     return Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
 
-def get_user_id(user_name, household_name):
-    """Return a user id given a name"""    
-    # need to change so that it returns a name from selected household
-    household = Household.query.filter(Household.account_login == household_name).first()
+def get_user_id(user_name, household_id):
+    """Return a user id given a name and household id"""    
+
+    household = Household.query.filter(Household.household_id == household_id).first()
+
     household_id = household.household_id
+
     user = Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
+
     user_id = user.user_id
 
     return user_id
@@ -58,29 +62,25 @@ def get_users_by_household(household_name):
 
     return user_list
 
-def create_task(task_name, user_assigned, completed, frequency):
+def create_task(task_name, user_id, completed, frequency):
     """Create and return a new task"""
 
-    # user = Users.query.filter(Users.user_id == user_assigned)
-    # user_household = user.household_id
-
-    task = Tasks(task_name=task_name, user_id=user_assigned, completed=completed, frequency=frequency)
+    task = Tasks(task_name=task_name, user_id=user_id, completed=completed, frequency=frequency)
 
     return task
 
 # FIRST CODE REVIEW 1/25/23 FINISHED HERE #
 
-def get_tasks(user_assigned):
+def get_tasks(user_assigned, household_name):
     """Get list of tasks assigned to selected user"""
 
-    user = Users.query.filter(Users.user_name == user_assigned).first()
-    # get user_id for user_assigned entered
+    house_name = Household.query.filter(Household.account_login == household_name).first()
+    house_id = house_name.household_id
+    user = Users.query.filter(Users.user_name == user_assigned, Users.household_id == house_id).first()
     user_id = user.user_id
 
-    # query for all uncompleted tasks assigned to that user_id
     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed != True).all()
 
-    # unpack query list and put each task_name into a list
     tasks_list = []
     for task in tasks:
         tasks_list.append(task.task_name)
@@ -106,54 +106,53 @@ def complete_task(user_name, task_name):
 
     return completed_task
 
-def clear_task(task_name):
-    """Clears task from list"""
+# def clear_task(task_name):
+#     """Clears task from list"""
 
-    completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.completed == True).first()
+#     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.completed == True).first()
 
-    return completed_task
+#     return completed_task
 
 def get_count_of_tasks(user_id):
-    # """Returns a tuple of tasks, frequency per user"""
     """Returns a dictionary of # tasks completed"""
     get_user = Users.query.filter(Users.user_id == user_id).first()
     user_name = get_user.user_name
     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
 
-    completed_list = []
-    for task in tasks:
-        completed_list.append(task.task_name)
+    # name of all tasks, mabye not needed:
+    # completed_list = []
+    # for task in tasks:
+    #     completed_list.append(task.task_name)
 
     frequency = []
     for task in tasks:
         frequency.append(task.frequency)
-    
-    # num_completed = len(completed_list)
 
-    as_needed_comp = 0
-    daily_comp = 0
-    weekly_comp = 0
-    monthly_comp = 0
+    num_times = [5, 7, 6, 9, 3, 4, 2, 1]
+    # as_needed_comp = 0
+    # daily_comp = 0
+    # weekly_comp = 0
+    # monthly_comp = 0
 
-    for item in frequency:
-        if item == "as needed":
-            as_needed_comp += 1
-        elif item == "daily":
-            daily_comp += 1
-        elif item == "weekly":
-            weekly_comp += 1
-        elif item == "monthly":
-            monthly_comp += 1
+    # for item in frequency:
+    #     if item == "as needed":
+    #         as_needed_comp += 1
+    #     elif item == "daily":
+    #         daily_comp += 1
+    #     elif item == "weekly":
+    #         weekly_comp += 1
+    #     elif item == "monthly":
+    #         monthly_comp += 1
 
-    freq_tasks_dict = {}
-    freq_tasks_dict["user"] = user_name
-    freq_tasks_dict["as needed"] = as_needed_comp
-    freq_tasks_dict["daily"] = daily_comp
-    freq_tasks_dict["weekly"] = weekly_comp
-    freq_tasks_dict["monthly"] = monthly_comp
+    # freq_tasks_dict = {}
+    # freq_tasks_dict["user"] = user_name
+    # # freq_tasks_dict["as needed"] = as_needed_comp
+    # freq_tasks_dict["daily"] = daily_comp
+    # # freq_tasks_dict["weekly"] = weekly_comp
+    # # freq_tasks_dict["monthly"] = monthly_comp
 
-    tasks_data_list = []
-    tasks_data_list.append(freq_tasks_dict)
+    # tasks_data_list = []
+    # tasks_data_list.append(freq_tasks_dict)
 
 
     # tasks_dict = {}
@@ -161,10 +160,10 @@ def get_count_of_tasks(user_id):
     # tasks_dict["frequency"] = frequency
     # tasks_dict["num_comp"] = num_completed
 
-    # merge = [(completed_list[i], frequency[i]) for i in range(0, len(completed_list))]
+    merge = [(frequency[i], num_times[i]) for i in range(0, len(frequency))]
     # print('this is merge', merge)
 
-    return
+    return merge
 
 
 if __name__ == '__main__':

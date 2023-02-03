@@ -39,12 +39,8 @@
 <input type="submit">
 </form>
 </div>
+<div>
 <br><br>
-<!-- <div id="chart-test">
-<h2> Test Chart </h2>
-<canvas id="bar-chart"></canvas>
-</div> -->
-
 </div>
 <div>
 <h1> {{ user_profile_selected }}'s tasks </h1>
@@ -54,13 +50,16 @@
 {% for task in get_tasks %}
     <div id="{{ task }}div" value="{{ task }}">
     <label for="task" id="tasklabel" value ="{{ task }}">{{ task }}</label>
-    <input type="checkbox" id="taskinput" value="{{ task }}">
-    <button id="{{ task }}" class="complete">Mark Complete</button>
-    <button id="{{ task }}" class="delete">Delete</button>
+    <input type="checkbox" id="taskinput" class='cb' value="{{ task }}">
+    <!-- <button id="{{ task }}" class="complete">Mark Complete</button> -->
+    <!-- <button id="{{ task }}" class="delete">Delete</button> -->
     </div>
 {% endfor %}
     <br>
-    <button id="remove_complete" onclick='clearButton()'>Remove Completed Task(not functional yet)</button>
+    <button id="mark_complete">Mark Selected Complete</button>
+    <br>
+    <button id="delete_tasks">Delete Selected</button>
+    <!-- <button id="remove_complete">Remove Completed Task</button> -->
     </div>
     <div id="add_task_div">
 <form action="/add_task">
@@ -81,8 +80,8 @@
 <br><br>
 </div>
 <div>
-    Charts
-    <h2>Simple Bar Chart</h2>
+    <button id="chart" class="chart">Show Me Chart</button>
+    <h2>Tasks Completed</h2>
     <canvas id="bar-chart"></canvas>
 
     </script>
@@ -91,5 +90,5 @@
 {% endblock %}
 {% block js %}
 <script src="/static/updateTasks.js"></script>
-<script src="/static/charts.js"></script>
+<!-- <script src="/static/charts.js"></script> -->
 {% endblock %}
