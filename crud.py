@@ -1,6 +1,7 @@
 """Crud operations."""
 
 from model import db, Household, Users, Tasks, connect_to_db
+from datetime import datetime
 
 # functions start here
 
@@ -11,10 +12,12 @@ def create_household(login, password):
 
     return household
 
+
 def get_household_by_login(household_login):
     """Return a household by name"""
 
     return Household.query.filter(Household.account_login == household_login).first()
+
 
 def get_household_id_by_name(household_name):
     """Return a household id, given a name"""
@@ -24,12 +27,14 @@ def get_household_id_by_name(household_name):
 
     return household_id
 
+
 def create_user(household_id, user_name):
     """Create and return a new user"""
 
     user = Users(household_id=household_id, user_name=user_name)
 
     return user
+
 
 def get_user_by_name(user_name, household_name):
     """Return a user by name"""
@@ -39,18 +44,18 @@ def get_user_by_name(user_name, household_name):
 
     return Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
 
+
 def get_user_id(user_name, household_id):
     """Return a user id given a name and household id"""    
 
     household = Household.query.filter(Household.household_id == household_id).first()
-
     household_id = household.household_id
 
     user = Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
-
     user_id = user.user_id
 
     return user_id
+
 
 def get_users_by_household(household_name):
     """Return a list of user names for given household"""
@@ -62,12 +67,14 @@ def get_users_by_household(household_name):
 
     return user_list
 
-def create_task(task_name, user_id, completed, frequency):
+
+def create_task(task_name, user_id, household_id, completed, frequency):
     """Create and return a new task"""
 
-    task = Tasks(task_name=task_name, user_id=user_id, completed=completed, frequency=frequency)
+    task = Tasks(task_name=task_name, user_id=user_id, household_id = household_id, completed=completed, frequency=frequency)
 
     return task
+
 
 # FIRST CODE REVIEW 1/25/23 FINISHED HERE #
 
@@ -76,47 +83,54 @@ def get_tasks(user_assigned, household_name):
 
     house_name = Household.query.filter(Household.account_login == household_name).first()
     house_id = house_name.household_id
+
     user = Users.query.filter(Users.user_name == user_assigned, Users.household_id == house_id).first()
     user_id = user.user_id
 
     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed != True).all()
 
     tasks_list = []
+
     for task in tasks:
         tasks_list.append(task.task_name)
 
     return tasks_list
+
 
 def delete_task(user_name, task_name):
     """Delete selected task from list"""
 
     user = Users.query.filter(Users.user_name == user_name).first()
     user_id = user.user_id
+
     deleted_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
 
     return deleted_task
+
 
 def complete_task(user_name, task_name):
     """Marks task complete"""
 
     user = Users.query.filter(Users.user_name == user_name).first()
     user_id = user.user_id
+
     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
     completed_task.completed = True
+    completed_task.date_completed = datetime.now()
+    # date = datetime
+    # print('this is date', date)
+    # x = datetime.now()
+    # print('this is x', x)
 
     return completed_task
 
-# def clear_task(task_name):
-#     """Clears task from list"""
-
-#     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.completed == True).first()
-
-#     return completed_task
 
 def get_count_of_tasks(user_id):
     """Returns a dictionary of # tasks completed"""
+
     get_user = Users.query.filter(Users.user_id == user_id).first()
     user_name = get_user.user_name
+    
     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
 
     # name of all tasks, mabye not needed:
@@ -165,6 +179,14 @@ def get_count_of_tasks(user_id):
 
     return merge
 
+
+# FORMER CRUD FUNCTIONS NOT IN USE
+# def clear_task(task_name):
+#     """Clears task from list"""
+
+#     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.completed == True).first()
+
+#     return completed_task
 
 if __name__ == '__main__':
     from server import app

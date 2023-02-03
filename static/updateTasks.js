@@ -1,30 +1,7 @@
 'use strict';
 
-// DELETE SELECTED TASK
-// for (const button of document.querySelectorAll('.delete')) {
-//     button.addEventListener('click', () => {
-//     // get task by button.id
-//         const toDel = button.id;
-//         const answer = confirm(`are you sure you want to delete ${toDel}`);
-//         if (answer) {
-//             const queryString = new URLSearchParams({ task: toDel }).toString();
-//             const url = `/delete_task?${queryString}`;
-//             fetch(url)
-//                 .then((response) => response.text())
-//                 .then((status) => {
-//                     console.log(status);
-//                     const toDeleteLabel = document.getElementById(`${status}div`);
-//                     toDeleteLabel.remove();
-//                 });
-//         }
-//         else {
-//             console.log('cancelled');
-//         }
-//     });
-// };
-// // DELETES CHECKED TASKS
-// const button = document.querySelector('#delete_tasks');
-// button.addEventListener('click', () => {
+
+// DELETES CHECKED TASKS
 document.getElementById('delete_tasks').addEventListener('click', (evt) => {
     evt.preventDefault();
     for (const cb of document.querySelectorAll('.cb')){
@@ -41,22 +18,6 @@ document.getElementById('delete_tasks').addEventListener('click', (evt) => {
         }
     }});
 
-// MARKS TASK COMPLETE
-// for (const button of document.querySelectorAll('.complete')) {
-//     button.addEventListener('click', () => {
-//     // get task by button.id
-//         const toComp = button.id;
-//         const queryString = new URLSearchParams({ task: toComp }).toString();
-//         const url = `/complete_task?${queryString}`;
-//         fetch(url)
-//             .then((response) => response.text())
-//             .then((status) => {
-//                 // insertAdjacentHTML placeholder to change style to crossout once CSS made
-//                 const selectItem = document.getElementById(`${status}div`);
-//                 selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
-//     });
-// });
-// };
 
 // MARKS ALL CHECKED TASKS COMPLETE
 document.getElementById('mark_complete').addEventListener('click', (evt) => {
@@ -69,27 +30,76 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
             fetch(url)
                 .then((response) => response.text())
                 .then((status) => {
-                    // insertAdjacentHTML placeholder to change style to crossout once CSS made
                     const selectItem = document.getElementById(`${status}div`);
+                                        // insertAdjacentHTML placeholder to change style to crossout once CSS made
                     selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
                 })
         }
     }});
-// for (const button of document.querySelectorAll('.complete')) {
-//     button.addEventListener('click', () => {
-//     // get task by button.id
-//         const toComp = button.id;
-//         const queryString = new URLSearchParams({ task: toComp }).toString();
-//         const url = `/complete_task?${queryString}`;
-//         fetch(url)
-//             .then((response) => response.text())
-//             .then((status) => {
-//                 // insertAdjacentHTML placeholder to change style to crossout once CSS made
-//                 const selectItem = document.getElementById(`${status}div`);
-//                 selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
-//     });
+
+
+// GET DATA TO MAKE CHART
+
+document.getElementById('chart').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    fetch('/tasks_complete.json')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            const data = responseJson.data.map((tasks) => ({
+                x: tasks.freq,
+                y: tasks.num,
+                }));
+
+            new Chart(document.querySelector('#bar-chart'), {
+                type: 'bar',
+                data: {
+                    labels: ['As Needed', 'Daily', 'Weekly', 'Monthly'],
+                    datasets: [{
+                        label: 'All Tasks',
+                        data: [6, 5, 7, 10],
+                        backgroundColor: '#00FF00',
+                        borderColor: '#00FF00',
+                        borderWidth: 2
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Frequency of Task',
+                                borderColor: '#00FF00',
+                                borderWidth: 2
+                            },
+                        },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Times Done',
+                            borderColor: '#00FF00',
+                            borderWidth: 2
+                        },
+                        min: 0,
+                        suggestedMax: 15,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }},
+                    },
+                });
+            });
+        });
+
+
+// EVENT LISTENER TO POPULATE TASKS FOR USER
+
+// document.getElementById('show_tasks').addEventListener('click', (evt) => {
+//     evt.preventDefault();
+//     document.getElementById('user_tasks').hidden = false;
 // });
-// };
+
+
+// FORMER AJAX FUNCTIONS, REMOVE WHEN MVP COMPLETE
 
 // CLEAR COMPLETED TASKS FROM CHECKLIST
 // only clears one at a time, need to update so it clears all tasks marked complete
@@ -128,46 +138,59 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
 //         })
 // };
 
-// GET DATA TO MAKE CHART
+// MARK COMPLETE
+// for (const button of document.querySelectorAll('.complete')) {
+//     button.addEventListener('click', () => {
+//     // get task by button.id
+//         const toComp = button.id;
+//         const queryString = new URLSearchParams({ task: toComp }).toString();
+//         const url = `/complete_task?${queryString}`;
+//         fetch(url)
+//             .then((response) => response.text())
+//             .then((status) => {
+//                 // insertAdjacentHTML placeholder to change style to crossout once CSS made
+//                 const selectItem = document.getElementById(`${status}div`);
+//                 selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
+//     });
+// });
+// };
 
-document.getElementById('chart').addEventListener('click', (evt) => {
-    evt.preventDefault();
-    fetch('/tasks_complete.json')
-        .then((response) => response.json())
-        .then((responseJson) => {
-            const data = responseJson.data.map((tasks) => ({
-                x: tasks.freq,
-                y: tasks.num,
-                }));
+// MARKS TASK COMPLETE
+// for (const button of document.querySelectorAll('.complete')) {
+//     button.addEventListener('click', () => {
+//     // get task by button.id
+//         const toComp = button.id;
+//         const queryString = new URLSearchParams({ task: toComp }).toString();
+//         const url = `/complete_task?${queryString}`;
+//         fetch(url)
+//             .then((response) => response.text())
+//             .then((status) => {
+//                 // insertAdjacentHTML placeholder to change style to crossout once CSS made
+//                 const selectItem = document.getElementById(`${status}div`);
+//                 selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
+//     });
+// });
+// };
 
-            new Chart(document.querySelector('#bar-chart'), {
-                type: 'bar',
-                data: {
-                    datasets: [{
-                        label: 'All Tasks',
-                        data: data
-                    }],
-                },
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Frequency of Task'
-                            },
-                        },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Times Done'
-                        },
-                        min: 0,
-                        suggestedMax: 15,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }},
-                    },
-                });
-            });
-        });
+// DELETE SELECTED TASK
+// for (const button of document.querySelectorAll('.delete')) {
+//     button.addEventListener('click', () => {
+//     // get task by button.id
+//         const toDel = button.id;
+//         const answer = confirm(`are you sure you want to delete ${toDel}`);
+//         if (answer) {
+//             const queryString = new URLSearchParams({ task: toDel }).toString();
+//             const url = `/delete_task?${queryString}`;
+//             fetch(url)
+//                 .then((response) => response.text())
+//                 .then((status) => {
+//                     console.log(status);
+//                     const toDeleteLabel = document.getElementById(`${status}div`);
+//                     toDeleteLabel.remove();
+//                 });
+//         }
+//         else {
+//             console.log('cancelled');
+//         }
+//     });
+// };

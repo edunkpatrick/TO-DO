@@ -8,6 +8,7 @@ import crud
 
 from jinja2 import StrictUndefined
 
+from datetime import datetime
 
 app = Flask(__name__)
 # app.secret_key = "supersecret"
@@ -112,7 +113,7 @@ def add_task():
 
     if add_task:
         user_id = crud.get_user_id(user_assigned, household_id)
-        task = crud.create_task(task_name=add_task, user_id=user_id, completed=False, frequency=frequency_task)
+        task = crud.create_task(task_name=add_task, user_id=user_id, household_id=household_id, completed=False, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
     
@@ -150,20 +151,7 @@ def complete_selected_task():
         completed_task = complete.task_name
         return completed_task
     else:
-        return "that didnt work"    
-
-# @app.route('/clear_task')
-# def clear_selected_task():
-#     """Clears task from list"""
-
-#     selected_task = request.args.get("task")
-
-#     if selected_task:
-#         clear = crud.clear_task(selected_task)
-#         cleared_task = clear.task_name
-#         return cleared_task
-#     else:
-#         return
+        return "that didnt work"
 
 # TO DO:
 # add chart that shows task contributions per user of household
@@ -185,7 +173,7 @@ def get_weekly_tasks_complete():
     return jsonify({'data': tasks_complete})
 
 
-# FORMER HTML ROUTE, REMOVE WHEN MVP COMPLETE
+# FORMER HTML ROUTES/FUNCTIONS, REMOVE WHEN MVP COMPLETE
 # @app.route('/user_profile', methods=["POST"])
 # def show_user_landing():
 #     """Shows tasks for user profile activated"""
@@ -217,6 +205,19 @@ def get_weekly_tasks_complete():
 #     get_tasks = crud.get_tasks(user_profile_selected)
 
 #     return render_template('assigned_tasks.html', user_profile_selected=user_profile_selected, get_tasks=get_tasks)
+
+# @app.route('/clear_task')
+# def clear_selected_task():
+#     """Clears task from list"""
+
+#     selected_task = request.args.get("task")
+
+#     if selected_task:
+#         clear = crud.clear_task(selected_task)
+#         cleared_task = clear.task_name
+#         return cleared_task
+#     else:
+#         return
 
 if __name__ == "__main__":
     connect_to_db(app)

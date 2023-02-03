@@ -35,11 +35,11 @@ model.db.create_all()
 
 households_in_db = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 tasks_in_db = ["clean kitchen", "feed dog", "laundry", "bills", "prep dinner", "grocery shopping",
-    "prep kids lunches", "water plants", "clean bathroom", "help with homework"]
+    "prep kids lunches", "water plants", "clean bathroom", "help with homework", "dishes", "trash"]
 
 frequency_in_db = ["as needed", "daily", "weekly", "monthly"]
 
-# creating 10 fake households with fake users
+# creating 10 fake households
 for n in range(1, 11):
     login = f"house{n}"
     password = f"test{n}"
@@ -47,22 +47,23 @@ for n in range(1, 11):
     household = crud.create_household(login, password)
     model.db.session.add(household)
 
-for n in range(1, 42):
-    household_id = choice(households_in_db)
+# creating 10 fake users and assigning to respective households
+for n in range(1, 11):
+    household_id = n
     user_name = f"user{n}"
 
     user = crud.create_user(household_id, user_name)
     model.db.session.add(user)
 
     # assigning random tasks to user from list
-    for n in range(1,10):
-        random_user = randint(1, 40)
+    for n in range(1,11):
+        user = n
+        household_id = n
         random_task = choice(tasks_in_db)
         random_frequency = choice(frequency_in_db)
         completed = False
-        # household_name = f"house{n}"
 
-        task = crud.create_task(random_task, random_user, completed, random_frequency)
+        task = crud.create_task(random_task, user, household_id, completed, random_frequency)
         model.db.session.add(task)
 
 model.db.session.commit()

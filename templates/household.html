@@ -1,19 +1,15 @@
 {% extends 'base.html' %}
 {% block title %} Welcome {{ household_name }} {% endblock %}
 {% block head %}
-<!-- SAMPLE CHART -->
+
 {# ChartJS #}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
-{# If you want to use time scales, you have to import a date library and the Chart.js adapter #}
-<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.1.0/dist/chartjs-adapter-luxon.min.js"></script>
 
-{# randomColor: generate random colors #}
-<script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
 {% endblock %}
 </head>
 {% block body %}
+
 <div>
 <h1> {{ household_name }}'s home </h1>
 <div id="user_profile">
@@ -27,11 +23,12 @@
 
 </select>
 <br><br>
-<input type="submit" value="Show my tasks">
+<input id="show_tasks" type="submit" value="Show my tasks">
 </div>
+
+
 <div id="add_user">
 </form>
-
 <form action="/add_user">
     <p>
         Add user to household <input type="text" name="user_name">
@@ -39,13 +36,12 @@
 <input type="submit">
 </form>
 </div>
-<div>
-<br><br>
-</div>
-<div>
-<h1> {{ user_profile_selected }}'s tasks </h1>
 
+
+<div id="user_tasks">
+<h1> {{ user_profile_selected }}'s tasks </h1>
 <h2>Here's your tasks</h2>
+
 <div id="tasksdiv">
 {% for task in get_tasks %}
     <div id="{{ task }}div" value="{{ task }}">
@@ -77,8 +73,11 @@
 <input type="submit">
 </form>
 </div>
+
 <br><br>
 </div>
+
+
 <div>
     <button id="chart" class="chart">Show Me Chart</button>
     <h2>Tasks Completed</h2>
@@ -86,6 +85,7 @@
 
     </script>
 </div>
+
 
 {% endblock %}
 {% block js %}
