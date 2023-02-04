@@ -12,6 +12,7 @@ document.getElementById('delete_tasks').addEventListener('click', (evt) => {
             fetch(url)
                 .then((response) => response.text())
                 .then((status) => {
+                    console.log(status);
                     const toDelete = document.getElementById(`${status}div`);
                     toDelete.remove();
                 })
@@ -30,6 +31,7 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
             fetch(url)
                 .then((response) => response.text())
                 .then((status) => {
+                    console.log(status);
                     const selectItem = document.getElementById(`${status}div`);
                                         // insertAdjacentHTML placeholder to change style to crossout once CSS made
                     selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
@@ -38,14 +40,14 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
     }});
 
 
-// GET DATA TO MAKE CHART
+// GET DATA TO MAKE CHART OF ALL TASKS
 
 document.getElementById('chart').addEventListener('click', (evt) => {
     evt.preventDefault();
     fetch('/tasks_complete.json')
         .then((response) => response.json())
         .then((responseJson) => {
-            const data = responseJson.data.map((tasks) => ({
+            const data = responseJson.data.map(tasks => ({
                 x: tasks.freq,
                 y: tasks.num,
                 }));
@@ -53,13 +55,13 @@ document.getElementById('chart').addEventListener('click', (evt) => {
             new Chart(document.querySelector('#bar-chart'), {
                 type: 'bar',
                 data: {
-                    labels: ['As Needed', 'Daily', 'Weekly', 'Monthly'],
                     datasets: [{
                         label: 'All Tasks',
-                        data: [6, 5, 7, 10],
-                        backgroundColor: '#00FF00',
-                        borderColor: '#00FF00',
+                        data: data,
+                        backgroundColor: '#ff1493',
+                        borderColor: '#ff1493',
                         borderWidth: 2
+
                     }],
                 },
                 options: {
@@ -68,19 +70,18 @@ document.getElementById('chart').addEventListener('click', (evt) => {
                             title: {
                                 display: true,
                                 text: 'Frequency of Task',
-                                borderColor: '#00FF00',
+                                borderColor: '#ff1493',
                                 borderWidth: 2
                             },
                         },
                     y: {
                         title: {
                             display: true,
-                            text: 'Times Done',
-                            borderColor: '#00FF00',
+                            text: 'Number of Tasks Completed',
+                            borderColor: '#ff1493',
                             borderWidth: 2
                         },
                         min: 0,
-                        suggestedMax: 15,
                         ticks: {
                             stepSize: 1
                         }
@@ -91,7 +92,7 @@ document.getElementById('chart').addEventListener('click', (evt) => {
         });
 
 
-// EVENT LISTENER TO POPULATE TASKS FOR USER
+// EVENT LISTENER TO POPULATE TASKS FOR USER - CAN WORK ON WHEN CSS IMPLEMENTED
 
 // document.getElementById('show_tasks').addEventListener('click', (evt) => {
 //     evt.preventDefault();

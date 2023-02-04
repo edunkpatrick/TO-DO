@@ -117,67 +117,44 @@ def complete_task(user_name, task_name):
     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
     completed_task.completed = True
     completed_task.date_completed = datetime.now()
-    # date = datetime
-    # print('this is date', date)
-    # x = datetime.now()
-    # print('this is x', x)
 
     return completed_task
 
-
+# 2.0 FUNCTIONS FOR CHARTS - IN PROGRESS
 def get_count_of_tasks(user_id):
-    """Returns a dictionary of # tasks completed"""
-
-    get_user = Users.query.filter(Users.user_id == user_id).first()
-    user_name = get_user.user_name
+    """Returns a list of tuples of all tasks completed for chartsjs"""
     
     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
-
-    # name of all tasks, mabye not needed:
-    # completed_list = []
-    # for task in tasks:
-    #     completed_list.append(task.task_name)
 
     frequency = []
     for task in tasks:
         frequency.append(task.frequency)
 
-    num_times = [5, 7, 6, 9, 3, 4, 2, 1]
-    # as_needed_comp = 0
-    # daily_comp = 0
-    # weekly_comp = 0
-    # monthly_comp = 0
+    as_needed_comp = 0
+    daily_comp = 0
+    weekly_comp = 0
+    monthly_comp = 0
 
-    # for item in frequency:
-    #     if item == "as needed":
-    #         as_needed_comp += 1
-    #     elif item == "daily":
-    #         daily_comp += 1
-    #     elif item == "weekly":
-    #         weekly_comp += 1
-    #     elif item == "monthly":
-    #         monthly_comp += 1
+    for item in frequency:
+        if item == "as needed":
+            as_needed_comp += 1
+        elif item == "daily":
+            daily_comp += 1
+        elif item == "weekly":
+            weekly_comp += 1
+        elif item == "monthly":
+            monthly_comp += 1
 
-    # freq_tasks_dict = {}
-    # freq_tasks_dict["user"] = user_name
-    # # freq_tasks_dict["as needed"] = as_needed_comp
-    # freq_tasks_dict["daily"] = daily_comp
-    # # freq_tasks_dict["weekly"] = weekly_comp
-    # # freq_tasks_dict["monthly"] = monthly_comp
+    freq_tasks_dict = {}
+    freq_tasks_dict["as needed"] = as_needed_comp
+    freq_tasks_dict["daily"] = daily_comp
+    freq_tasks_dict["weekly"] = weekly_comp
+    freq_tasks_dict["monthly"] = monthly_comp
 
-    # tasks_data_list = []
-    # tasks_data_list.append(freq_tasks_dict)
+    list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
 
+    return list_for_chart
 
-    # tasks_dict = {}
-    # tasks_dict["tasks"] = completed_list
-    # tasks_dict["frequency"] = frequency
-    # tasks_dict["num_comp"] = num_completed
-
-    merge = [(frequency[i], num_times[i]) for i in range(0, len(frequency))]
-    # print('this is merge', merge)
-
-    return merge
 
 
 # FORMER CRUD FUNCTIONS NOT IN USE

@@ -1,4 +1,6 @@
-'use strict';
+// NOT IN USE, INCLUDED CHARTJS ON updateTasks.js
+
+// 'use strict';
 // sample chart
 // new Chart(document.querySelector('#bar-chart'), {
 //   type: 'bar',

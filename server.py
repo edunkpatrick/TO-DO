@@ -8,10 +8,8 @@ import crud
 
 from jinja2 import StrictUndefined
 
-from datetime import datetime
-
 app = Flask(__name__)
-# app.secret_key = "supersecret"
+
 app.jinja_env.undefined = StrictUndefined
 
 app = Flask(__name__)
@@ -22,6 +20,7 @@ def homepage():
     """View homepage."""
 
     return render_template('homepage.html')
+
 
 @app.route('/household', methods=["POST"])
 def register_household():
@@ -41,6 +40,7 @@ def register_household():
         flash("Account created succesfully, please log in")
 
     return redirect('/')
+
 
 @app.route('/household_home', methods=["POST"])
 def login_household():
@@ -86,7 +86,7 @@ def create_user():
 
 @app.route('/user_profile')
 def show_user_landing():
-    """Shows tasks for user profile activated"""
+    """Shows tasks for user profile selected"""
 
     household_name = session["account_name"]
     user_list = crud.get_users_by_household(household_name)
@@ -98,6 +98,7 @@ def show_user_landing():
     get_tasks = crud.get_tasks(user_profile_selected, household_name)
 
     return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
+
 
 @app.route('/add_task')
 def add_task():
@@ -121,6 +122,7 @@ def add_task():
 
     return render_template('household.html', user_profile_selected=user_assigned, get_tasks=get_tasks, household_name=household_name, user_list=user_list)
 
+
 @app.route('/delete_task')
 def delete_selected_task():
     """Deletes task from list"""
@@ -135,7 +137,8 @@ def delete_selected_task():
         db.session.commit()
         return selected_task
     else:
-        return "that didnt work"
+        return "task not deleted"
+
 
 @app.route('/complete_task')
 def complete_selected_task():
@@ -151,26 +154,26 @@ def complete_selected_task():
         completed_task = complete.task_name
         return completed_task
     else:
-        return "that didnt work"
+        return "task not completed"
 
-# TO DO:
-# add chart that shows task contributions per user of household
 
 @app.route('/tasks_complete.json')
-def get_weekly_tasks_complete():
-    """Gets the total # of tasks completed"""
+def get_all_tasks_complete():
+    """Returns object of all tasks completed for chartsjs"""
 
     household_name = session["account_name"]
     household_id = crud.get_household_id_by_name(household_name)
     user_name = session["user_name"]
     user_id = crud.get_user_id(user_name, household_id)
+    # tasks_complete is a list of tuples
     tasks_complete = crud.get_count_of_tasks(user_id)
 
-    tasks_complete = []
+    tasks_complete_list = []
+    # for tuple pair, packing into list of dicts
     for frequency, total in tasks_complete:
-        tasks_complete.append({'freq': frequency, 'num': total})
+        tasks_complete_list.append({'freq': frequency, 'num': total})
     
-    return jsonify({'data': tasks_complete})
+    return jsonify({'data': tasks_complete_list})
 
 
 # FORMER HTML ROUTES/FUNCTIONS, REMOVE WHEN MVP COMPLETE
