@@ -37,7 +37,7 @@ households_in_db = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 tasks_in_db = ["clean kitchen", "feed dog", "laundry", "bills", "prep dinner", "grocery shopping",
     "prep kids lunches", "water plants", "clean bathroom", "help with homework", "dishes", "trash"]
 
-frequency_in_db = ["as needed", "daily", "weekly", "monthly"]
+frequency_in_db = ["as_needed", "daily", "weekly", "monthly"]
 
 # creating 10 fake households
 for n in range(1, 11):

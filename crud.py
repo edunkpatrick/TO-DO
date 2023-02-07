@@ -136,7 +136,7 @@ def get_count_of_tasks(user_id):
     monthly_comp = 0
 
     for item in frequency:
-        if item == "as needed":
+        if item == "as_needed":
             as_needed_comp += 1
         elif item == "daily":
             daily_comp += 1
@@ -146,7 +146,7 @@ def get_count_of_tasks(user_id):
             monthly_comp += 1
 
     freq_tasks_dict = {}
-    freq_tasks_dict["as needed"] = as_needed_comp
+    freq_tasks_dict["as_needed"] = as_needed_comp
     freq_tasks_dict["daily"] = daily_comp
     freq_tasks_dict["weekly"] = weekly_comp
     freq_tasks_dict["monthly"] = monthly_comp
@@ -155,7 +155,40 @@ def get_count_of_tasks(user_id):
 
     return list_for_chart
 
+# IN PROGRESS
+def get_range(user_id, date1, date2):
+    """Returns a list of tuples of all tasks completed for chartsjs"""
+    
+    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True, Tasks.date_completed > date1, Tasks.date_completed <= date2).all()
 
+    frequency = []
+    for task in tasks:
+        frequency.append(task.frequency)
+
+    as_needed_comp = 0
+    daily_comp = 0
+    weekly_comp = 0
+    monthly_comp = 0
+
+    for item in frequency:
+        if item == "as_needed":
+            as_needed_comp += 1
+        elif item == "daily":
+            daily_comp += 1
+        elif item == "weekly":
+            weekly_comp += 1
+        elif item == "monthly":
+            monthly_comp += 1
+
+    freq_tasks_dict = {}
+    freq_tasks_dict["as_needed"] = as_needed_comp
+    freq_tasks_dict["daily"] = daily_comp
+    freq_tasks_dict["weekly"] = weekly_comp
+    freq_tasks_dict["monthly"] = monthly_comp
+
+    list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
+
+    return list_for_chart
 
 # FORMER CRUD FUNCTIONS NOT IN USE
 # def clear_task(task_name):

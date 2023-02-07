@@ -9,86 +9,102 @@
 {% endblock %}
 </head>
 {% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <h1> {{ household_name }}'s home </h1>
+            <div id="user_profile">
+            <h2>Pick your user profile</h2>
+            <form action="/user_profile">
+            <select name="available_users" id="users" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px">
+                {% for user in user_list %}
 
-<div>
-<h1> {{ household_name }}'s home </h1>
-<div id="user_profile">
-<h2>Pick your user profile</h2>
-<form action="/user_profile">
-<select name="available_users" id="users">
-    {% for user in user_list %}
+                <option value="{{ user }}">{{ user }}</option>
+                {% endfor %}
 
-    <option value="{{ user }}">{{ user }}</option>
-    {% endfor %}
-
-</select>
-<br><br>
-<input id="show_tasks" type="submit" value="Show my tasks">
-</div>
-
-
-<div id="add_user">
-</form>
-<form action="/add_user">
-    <p>
-        Add user to household <input type="text" name="user_name">
-<br><br>
-<input type="submit">
-</form>
-</div>
-
-
-<div id="user_tasks">
-<!-- <h1> {{ user_profile_selected }}'s tasks </h1> -->
-<h2>Here's your tasks</h2>
-
-<div id="tasksdiv">
-{% for task in get_tasks %}
-    <div id="{{ task }}div" value="{{ task }}">
-    <label for="task" id="tasklabel" value ="{{ task }}">{{ task }}</label>
-    <input type="checkbox" id="taskinput" class='cb' value="{{ task }}">
-    <!-- <button id="{{ task }}" class="complete">Mark Complete</button> -->
-    <!-- <button id="{{ task }}" class="delete">Delete</button> -->
-    </div>
-{% endfor %}
-    <br>
-    <button id="mark_complete">Mark Selected Complete</button>
-    <br>
-    <button id="delete_tasks">Delete Selected</button>
-    <!-- <button id="remove_complete">Remove Completed Task</button> -->
-    </div>
-    <div id="add_task_div">
-<form action="/add_task">
-    <p>
-        Add task <input type="text" name="add_task">
-        Frequency <select name="frequency" id="frequency_id">
-            <option value="as_needed">As Needed</option>
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="other">Other</option>
             </select>
+            <br><br>
+            <input id="show_tasks" type="submit" value="Show my tasks">
+        </div>
 
-<br><br>
-<input type="submit">
-</form>
+
+<!-- <div>
+    <button id="log_out">Log Out</button>
+</div> -->
+
+        <div>
+            </form>
+            <form action="/add_user">
+                <p>
+                    Add user to household <input type="text" name="user_name">
+            <br><br>
+            <input type="submit">
+            </form>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div id="user_tasks" id="add_user" class="col-5">
+        <h1> {{ user_profile_selected }}'s tasks </h1>
+        <h2>Here's your tasks</h2>
+
+            <div id="tasksdiv" class="form-check">
+                {% for task in get_tasks %}
+                <div id="{{ task }}div" value="{{ task }}" class="form-check">
+                <input type="checkbox" id="flexCheckDefault" class="form-check-input flex-shrink-0" value="{{ task }}" style="font-size: 1.375em;">
+                <label for="task" id="form-check-label" for="flexCheckDefault" class="list-group-item d-flex gap-2" value ="{{ task }}">{{ task }}</label>
+
+                <!-- <button id="{{ task }}" class="complete">Mark Complete</button> -->
+                <!-- <button id="{{ task }}" class="delete">Delete</button> -->
+                </div>
+                {% endfor %}
+                <br>
+                <button id="mark_complete">Mark Selected Complete</button>
+                <br>
+                <button id="delete_tasks">Trash Selected</button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                </svg>
+                <!-- <button id="remove_complete">Remove Completed Task</button> -->
+            </div>
+            <div id="add_task_div">
+                <form action="/add_task">
+                    <p>
+                    Add task <input type="text" name="add_task">
+                    Frequency <select name="frequency" id="frequency_id" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px">
+                        <option value="as_needed">As Needed</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="other">Other</option>
+                        </select>
+                    <br><br>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+        <div class="col-7">
+            <button id="chart" class="chart">Show Me Chart</button>
+            
+            <form action="get_date_range">
+                <p>
+                    Get data for date range: <input type="text" name="first_date">
+                    <input type="text" name="second_date">
+            <input type="submit" id="date_range">
+            </form>
+
+            <h2>Tasks Completed</h2>
+            <canvas id="bar-chart"></canvas>
+
+            </script>
+        </div>
+    </div>
 </div>
-
-<br><br>
-</div>
-
-
-<div>
-    <button id="chart" class="chart">Show Me Chart</button>
-    <h2>Tasks Completed</h2>
-    <canvas id="bar-chart"></canvas>
-
-    </script>
-</div>
-
 
 {% endblock %}
 {% block js %}
-<script src="/static/updateTasks.js"></script>
+<script src="/static/js/updateTasks.js"></script>
 <!-- <script src="/static/charts.js"></script> -->
 {% endblock %}

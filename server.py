@@ -159,7 +159,7 @@ def complete_selected_task():
 
 @app.route('/tasks_complete.json')
 def get_all_tasks_complete():
-    """Returns object of all tasks completed for chartsjs"""
+    """Returns object of all tasks completed for chartjs"""
 
     household_name = session["account_name"]
     household_id = crud.get_household_id_by_name(household_name)
@@ -174,6 +174,36 @@ def get_all_tasks_complete():
         tasks_complete_list.append({'freq': frequency, 'num': total})
     
     return jsonify({'data': tasks_complete_list})
+
+# IN PROGRESS
+@app.route('/get_date_range')
+def get_range():
+    """Gets data for chartjs w/in specified date range"""
+
+    household_name = session["account_name"]
+    household_id = crud.get_household_id_by_name(household_name)
+    user_name = session["user_name"]
+    user_id = crud.get_user_id(user_name, household_id)
+    # tasks_complete is a list of tuples
+    date1 = request.args.get("first_date")
+    date2 = request.args.get("second_date")
+    tasks_complete = crud.get_range(user_id, date1, date2)
+
+    tasks_complete_list = []
+    # for tuple pair, packing into list of dicts
+    for frequency, total in tasks_complete:
+        tasks_complete_list.append({'freq': frequency, 'num': total})
+    
+    return jsonify({'data': tasks_complete_list})
+
+@app.route('/sign_out')
+def sign_out():
+    """Logs out househould and user"""
+    
+    session.pop('account_name')
+    session.pop('user_name')
+
+    return redirect('/')
 
 
 # FORMER HTML ROUTES/FUNCTIONS, REMOVE WHEN MVP COMPLETE
