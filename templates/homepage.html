@@ -2,37 +2,43 @@
 {% block title %} Task Tracker Home {% endblock %}
 {% block head %}{% endblock %}
 {% block body %}
-    <h1>Welcome!</h1>
-
-    <h2>Create an Account</h2>
-    <form action="/household" method="POST">
-        <p>
-            Account name <input type="text" name="account_name">
-            name must be 8 letter characters
-            <!-- can change requirements for account name based on db -->
-        </p>
-        <p>
-            Password <input type="password" name="password">
-            password must be 8 characters, mix of number and letters
-            <!-- can change requirements for password based on db -->
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
-
-    <h2>Login to account</h2>
-    <form action="/household_home" method="POST">
-        <p>
-            Account name <input type="text" name="account_name">
-        </p>
-        <p>
-            Password <input type="password" name="password">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
+    <div class="container">
+        <h1>Welcome!</h1>
+        <div class="row">
+            <div class="col-6">
+                <h2>Create an Account</h2>
+                    <form action="/household" method="POST">
+                        <p>
+                            Account name <input type="text" name="account_name">
+                            name must be 8 letter characters
+                            <!-- can change requirements for account name based on db -->
+                        </p>
+                        <p>
+                            Password <input type="password" name="password">
+                            password must be 8 characters
+                            <!-- can change requirements for password based on db -->
+                        </p>
+                        <p>
+                            <input type="submit">
+                        </p>
+                    </form>
+            </div>
+            <div class="col-6">
+                <h2>Login to account</h2>
+                <form action="/household_home" method="POST">
+                    <p>
+                        Account name <input type="text" name="account_name">
+                    </p>
+                    <p>
+                        Password <input type="password" name="password">
+                    </p>
+                    <p>
+                        <input type="submit">
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}{% endblock %}

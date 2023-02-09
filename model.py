@@ -32,6 +32,7 @@ class Users(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     household_id = db.Column(db.Integer, db.ForeignKey('household.household_id'))
     user_name = db.Column(db.String(20), nullable=False)
+    cellphone = db.Column(db.String(10), nullable=True)
 
     def __repr__(self):
         """Show info about user"""

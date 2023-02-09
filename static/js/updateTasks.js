@@ -33,128 +33,30 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
                 .then((status) => {
                     console.log(status);
                     const selectItem = document.getElementById(`${status}div`);
-                                        // insertAdjacentHTML placeholder to change style to crossout once CSS made
+                    // insertAdjacentHTML placeholder to change style to crossout once CSS made
                     selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
                 })
         }
     }});
 
+// DELETES USER
 
-// GET DATA TO MAKE CHART OF ALL TASKS
-
-document.getElementById('chart').addEventListener('click', (evt) => {
+document.querySelector('#delete_user').addEventListener('click', (evt) => {
     evt.preventDefault();
-    fetch('/tasks_complete.json')
-        .then((response) => response.json())
-        .then((responseJson) => {
-            const data = responseJson.data.map(tasks => ({
-                x: tasks.freq,
-                y: tasks.num,
-                }));
-
-            new Chart(document.querySelector('#bar-chart'), {
-                type: 'bar',
-                data: {
-                    datasets: [{
-                        label: 'All Tasks',
-                        data: data,
-                        backgroundColor: '#ff1493',
-                        borderColor: '#ff1493',
-                        borderWidth: 2
-
-                    }],
-                },
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Frequency of Task',
-                                borderColor: '#ff1493',
-                                borderWidth: 2
-                            },
-                        },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Number of Tasks Completed',
-                            borderColor: '#ff1493',
-                            borderWidth: 2
-                        },
-                        min: 0,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }},
-                    },
-                });
-            });
+    // need to get specific user
+        // const toDelete = ``;
+        // const queryString = new URLSearchParams({ user: toDelete }).toString();
+        // need to fetch url, etc
+        console.log('user deleted');
         });
 
-// CHART DATA TO MAKE SPECIFIC RANGE - IN PROGRESS
-document.getElementById('date_range').addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    fetch('/get_date_range.json')
-        .then((response) => response.json())
-        .then((responseJson) => {
-            const data = responseJson.data.map(tasks => ({
-                x: tasks.freq,
-                y: tasks.num,
-                }));
-
-            new Chart(document.querySelector('#bar-chart'), {
-                type: 'bar',
-                data: {
-                    datasets: [{
-                        label: 'All Tasks',
-                        data: data,
-                        backgroundColor: '#ff1493',
-                        borderColor: '#ff1493',
-                        borderWidth: 2
-
-                    }],
-                },
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Frequency of Task',
-                                borderColor: '#ff1493',
-                                borderWidth: 2
-                            },
-                        },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Number of Tasks Completed',
-                            borderColor: '#ff1493',
-                            borderWidth: 2
-                        },
-                        min: 0,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }},
-                    },
-                });
-            });
-        });
 // LOGS OUT USER
 
-document.querySelector('#log_out').addEventListener('click', (evt) => {
-    evt.preventDefault();
-    const log_out_url = '/sign_out';
-    fetch(log_out_url);
-})
-
-
-// EVENT LISTENER TO POPULATE TASKS FOR USER - CAN WORK ON WHEN CSS IMPLEMENTED
-
-// document.getElementById('show_tasks').addEventListener('click', (evt) => {
+// document.querySelector('#log_out').addEventListener('click', (evt) => {
 //     evt.preventDefault();
-//     document.getElementById('user_tasks').hidden = false;
-// });
+//     const log_out_url = '/sign_out';
+//     fetch(log_out_url);
+// })
 
 
 // FORMER AJAX FUNCTIONS, REMOVE WHEN MVP COMPLETE

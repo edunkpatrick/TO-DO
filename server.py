@@ -1,4 +1,5 @@
 """Server for task tracking app."""
+import os
 
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 
@@ -99,6 +100,23 @@ def show_user_landing():
 
     return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
 
+@app.route('/delete_user')
+def delete_user():
+    """Deletes user from household"""
+
+    user = session["user_name"]
+    household_name = session["account_name"]
+    
+    household_id = crud.get_household_id_by_name(household_name)
+
+    deleted_user = crud.delete_user(user, household_id)
+    flash(f"{deleted_user.user_name}, deleted")
+    db.session.delete(deleted_user)
+    db.session.commit()
+
+
+    return
+
 
 @app.route('/add_task')
 def add_task():
@@ -174,9 +192,11 @@ def get_all_tasks_complete():
         tasks_complete_list.append({'freq': frequency, 'num': total})
     
     return jsonify({'data': tasks_complete_list})
+    
+# CODE REVIEW 2 COMPLETED 2/3/23
 
 # IN PROGRESS
-@app.route('/get_date_range')
+@app.route('/get_date_range.json')
 def get_range():
     """Gets data for chartjs w/in specified date range"""
 
@@ -188,6 +208,24 @@ def get_range():
     date1 = request.args.get("first_date")
     date2 = request.args.get("second_date")
     tasks_complete = crud.get_range(user_id, date1, date2)
+
+    tasks_complete_list = []
+    # for tuple pair, packing into list of dicts
+    for frequency, total in tasks_complete:
+        tasks_complete_list.append({'freq': frequency, 'num': total})
+    
+    return jsonify({'data': tasks_complete_list})
+
+@app.route('/house_tasks_complete.json')
+def get_all_house_complete():
+    """Returns object of all house tasks completed for chartjs"""
+
+    household_name = session["account_name"]
+    household_id = crud.get_household_id_by_name(household_name)
+    user_name = session["user_name"]
+    user_id = crud.get_user_id(user_name, household_id)
+    # tasks_complete is a list of tuples
+    tasks_complete = crud.get_count_of_tasks(user_id)
 
     tasks_complete_list = []
     # for tuple pair, packing into list of dicts
@@ -255,5 +293,5 @@ def sign_out():
 if __name__ == "__main__":
     connect_to_db(app)
     # look up in notes how to store secret key in .gitignor/secrets.sh
-    app.secret_key = "supersecret"
+    app.secret_key = 'supersecret'
     app.run(host="0.0.0.0", debug=True)
