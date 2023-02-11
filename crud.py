@@ -1,7 +1,7 @@
 """Crud operations."""
 
 from model import db, Household, Users, Tasks, connect_to_db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # functions start here
 
@@ -83,6 +83,51 @@ def create_task(task_name, user_id, household_id, completed, frequency):
 
 
 # FIRST CODE REVIEW 1/25/23 FINISHED HERE #
+def get_house_tasks(household_id):
+    """Get dictionary of completed task w/in appropriate timeframe by household id"""
+
+    date1 = datetime.now()
+    day24_hr = (date1 - timedelta(days=1))
+    date7 = (date1 - timedelta(days=7))
+    date30 = (date1 - timedelta(days=30))
+
+    as_house_completed_tasks = []
+    d_house_completed_tasks = []
+    w_house_completed_tasks = []
+    m_house_completed_tasks = []
+    o_house_completed_tasks = []
+
+    # tasks completed in last day
+    tasks_24 = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed >= day24_hr).all()
+    
+    for task in tasks_24:
+        if task.frequency == "as_needed":
+            as_house_completed_tasks.append(task.task_name)
+        elif task.frequency == "daily":
+            d_house_completed_tasks.append(task.task_name)
+        else:
+            o_house_completed_tasks.append(task.task_name)
+
+    tasks_week = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed >= date7).all()
+
+    for task in tasks_week:
+        if task.frequency == "weekly":
+            w_house_completed_tasks.append(task.task_name)
+
+    tasks_month = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed >= date30).all()
+
+    for task in tasks_month:
+        if task.frequency == "monthly":
+            m_house_completed_tasks.append(task.task_name)
+
+    house_dict = {}
+    house_dict['as needed'] = as_house_completed_tasks
+    house_dict['daily'] = d_house_completed_tasks
+    house_dict['weekly'] = w_house_completed_tasks
+    house_dict['monthly'] = m_house_completed_tasks
+    house_dict['other'] = o_house_completed_tasks
+
+    return house_dict
 
 def get_tasks(user_assigned, household_name):
     """Get list of tasks assigned to selected user"""
@@ -127,6 +172,7 @@ def complete_task(user_name, task_name):
 
     return completed_task
 
+
 # 2.0 FUNCTIONS FOR CHARTS - IN PROGRESS
 def get_count_of_tasks(user_id):
     """Returns a list of tuples of all tasks completed for chartsjs"""
@@ -167,10 +213,12 @@ def get_count_of_tasks(user_id):
     return list_for_chart
 
 # IN PROGRESS
-def get_range(user_id, date1, date2):
-    """Returns a list of tuples of all tasks completed for chartsjs"""
+def get_range(user_id):
+    """Returns a list of tuples of all tasks completed w/in 30 days for chartsjs"""
     
-    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True, Tasks.date_completed > date1, Tasks.date_completed <= date2).all()
+    date1 = datetime.today()
+    date2 = (date1 - timedelta(days=30))
+    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True, Tasks.date_completed <= date1, Tasks.date_completed > date2).all()
 
     frequency = []
     for task in tasks:
@@ -206,42 +254,49 @@ def get_range(user_id, date1, date2):
     return list_for_chart
 
 def chart_all(household_id):
-    """Returns a list of tuples of all tasks completed for chartsjs"""
+    """Returns a dict of all tasks completed for all users for chartsjs"""
     
-    tasks = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed).all()
-
-    frequency = []
-    for task in tasks:
-        frequency.append(task.frequency)
-
-    as_needed_comp = 0
-    daily_comp = 0
-    weekly_comp = 0
-    monthly_comp = 0
-    other_comp = 0
-
-    for item in frequency:
-        if item == "as_needed":
-            as_needed_comp += 1
-        elif item == "daily":
-            daily_comp += 1
-        elif item == "weekly":
-            weekly_comp += 1
-        elif item == "monthly":
-            monthly_comp += 1
-        elif item == "other":
-            other_comp += 1
-
+    # query all users of given household_id
+    all_users = Users.query.filter(Users.household_id == household_id).all()
+            
     freq_tasks_dict = {}
-    freq_tasks_dict["as_needed"] = as_needed_comp
-    freq_tasks_dict["daily"] = daily_comp
-    freq_tasks_dict["weekly"] = weekly_comp
-    freq_tasks_dict["monthly"] = monthly_comp
-    freq_tasks_dict["other"] = other_comp
 
-    list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
+    # iterate through user objects to get user_id
+    for user in all_users:
+        # query all completed tasks for user
+        user_tasks = Tasks.query.filter(Tasks.user_id == user.user_id, Tasks.completed == True).all()
+        
+        as_needed_comp = 0
+        daily_comp = 0
+        weekly_comp = 0
+        monthly_comp = 0
+        other_comp = 0
 
-    return list_for_chart
+        for task in user_tasks:
+            if task.frequency == "as_needed":
+                as_needed_comp += 1
+            elif task.frequency == "daily":
+                daily_comp += 1
+            elif task.frequency == "weekly":
+                weekly_comp += 1
+            elif task.frequency == "monthly":
+                monthly_comp += 1
+            elif task.frequency == "other":
+                other_comp += 1              
+
+        # makes a list of totals per frequency type
+        freq_list = [as_needed_comp, daily_comp, weekly_comp, monthly_comp, other_comp]
+        # makes a list of frequeny types
+        freq_str_list = ["as needed", "daily", "weekly", "monthly", "other"]
+        # merge two lists together to make a tuple of each frequency type, total
+        tuple_merge = tuple(zip(freq_str_list, freq_list))
+
+        # combine user and user tasks into dictionary w/
+        # user_name as keys and tuple of freq type, total as values
+        freq_tasks_dict[user.user_name] = tuple_merge
+
+    return freq_tasks_dict
+
 
 # FORMER CRUD FUNCTIONS NOT IN USE
 # def clear_task(task_name):

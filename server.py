@@ -59,7 +59,31 @@ def login_household():
         user_list = crud.get_users_by_household(household_name)
         session["account_name"] = household.account_login
         flash(f"Welcome back, {household_name}!")
-        return render_template('household.html', household_name=household_name, user_list=user_list)
+        household_id = crud.get_household_id_by_name(household_name)
+        # house_completed_tasks is a dict w/ freq as keys, tasks as values list
+        house_completed_tasks = crud.get_house_tasks(household_id)
+        as_needed_list = []
+        daily_list = []
+        weekly_list = []
+        monthly_list = []
+        other_list = []
+
+        for key, value in house_completed_tasks.items():
+            if key == "as_needed":
+                as_needed_list = value
+            elif key == "daily":
+                daily_list = value
+            elif key == "weekly":
+                weekly_list = value
+            elif key == "monthly":
+                monthly_list = value
+            elif key == "other":
+                other_list = value
+
+
+        return render_template('household.html', household_name=household_name, 
+        user_list=user_list, as_needed_list=as_needed_list, daily_list=daily_list,
+        weekly_list=weekly_list, monthly_list=monthly_list, other_list=other_list)
 
 
 @app.route('/add_user')
@@ -98,7 +122,34 @@ def show_user_landing():
 
     get_tasks = crud.get_tasks(user_profile_selected, household_name)
 
-    return render_template('household.html', get_tasks=get_tasks, user_profile_selected=user_profile_selected, household_name=household_name, user_list=user_list)
+    household_id = crud.get_household_id_by_name(household_name)
+    house_completed_tasks = crud.get_house_tasks(household_id)
+
+    house_completed_tasks = crud.get_house_tasks(household_id)
+    as_needed_list = []
+    daily_list = []
+    weekly_list = []
+    monthly_list = []
+    other_list = []
+
+    for key, value in house_completed_tasks.items():
+        if key == "as_needed":
+            as_needed_list = value
+        elif key == "daily":
+            daily_list = value
+        elif key == "weekly":
+            weekly_list = value
+        elif key == "monthly":
+            monthly_list = value
+        elif key == "other":
+            other_list = value
+
+    return render_template('household.html', get_tasks=get_tasks, 
+    user_profile_selected=user_profile_selected, 
+    household_name=household_name, user_list=user_list, 
+    house_completed_tasks=house_completed_tasks, as_needed_list=as_needed_list,
+    daily_list=daily_list, weekly_list=weekly_list, monthly_list=monthly_list,
+    other_list=other_list)
 
 @app.route('/delete_user')
 def delete_user():
@@ -205,9 +256,9 @@ def get_range():
     user_name = session["user_name"]
     user_id = crud.get_user_id(user_name, household_id)
     # tasks_complete is a list of tuples
-    date1 = request.args.get("first_date")
-    date2 = request.args.get("second_date")
-    tasks_complete = crud.get_range(user_id, date1, date2)
+    # date1 = request.args.get("first_date")
+    # date2 = request.args.get("second_date")
+    tasks_complete = crud.get_range(user_id)
 
     tasks_complete_list = []
     # for tuple pair, packing into list of dicts
@@ -222,24 +273,23 @@ def get_all_house_complete():
 
     household_name = session["account_name"]
     household_id = crud.get_household_id_by_name(household_name)
-    user_name = session["user_name"]
-    user_id = crud.get_user_id(user_name, household_id)
-    # tasks_complete is a list of tuples
-    tasks_complete = crud.get_count_of_tasks(user_id)
-
-    tasks_complete_list = []
-    # for tuple pair, packing into list of dicts
-    for frequency, total in tasks_complete:
-        tasks_complete_list.append({'freq': frequency, 'num': total})
     
-    return jsonify({'data': tasks_complete_list})
+    background_dict = {}
+    bar_colors = ['#bf3fbf', '#c09af8', '#9af8f3', '#adf89a', '#f8f79a']
+    background_dict['colors'] = bar_colors
+    # tasks_complete is a dict w/user_name as keys and
+    # tuple of freq type, total as values
+    tasks_complete = crud.chart_all(household_id)
+    
+    return jsonify({'house': tasks_complete, 'bar_colors': background_dict})
 
 @app.route('/sign_out')
 def sign_out():
     """Logs out househould and user"""
     
-    session.pop('account_name')
-    session.pop('user_name')
+    del session["account_name"]
+    # if session["user_name"]:
+    #     session.pop("user_name")
 
     return redirect('/')
 

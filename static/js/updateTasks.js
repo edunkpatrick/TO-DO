@@ -48,15 +48,30 @@ document.querySelector('#delete_user').addEventListener('click', (evt) => {
         // const queryString = new URLSearchParams({ user: toDelete }).toString();
         // need to fetch url, etc
         console.log('user deleted');
-        });
+        const toDelete = '';
+        const queryString = new URLSearchParams({ task: toDelete }).toString();
+        const url = `/delete_user?${queryString}`;
+        fetch(url)
+            .then((response) => response.text())
+            .then((status) => {
+                console.log(status);
+            })
+    }
+);
 
 // LOGS OUT USER
 
 // document.querySelector('#log_out').addEventListener('click', (evt) => {
 //     evt.preventDefault();
-//     const log_out_url = '/sign_out';
-//     fetch(log_out_url);
-// })
+//     const toLogOut = document.querySelector('.home').value
+//     const queryString = new URLSearchParams({ account_name: toLogOut }).toString()
+//     const log_out_url = `/sign_out?${queryString}`;
+//     fetch(log_out_url)
+//         .then((response) => response.text())
+//         .then((status) => {
+//             console.log(status);
+//         })
+// });
 
 
 // FORMER AJAX FUNCTIONS, REMOVE WHEN MVP COMPLETE
