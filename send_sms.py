@@ -11,8 +11,8 @@ client = Client(account_sid, auth_token)
 
 message = client.messages.create(
   body="Hello from Twilio",
-  from_="",
-  to=""
+  from_= os.environ['PHONE_ORIGIN'],
+  to= os.environ['PHONE_DESTINATION']
 )
 
 print(message.sid)

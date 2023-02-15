@@ -1,5 +1,25 @@
 'use strict';
 
+// ADDS USER (IN PROGRESS)
+
+// document.getElementById('add_new_user').addEventListener('click', (evt) => {
+//     evt.preventDefault();
+//         const userInput = document.querySelector('#validationTooltipUser');
+//         const userToAdd = userInput.value;
+
+//         const phoneInput = document.querySelector('#validationTooltipPhone');
+//         const phoneToAdd = phoneInput.value;
+
+//         const queryStringUser = new URLSearchParams({ user_name: userToAdd }).toString();
+//         const queryStringPhone = new URLSearchParams({ phone_num: phoneToAdd }).toString();
+//         const url = `/add_user?${queryStringUser}&${queryStringPhone}`;
+//         fetch(url)
+//             .then((response) => response.text())
+//             .then((status) => {
+//                 console.log(status);
+//             })
+//     });
+
 
 // DELETES CHECKED TASKS
 document.getElementById('delete_tasks').addEventListener('click', (evt) => {
@@ -43,10 +63,6 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
 
 document.querySelector('#delete_user').addEventListener('click', (evt) => {
     evt.preventDefault();
-    // need to get specific user
-        // const toDelete = ``;
-        // const queryString = new URLSearchParams({ user: toDelete }).toString();
-        // need to fetch url, etc
         console.log('user deleted');
         const toDelete = '';
         const queryString = new URLSearchParams({ task: toDelete }).toString();
@@ -54,7 +70,7 @@ document.querySelector('#delete_user').addEventListener('click', (evt) => {
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                console.log(status);
+                // console.log(status);
             })
     }
 );

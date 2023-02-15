@@ -46,13 +46,13 @@ for n in range(1, 11):
 
     household = crud.create_household(login, password)
     model.db.session.add(household)
-
+    phone_num = "555-555-1234"
 # creating 10 fake users and assigning to respective households
 for n in range(1, 11):
     household_id = n
     user_name = f"user{n}"
 
-    user = crud.create_user(household_id, user_name)
+    user = crud.create_user(household_id, user_name, phone_num)
     model.db.session.add(user)
 
     # assigning random tasks to user from list

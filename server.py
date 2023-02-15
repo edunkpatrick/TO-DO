@@ -55,13 +55,16 @@ def login_household():
     if not household or household.account_password != password:
         flash("The household name or password was incorrect, please try again.")
         return redirect('/')
+    
     else:
         user_list = crud.get_users_by_household(household_name)
         session["account_name"] = household.account_login
         flash(f"Welcome back, {household_name}!")
         household_id = crud.get_household_id_by_name(household_name)
+        
         # house_completed_tasks is a dict w/ freq as keys, tasks as values list
         house_completed_tasks = crud.get_house_tasks(household_id)
+        
         as_needed_list = []
         daily_list = []
         weekly_list = []
@@ -80,7 +83,6 @@ def login_household():
             elif key == "other":
                 other_list = value
 
-
         return render_template('household.html', household_name=household_name, 
         user_list=user_list, as_needed_list=as_needed_list, daily_list=daily_list,
         weekly_list=weekly_list, monthly_list=monthly_list, other_list=other_list)
@@ -91,21 +93,49 @@ def create_user():
     """Creates a new user for household"""
 
     user_name = request.args.get("user_name")
+    phone_num = request.args.get("phone_num")
     household_name = session["account_name"]
     user = crud.get_user_by_name(user_name, household_name)
 
     if user:
         flash("That user profile already exists, please select user from dropdown")
+    
     else:
         household_id = crud.get_household_id_by_name(household_name)
-        user = crud.create_user(household_id, user_name)
+        user = crud.create_user(household_id, user_name, phone_num)
         db.session.add(user)
         db.session.commit()
         flash("User created succesfully, please select from dropdown")
 
     user_list = crud.get_users_by_household(household_name)
+    
+    household_id = crud.get_household_id_by_name(household_name)
+    
+    # house_completed_tasks is a dict w/ freq as keys, tasks as values list
+    house_completed_tasks = crud.get_house_tasks(household_id)
+    
+    as_needed_list = []
+    daily_list = []
+    weekly_list = []
+    monthly_list = []
+    other_list = []
 
-    return render_template('household.html', household_name=household_name, user_name=user_name, user_list=user_list)
+    for key, value in house_completed_tasks.items():
+        if key == "as_needed":
+            as_needed_list = value
+        elif key == "daily":
+            daily_list = value
+        elif key == "weekly":
+            weekly_list = value
+        elif key == "monthly":
+            monthly_list = value
+        elif key == "other":
+            other_list = value
+    # return user
+    return render_template('household.html', household_name=household_name, 
+    user_name=user_name, user_list=user_list, as_needed_list=as_needed_list, daily_list=daily_list,
+    weekly_list=weekly_list, monthly_list=monthly_list, other_list=other_list)
+
 
 # FIRST CODE REVIEW 1/25/23 FINISHED HERE #
 
@@ -126,6 +156,7 @@ def show_user_landing():
     house_completed_tasks = crud.get_house_tasks(household_id)
 
     house_completed_tasks = crud.get_house_tasks(household_id)
+    
     as_needed_list = []
     daily_list = []
     weekly_list = []
@@ -151,6 +182,7 @@ def show_user_landing():
     daily_list=daily_list, weekly_list=weekly_list, monthly_list=monthly_list,
     other_list=other_list)
 
+
 @app.route('/delete_user')
 def delete_user():
     """Deletes user from household"""
@@ -164,7 +196,6 @@ def delete_user():
     flash(f"{deleted_user.user_name}, deleted")
     db.session.delete(deleted_user)
     db.session.commit()
-
 
     return
 
@@ -186,10 +217,31 @@ def add_task():
         task = crud.create_task(task_name=add_task, user_id=user_id, household_id=household_id, completed=False, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
+        house_completed_tasks = crud.get_house_tasks(household_id)
+        as_needed_list = []
+        daily_list = []
+        weekly_list = []
+        monthly_list = []
+        other_list = []
+
+        for key, value in house_completed_tasks.items():
+            if key == "as_needed":
+                as_needed_list = value
+            elif key == "daily":
+                daily_list = value
+            elif key == "weekly":
+                weekly_list = value
+            elif key == "monthly":
+                monthly_list = value
+            elif key == "other":
+                other_list = value
     
     get_tasks = crud.get_tasks(user_assigned, household_name)
 
-    return render_template('household.html', user_profile_selected=user_assigned, get_tasks=get_tasks, household_name=household_name, user_list=user_list)
+    return render_template('household.html', user_profile_selected=user_assigned, 
+    get_tasks=get_tasks, household_name=household_name, user_list=user_list,
+    as_needed_list=as_needed_list, daily_list=daily_list, weekly_list=weekly_list,
+    monthly_list=monthly_list, other_list=other_list)
 
 
 @app.route('/delete_task')
@@ -255,9 +307,7 @@ def get_range():
     household_id = crud.get_household_id_by_name(household_name)
     user_name = session["user_name"]
     user_id = crud.get_user_id(user_name, household_id)
-    # tasks_complete is a list of tuples
-    # date1 = request.args.get("first_date")
-    # date2 = request.args.get("second_date")
+
     tasks_complete = crud.get_range(user_id)
 
     tasks_complete_list = []
@@ -288,8 +338,6 @@ def sign_out():
     """Logs out househould and user"""
     
     del session["account_name"]
-    # if session["user_name"]:
-    #     session.pop("user_name")
 
     return redirect('/')
 
@@ -342,6 +390,6 @@ def sign_out():
 
 if __name__ == "__main__":
     connect_to_db(app)
-    # look up in notes how to store secret key in .gitignor/secrets.sh
-    app.secret_key = 'supersecret'
+
+    app.secret_key = os.environ['SECRETKEY']
     app.run(host="0.0.0.0", debug=True)

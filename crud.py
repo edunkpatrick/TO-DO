@@ -28,10 +28,10 @@ def get_household_id_by_name(household_name):
     return household_id
 
 
-def create_user(household_id, user_name):
+def create_user(household_id, user_name, phone_num):
     """Create and return a new user"""
 
-    user = Users(household_id=household_id, user_name=user_name)
+    user = Users(household_id=household_id, user_name=user_name, cellphone = phone_num)
 
     return user
 
@@ -296,6 +296,18 @@ def chart_all(household_id):
         freq_tasks_dict[user.user_name] = tuple_merge
 
     return freq_tasks_dict
+
+def get_user_phone(user_id):
+    """Returns a users cellphone number for send_sms.py"""
+    userinfo = Users.query.filter(Users.user_id == user_id).first()    
+
+    phone = userinfo.cellphone
+
+    convert_phone = phone.replace("-", "")
+    us_code_phone = "+1" + convert_phone
+    
+    return us_code_phone
+
 
 
 # FORMER CRUD FUNCTIONS NOT IN USE

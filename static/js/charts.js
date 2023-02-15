@@ -1,5 +1,6 @@
 // GET DATA TO MAKE CHART OF ALL TASKS
 
+
 document.getElementById('chart').addEventListener('click', (evt) => {
     evt.preventDefault();
     fetch('/tasks_complete.json')
@@ -63,7 +64,7 @@ document.getElementById('month_chart').addEventListener('click', (evt) => {
                 x: tasks.freq,
                 y: tasks.num,
                 }));
-            new Chart(document.querySelector('#bar-chart'), {
+            new Chart(document.querySelector('#bar-chart-month'), {
                 type: 'bar',
                 data: {
                     datasets: [{
