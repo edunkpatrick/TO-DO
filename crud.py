@@ -101,7 +101,7 @@ def get_house_tasks(household_id):
     tasks_24 = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed >= day24_hr).all()
     
     for task in tasks_24:
-        if task.frequency == "as_needed":
+        if task.frequency == "as needed":
             as_house_completed_tasks.append(task.task_name)
         elif task.frequency == "daily":
             d_house_completed_tasks.append(task.task_name)
@@ -121,11 +121,11 @@ def get_house_tasks(household_id):
             m_house_completed_tasks.append(task.task_name)
 
     house_dict = {}
-    house_dict['as needed'] = as_house_completed_tasks
-    house_dict['daily'] = d_house_completed_tasks
-    house_dict['weekly'] = w_house_completed_tasks
-    house_dict['monthly'] = m_house_completed_tasks
-    house_dict['other'] = o_house_completed_tasks
+    house_dict["as needed"] = as_house_completed_tasks
+    house_dict["daily"] = d_house_completed_tasks
+    house_dict["weekly"] = w_house_completed_tasks
+    house_dict["monthly"] = m_house_completed_tasks
+    house_dict["other"] = o_house_completed_tasks
 
     return house_dict
 
@@ -174,84 +174,85 @@ def complete_task(user_name, task_name):
 
 
 # 2.0 FUNCTIONS FOR CHARTS - IN PROGRESS
-def get_count_of_tasks(user_id):
-    """Returns a list of tuples of all tasks completed for chartsjs"""
+# user charts removed for better user interface
+# def get_count_of_tasks(user_id):
+#     """Returns a list of tuples of all tasks completed for chartsjs"""
     
-    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
+#     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True).all()
 
-    frequency = []
-    for task in tasks:
-        frequency.append(task.frequency)
+#     frequency = []
+#     for task in tasks:
+#         frequency.append(task.frequency)
 
-    as_needed_comp = 0
-    daily_comp = 0
-    weekly_comp = 0
-    monthly_comp = 0
-    other_comp = 0
+#     as_needed_comp = 0
+#     daily_comp = 0
+#     weekly_comp = 0
+#     monthly_comp = 0
+#     other_comp = 0
 
-    for item in frequency:
-        if item == "as_needed":
-            as_needed_comp += 1
-        elif item == "daily":
-            daily_comp += 1
-        elif item == "weekly":
-            weekly_comp += 1
-        elif item == "monthly":
-            monthly_comp += 1
-        elif item == "other":
-            other_comp += 1
+#     for item in frequency:
+#         if item == "as_needed":
+#             as_needed_comp += 1
+#         elif item == "daily":
+#             daily_comp += 1
+#         elif item == "weekly":
+#             weekly_comp += 1
+#         elif item == "monthly":
+#             monthly_comp += 1
+#         elif item == "other":
+#             other_comp += 1
 
-    freq_tasks_dict = {}
-    freq_tasks_dict["as_needed"] = as_needed_comp
-    freq_tasks_dict["daily"] = daily_comp
-    freq_tasks_dict["weekly"] = weekly_comp
-    freq_tasks_dict["monthly"] = monthly_comp
-    freq_tasks_dict["other"] = other_comp
+#     freq_tasks_dict = {}
+#     freq_tasks_dict["as_needed"] = as_needed_comp
+#     freq_tasks_dict["daily"] = daily_comp
+#     freq_tasks_dict["weekly"] = weekly_comp
+#     freq_tasks_dict["monthly"] = monthly_comp
+#     freq_tasks_dict["other"] = other_comp
 
-    list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
+#     list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
 
-    return list_for_chart
+#     return list_for_chart
 
-# IN PROGRESS
-def get_range(user_id):
-    """Returns a list of tuples of all tasks completed w/in 30 days for chartsjs"""
+# # IN PROGRESS
+# def get_range(user_id):
+#     """Returns a list of tuples of all tasks completed w/in 30 days for chartsjs"""
     
-    date1 = datetime.today()
-    date2 = (date1 - timedelta(days=30))
-    tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True, Tasks.date_completed <= date1, Tasks.date_completed > date2).all()
+#     date1 = datetime.today()
+#     date2 = (date1 - timedelta(days=30))
+#     tasks = Tasks.query.filter(Tasks.user_id == user_id, Tasks.completed == True, Tasks.date_completed <= date1, Tasks.date_completed > date2).all()
 
-    frequency = []
-    for task in tasks:
-        frequency.append(task.frequency)
+#     frequency = []
+#     for task in tasks:
+#         frequency.append(task.frequency)
 
-    as_needed_comp = 0
-    daily_comp = 0
-    weekly_comp = 0
-    monthly_comp = 0
-    other_comp = 0
+#     as_needed_comp = 0
+#     daily_comp = 0
+#     weekly_comp = 0
+#     monthly_comp = 0
+#     other_comp = 0
 
-    for item in frequency:
-        if item == "as_needed":
-            as_needed_comp += 1
-        elif item == "daily":
-            daily_comp += 1
-        elif item == "weekly":
-            weekly_comp += 1
-        elif item == "monthly":
-            monthly_comp += 1
-        elif item == "other":
-            other_comp += 1
+#     for item in frequency:
+#         if item == "as_needed":
+#             as_needed_comp += 1
+#         elif item == "daily":
+#             daily_comp += 1
+#         elif item == "weekly":
+#             weekly_comp += 1
+#         elif item == "monthly":
+#             monthly_comp += 1
+#         elif item == "other":
+#             other_comp += 1
 
-    freq_tasks_dict = {}
-    freq_tasks_dict["as_needed"] = as_needed_comp
-    freq_tasks_dict["daily"] = daily_comp
-    freq_tasks_dict["weekly"] = weekly_comp
-    freq_tasks_dict["monthly"] = monthly_comp
-    freq_tasks_dict["other"] = other_comp
+#     freq_tasks_dict = {}
+#     freq_tasks_dict["as_needed"] = as_needed_comp
+#     freq_tasks_dict["daily"] = daily_comp
+#     freq_tasks_dict["weekly"] = weekly_comp
+#     freq_tasks_dict["monthly"] = monthly_comp
+#     freq_tasks_dict["other"] = other_comp
 
-    list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
+#     list_for_chart = [(freq, count) for freq, count in freq_tasks_dict.items()]
 
-    return list_for_chart
+#     return list_for_chart
 
 def chart_all(household_id):
     """Returns a dict of all tasks completed for all users for chartsjs"""

@@ -5,6 +5,8 @@ from flask import (Flask, render_template, request, flash, session, redirect, js
 
 from model import connect_to_db, db
 
+import send_sms
+
 import crud
 
 from jinja2 import StrictUndefined
@@ -225,7 +227,7 @@ def add_task():
         other_list = []
 
         for key, value in house_completed_tasks.items():
-            if key == "as_needed":
+            if key == "as needed":
                 as_needed_list = value
             elif key == "daily":
                 daily_list = value
@@ -277,45 +279,20 @@ def complete_selected_task():
     else:
         return "task not completed"
 
+# @app.route('/send_text')
+# def send_reminder():
+#     """Sends text reminder to complete task(s)"""
 
-@app.route('/tasks_complete.json')
-def get_all_tasks_complete():
-    """Returns object of all tasks completed for chartjs"""
+#     household_name = session["account_name"]
+#     user_assigned = session["user_name"]
 
-    household_name = session["account_name"]
-    household_id = crud.get_household_id_by_name(household_name)
-    user_name = session["user_name"]
-    user_id = crud.get_user_id(user_name, household_id)
-    # tasks_complete is a list of tuples
-    tasks_complete = crud.get_count_of_tasks(user_id)
+#     user = crud.get_user_by_name(user_assigned, household_name)
 
-    tasks_complete_list = []
-    # for tuple pair, packing into list of dicts
-    for frequency, total in tasks_complete:
-        tasks_complete_list.append({'freq': frequency, 'num': total})
-    
-    return jsonify({'data': tasks_complete_list})
-    
-# CODE REVIEW 2 COMPLETED 2/3/23
+#     # find arguments needed for message function to run
+#     send_message = send_sms.message
 
-# IN PROGRESS
-@app.route('/get_date_range.json')
-def get_range():
-    """Gets data for chartjs w/in specified date range"""
+#     return
 
-    household_name = session["account_name"]
-    household_id = crud.get_household_id_by_name(household_name)
-    user_name = session["user_name"]
-    user_id = crud.get_user_id(user_name, household_id)
-
-    tasks_complete = crud.get_range(user_id)
-
-    tasks_complete_list = []
-    # for tuple pair, packing into list of dicts
-    for frequency, total in tasks_complete:
-        tasks_complete_list.append({'freq': frequency, 'num': total})
-    
-    return jsonify({'data': tasks_complete_list})
 
 @app.route('/house_tasks_complete.json')
 def get_all_house_complete():
@@ -387,6 +364,46 @@ def sign_out():
 #         return cleared_task
 #     else:
 #         return
+
+# user chart app routes removed for better user interface
+# @app.route('/tasks_complete.json')
+# def get_all_tasks_complete():
+#     """Returns object of all tasks completed for chartjs"""
+
+#     household_name = session["account_name"]
+#     household_id = crud.get_household_id_by_name(household_name)
+#     user_name = session["user_name"]
+#     user_id = crud.get_user_id(user_name, household_id)
+#     # tasks_complete is a list of tuples
+#     tasks_complete = crud.get_count_of_tasks(user_id)
+
+#     tasks_complete_list = []
+#     # for tuple pair, packing into list of dicts
+#     for frequency, total in tasks_complete:
+#         tasks_complete_list.append({'freq': frequency, 'num': total})
+    
+#     return jsonify({'data': tasks_complete_list})
+    
+# # CODE REVIEW 2 COMPLETED 2/3/23
+
+# # IN PROGRESS
+# @app.route('/get_date_range.json')
+# def get_range():
+#     """Gets data for chartjs w/in specified date range"""
+
+#     household_name = session["account_name"]
+#     household_id = crud.get_household_id_by_name(household_name)
+#     user_name = session["user_name"]
+#     user_id = crud.get_user_id(user_name, household_id)
+
+#     tasks_complete = crud.get_range(user_id)
+
+#     tasks_complete_list = []
+#     # for tuple pair, packing into list of dicts
+#     for frequency, total in tasks_complete:
+#         tasks_complete_list.append({'freq': frequency, 'num': total})
+    
+#     return jsonify({'data': tasks_complete_list})
 
 if __name__ == "__main__":
     connect_to_db(app)
