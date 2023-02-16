@@ -5,8 +5,6 @@ from flask import (Flask, render_template, request, flash, session, redirect, js
 
 from model import connect_to_db, db
 
-import send_sms
-
 import crud
 
 from jinja2 import StrictUndefined
@@ -278,20 +276,6 @@ def complete_selected_task():
         return completed_task
     else:
         return "task not completed"
-
-# @app.route('/send_text')
-# def send_reminder():
-#     """Sends text reminder to complete task(s)"""
-
-#     household_name = session["account_name"]
-#     user_assigned = session["user_name"]
-
-#     user = crud.get_user_by_name(user_assigned, household_name)
-
-#     # find arguments needed for message function to run
-#     send_message = send_sms.message
-
-#     return
 
 
 @app.route('/house_tasks_complete.json')

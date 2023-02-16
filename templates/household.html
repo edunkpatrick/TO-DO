@@ -58,18 +58,6 @@
                     <div class="input-group"></div>
             <input type="submit">
             </form>
-                <!-- <p>
-                    <br><br> 
-                    <label for="validationToolUser">Add user to household</label>
-                    <input type="text" class="form-control" id="validationTooltipUser"
-                    placeholder="username" name="user_name">
-                    <div class="valid-tooltip">Looks good!</div>
-
-                    <label for="validationTooltipPhone">Cell phone for reminders</label>
-                    <input type="tel" id="validationTooltipPhone" placeholder="555-555-1234" name="phone_num"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control">
-                    <div class="input-group"></div>
-            <input type="submit" id="add_new_user"> -->
         </div>
 
         <div class="col-6">
@@ -87,7 +75,6 @@
             As Needed(refreshes daily):
             <ul class="list-group">
             {% for task in as_needed_list%}
-            <!-- <li>{{ task }}</li> -->
             <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
             {% endfor %}
             </ul>
@@ -95,7 +82,6 @@
             Daily
             <ul class="list-group">
                 {% for task in daily_list %}
-                <!-- <li>{{ task }}</li> -->
                 <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
                 {% endfor %}
             </ul>
@@ -103,7 +89,6 @@
             Weekly
             <ul class="list-group">
                 {% for task in weekly_list %}
-                <!-- <li>{{ task }}</li> -->
                 <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
                 {% endfor %}
                 </ul>
@@ -111,7 +96,6 @@
             Monthly    
             <ul class="list-group">
                 {% for task in monthly_list %}
-                <!-- <li>{{ task }}</li> -->
                 <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
                 {% endfor %}
                 </ul>
@@ -119,7 +103,6 @@
             Other(refreshes daily)   
             <ul class="list-group">
                 {% for task in other_list %}
-                <!-- <li>{{ task }}</li> -->
                 <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
                 {% endfor %}
                 </ul>
@@ -128,25 +111,26 @@
 
     <br>
 
-    <div class="row" id="user_tasks_div"
-        <h2>Household Member Tasks</h2>
-        <div class="col-3" id="user_tasks" id="add_user">
+    <div class="row" id="user_tasks_div">
+            {% if not user_profile_selected %} 
+            {% else %}
+                <div class="col-3" id="user_tasks" id="add_user">
+                    <div id="tasksdiv" class="row" >
+                    {% if get_tasks %}
+                        <h3>Here are your tasks, {{ user_profile_selected }}</h3>
+                        {% for task in get_tasks %}
+                        <div id="{{ task }}div" value="{{ task }}" class="form-check">
+                        <input type="checkbox" id="flexCheckDefault" class="form-check-input flex-shrink-0" value="{{ task }}" style="font-size: 1.375em;">
+                        <label for="task" id="form-check-label" for="flexCheckDefault" class="list-group-item d-flex gap-2" value ="{{ task }}">{{ task }}</label>
 
-            <div id="tasksdiv" class="row" >
-                {% if get_tasks %}
-                    <h3>Here are your tasks, {{ user_profile_selected }}</h3>
-                    {% for task in get_tasks %}
-                    <div id="{{ task }}div" value="{{ task }}" class="form-check">
-                    <input type="checkbox" id="flexCheckDefault" class="form-check-input flex-shrink-0" value="{{ task }}" style="font-size: 1.375em;">
-                    <label for="task" id="form-check-label" for="flexCheckDefault" class="list-group-item d-flex gap-2" value ="{{ task }}">{{ task }}</label>
+                        <!-- <button id="{{ task }}" class="complete">Mark Complete</button> -->
+                        <!-- <button id="{{ task }}" class="delete">Delete</button> -->
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <h3>No tasks for {{ user_profile_selected }}, add a task!</h3>
+                    {% endif %}
 
-                    <!-- <button id="{{ task }}" class="complete">Mark Complete</button> -->
-                    <!-- <button id="{{ task }}" class="delete">Delete</button> -->
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <h3>No tasks for {{ user_profile_selected }}, add a task!</h3>
-                {% endif %}
                 <br><br>
                 <div id="row">
                 <button id="mark_complete" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Mark Tasks Complete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
@@ -180,9 +164,10 @@
                     <br><br>
                     <input type="submit">
                 </form>
+            {% endif %}
             </div>
         </div>
-        <div class="col-6">
+        <!-- <div class="col-6"> -->
             <!-- <button id="chart" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Chart All My Tasks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
                 <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
               </svg></button>
@@ -204,7 +189,7 @@
             <canvas id="bar-chart-month"></canvas> -->
 
             <!-- </script> -->
-        </div>
+        <!-- </div> -->
     </div>
 </div>
 

@@ -60,8 +60,7 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
     }});
 
 // DELETES USER
-
-document.querySelector('#delete_user').addEventListener('click', (evt) => {
+document.getElementById('delete_user').addEventListener('click', (evt) => {
     evt.preventDefault();
         console.log('user deleted');
         const toDelete = '';
@@ -70,7 +69,7 @@ document.querySelector('#delete_user').addEventListener('click', (evt) => {
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                // console.log(status);
+                console.log(toDelete);
             })
     }
 );

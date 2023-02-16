@@ -3,6 +3,9 @@
 from model import db, Household, Users, Tasks, connect_to_db
 from datetime import datetime, timedelta
 
+from twilio.rest import Client
+import os
+
 # functions start here
 
 def create_household(login, password):
@@ -298,18 +301,32 @@ def chart_all(household_id):
 
     return freq_tasks_dict
 
-def get_user_phone(user_id):
-    """Returns a users cellphone number for send_sms.py"""
-    userinfo = Users.query.filter(Users.user_id == user_id).first()    
 
-    phone = userinfo.cellphone
+def send_reminder(user_id):
+    """Sends text reminder to complete task(s)"""
 
-    convert_phone = phone.replace("-", "")
+    user = Users.query.filter(Users.user_id == user_id).first()
+
+    user_phone = user.cellphone
+
+    convert_phone = user_phone.replace("-", "")
     us_code_phone = "+1" + convert_phone
     
-    return us_code_phone
+    account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    auth_token = os.environ['TWILIO_AUTH_TOKEN']
 
+    client = Client(account_sid, auth_token)
 
+    # find arguments needed for message function to run
+    message = client.messages.create(
+        body="Hello from TO-DO...please log-in and complete your task(s)",
+        from_=os.environ['PHONE_ORIGIN'],
+        to=us_code_phone
+    )
+    print(message.sid)
+    print(us_code_phone)
+
+    return message
 
 # FORMER CRUD FUNCTIONS NOT IN USE
 # def clear_task(task_name):
