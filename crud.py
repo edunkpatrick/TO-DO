@@ -90,7 +90,7 @@ def get_house_tasks(household_id):
     """Get dictionary of completed task w/in appropriate timeframe by household id"""
 
     date1 = datetime.now()
-    day24_hr = (date1 - timedelta(days=1))
+    day24_hr = (date1 - timedelta(hours=24))
     date7 = (date1 - timedelta(days=7))
     date30 = (date1 - timedelta(days=30))
 
@@ -102,9 +102,10 @@ def get_house_tasks(household_id):
 
     # tasks completed in last day
     tasks_24 = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed >= day24_hr).all()
+
     
     for task in tasks_24:
-        if task.frequency == "as needed":
+        if task.frequency == "as_needed":
             as_house_completed_tasks.append(task.task_name)
         elif task.frequency == "daily":
             d_house_completed_tasks.append(task.task_name)
@@ -326,7 +327,7 @@ def send_reminder(user_id):
     print(message.sid)
     print(us_code_phone)
 
-    return message
+    return
 
 # FORMER CRUD FUNCTIONS NOT IN USE
 # def clear_task(task_name):

@@ -32,7 +32,11 @@
                 {% endfor %}
 
             </select>
+            <input id="show_tasks" type="submit" value="Select User">
             <br><br>
+            <button id="send_reminder" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Send Text Reminder"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+              </svg></button>
             <button id="delete_user" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Delete User"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -41,22 +45,27 @@
             <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
                 Tooltip on right -->
             <br><br>
-            <input id="show_tasks" type="submit" value="Show my tasks">
+
 
             </form>
             <form action="/add_user" class="needs-validation" novalidate>
                 <p>
-                    <br><br> 
+                    <br><br>
+                    <div class="col">
                     <label for="validationToolUser">Add user to household</label>
                     <input type="text" class="form-control" id="validationTooltipUser"
-                    placeholder="username" name="user_name">
-                    <div class="valid-tooltip">Looks good!</div>
-
+                    placeholder="username" name="user_name" required>
+                    <div class="invalid-feedback">Please select a username.</div>
+                    </div>
+                    <div class="col">
                     <label for="validationTooltipPhone">Cell phone for reminders</label>
                     <input type="tel" id="validationTooltipPhone" placeholder="555-555-1234" name="phone_num"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control">
-                    <div class="input-group"></div>
-            <input type="submit">
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control" required>
+                    <div class="invalid-feedback">Please enter a phone number.</div>
+                    </div>
+                    <div class="col">
+                    <input type="submit">
+                    </div>
             </form>
         </div>
 
@@ -74,7 +83,7 @@
             <br><br>
             As Needed(refreshes daily):
             <ul class="list-group">
-            {% for task in as_needed_list%}
+            {% for task in as_needed_list %}
             <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
             {% endfor %}
             </ul>
@@ -148,12 +157,15 @@
                 <!-- <button id="remove_complete">Remove Completed Task</button> -->
             </div>
             <div id="add_task_div" class="col">
-                <form action="/add_task">
+                <form action="/add_task" class="needs-validation" novalidate>
                     <p>
-                    <label for="validationToolTask">Add task</label>
+                    <div class="col">
+                    <label for="validationToolTask" class="form-label">Add task</label>
                     <input type="text" class="form-control" id="validationTooltipUser"
-                    placeholder="task" name="add_task">
-
+                    placeholder="task" name="add_task" required>
+                    <div class="invalid-feedback">Please enter a task</div>
+                    </div>
+                    <div class="col">
                     Frequency <select name="frequency" id="frequency_id" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px">
                         <option value="as_needed">As Needed</option>
                         <option value="daily">Daily</option>
@@ -161,11 +173,15 @@
                         <option value="monthly">Monthly</option>
                         <option value="other">Other</option>
                         </select>
+                    </div>
                     <br><br>
+                    <div class="col">
                     <input type="submit">
+                    </div>
                 </form>
-            {% endif %}
             </div>
+            {% endif %}
+            <br><br>
         </div>
         <!-- <div class="col-6"> -->
             <!-- <button id="chart" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Chart All My Tasks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
@@ -198,5 +214,6 @@
 <script src="/static/js/updateTasks.js"></script>
 <script src="/static/js/hoverFunctions.js"></script>
 <script src="/static/js/charts.js"></script>
+<script src="/static/js/formValidation.js"></script>
 <!-- <script src="/static/js/refreshReact.js"></script> -->
 {% endblock %}

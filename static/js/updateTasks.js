@@ -62,14 +62,31 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
 // DELETES USER
 document.getElementById('delete_user').addEventListener('click', (evt) => {
     evt.preventDefault();
-        console.log('user deleted');
+    // need to grab user name to delete and put in toDelete variable
+
         const toDelete = '';
-        const queryString = new URLSearchParams({ task: toDelete }).toString();
+        const queryString = new URLSearchParams({ user: toDelete }).toString();
         const url = `/delete_user?${queryString}`;
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
+                console.log('user deleted');
                 console.log(toDelete);
+            })
+    }
+);
+
+document.getElementById('send_reminder').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    
+    // need to grab user name to send msg and put in toMessage variable
+        const toMessage = 'erin';
+        const queryString = new URLSearchParams({ reminder: toMessage }).toString();
+        const url = `/send_reminder?${queryString}`;
+        fetch(url)
+            .then((response) => response.text())
+            .then((status) => {
+                console.log("message sent");
             })
     }
 );

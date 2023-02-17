@@ -14,7 +14,7 @@ class Household(db.Model):
     household_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # revisit length of log in and password requirements
     account_login = db.Column(db.String(20), nullable=False, unique=True)
-    account_password = db.Column(db.String(20), nullable=False)
+    account_password = db.Column(db.String(300), nullable=False)
 
     def __repr__(self):
         """Show info about household"""

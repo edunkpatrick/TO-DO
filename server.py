@@ -9,6 +9,8 @@ import crud
 
 from jinja2 import StrictUndefined
 
+from argon2 import PasswordHasher
+
 app = Flask(__name__)
 
 app.jinja_env.undefined = StrictUndefined
@@ -29,13 +31,15 @@ def register_household():
 
     household_name = request.form.get("account_name")
     password = request.form.get("password")
+    ph = PasswordHasher()
+    hashed = ph.hash(password)
 
     household = crud.get_household_by_login(household_name)
     if household:
         flash("Account with that name already exists, please select a unique name")
     
     else:
-        household = crud.create_household(household_name, password)
+        household = crud.create_household(household_name, hashed)
         db.session.add(household)
         db.session.commit()
         flash("Account created succesfully, please log in")
@@ -49,10 +53,12 @@ def login_household():
 
     household_name = request.form.get("account_name")
     password = request.form.get("password")
+    ph = PasswordHasher()
+    hashed = ph.hash(password)
 
     household = crud.get_household_by_login(household_name)
     
-    if not household or household.account_password != password:
+    if not household or household.account_password != hashed:
         flash("The household name or password was incorrect, please try again.")
         return redirect('/')
     
@@ -72,7 +78,7 @@ def login_household():
         other_list = []
 
         for key, value in house_completed_tasks.items():
-            if key == "as_needed":
+            if key == "as needed":
                 as_needed_list = value
             elif key == "daily":
                 daily_list = value
@@ -121,7 +127,7 @@ def create_user():
     other_list = []
 
     for key, value in house_completed_tasks.items():
-        if key == "as_needed":
+        if key == "as needed":
             as_needed_list = value
         elif key == "daily":
             daily_list = value
@@ -164,7 +170,7 @@ def show_user_landing():
     other_list = []
 
     for key, value in house_completed_tasks.items():
-        if key == "as_needed":
+        if key == "as needed":
             as_needed_list = value
         elif key == "daily":
             daily_list = value
@@ -187,7 +193,7 @@ def show_user_landing():
 def delete_user():
     """Deletes user from household"""
 
-    user = session["user_name"]
+    user = request.args.get["user"]
     household_name = session["account_name"]
     
     household_id = crud.get_household_id_by_name(household_name)
@@ -293,6 +299,20 @@ def get_all_house_complete():
     tasks_complete = crud.chart_all(household_id)
     
     return jsonify({'house': tasks_complete, 'bar_colors': background_dict})
+
+@app.route('/send_reminder')
+def send_reminder():
+    """Sends selected user a reminder text"""
+
+    reminder_user = request.args.get("reminder")
+
+    household_name = session["account_name"]
+    household_id = crud.get_household_id_by_name(household_name)
+    user_id = crud.get_user_id(reminder_user, household_id)
+
+    crud.send_reminder(user_id)
+
+    return
 
 @app.route('/sign_out')
 def sign_out():
