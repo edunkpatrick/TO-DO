@@ -111,23 +111,30 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
         .then((responseJson) => {
             // make an array of responseJson key, values
             const user_data = Object.entries(responseJson['house'])
-            // get list of colors for bar colors
+            // get dict of colors from bar_colors from responseJson
             const background_dict = responseJson['bar_colors']
 
             let taskArr = [];
+
+            // loop through users
             for(const [user_name, user_tasks] of user_data){
                 const data = user_tasks.map((tasks) => ({
+                    // x is frequency type
                     x: tasks[0],
+                    // y is total occurences of freq type
                     y: tasks[1],
                 }));
 
                 let dict = {}
+                // dict with user_name as key, data as values
                 dict[user_name] = data
+                // add dict to taskArr
                 taskArr.push(dict);
             }
+
             let dataArr = [];
             
-            for(let i=0; i<taskArr.length; i++){
+            for(let i = 0; i < taskArr.length; i++){
                 // get name from taskArr keys
                 let name = Object.keys(taskArr[i])[0]
                 // get task freq type, total values and assign to data

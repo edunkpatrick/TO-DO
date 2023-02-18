@@ -64,7 +64,7 @@ document.getElementById('delete_user').addEventListener('click', (evt) => {
     evt.preventDefault();
     // need to grab user name to delete and put in toDelete variable
 
-        const toDelete = '';
+        const toDelete = document.getElementById('user_div').value;
         const queryString = new URLSearchParams({ user: toDelete }).toString();
         const url = `/delete_user?${queryString}`;
         fetch(url)
@@ -81,8 +81,12 @@ document.getElementById('send_reminder').addEventListener('click', (evt) => {
     
     // need to grab user name to send msg and put in toMessage variable
         const toMessage = 'erin';
+        const toMesUser = toMessage.value;
+        console.log(toMessage.value);
+        console.log(toMessage);
         const queryString = new URLSearchParams({ reminder: toMessage }).toString();
         const url = `/send_reminder?${queryString}`;
+        console.log(url);
         fetch(url)
             .then((response) => response.text())
             .then((status) => {

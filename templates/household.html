@@ -123,10 +123,12 @@
     <div class="row" id="user_tasks_div">
             {% if not user_profile_selected %} 
             {% else %}
-                <div class="col-3" id="user_tasks" id="add_user">
+                <div class="col-3" id="user_tasks">
+                    <div id="user_div" value="{{ user_profile_selected }}"></div>
                     <div id="tasksdiv" class="row" >
                     {% if get_tasks %}
-                        <h3>Here are your tasks, {{ user_profile_selected }}</h3>
+                        <h3 id="user_heading" value="{{ user_profile_seleced }}">Here are your tasks, {{ user_profile_selected }}</h3>
+
                         {% for task in get_tasks %}
                         <div id="{{ task }}div" value="{{ task }}" class="form-check">
                         <input type="checkbox" id="flexCheckDefault" class="form-check-input flex-shrink-0" value="{{ task }}" style="font-size: 1.375em;">

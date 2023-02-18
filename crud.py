@@ -3,21 +3,31 @@
 from model import db, Household, Users, Tasks, connect_to_db
 from datetime import datetime, timedelta
 
-from twilio.rest import Client
-import os
+# from twilio.rest import Client
+# import os
+
+from send_sms import message
+
+from argon2 import PasswordHasher
 
 # functions start here
 
 def create_household(login, password):
     """Create and return a new household."""
 
-    household = Household(account_login=login, account_password=password)
+    ph = PasswordHasher()
+    hashed = ph.hash(password)
+
+    household = Household(account_login=login, account_password=hashed)
 
     return household
 
 
 def get_household_by_login(household_login):
     """Return a household by name"""
+
+    household = Household.query.filter(Household.account_login == household_login).first()
+    
 
     return Household.query.filter(Household.account_login == household_login).first()
 
@@ -109,7 +119,7 @@ def get_house_tasks(household_id):
             as_house_completed_tasks.append(task.task_name)
         elif task.frequency == "daily":
             d_house_completed_tasks.append(task.task_name)
-        else:
+        elif task.frequency == "other":
             o_house_completed_tasks.append(task.task_name)
 
     tasks_week = Tasks.query.filter(Tasks.household_id == household_id, Tasks.completed == True, Tasks.date_completed >= date7).all()
@@ -306,28 +316,30 @@ def chart_all(household_id):
 def send_reminder(user_id):
     """Sends text reminder to complete task(s)"""
 
-    user = Users.query.filter(Users.user_id == user_id).first()
+    # user = Users.query.filter(Users.user_id == user_id).first()
 
-    user_phone = user.cellphone
+    # user_phone = user.cellphone
 
-    convert_phone = user_phone.replace("-", "")
-    us_code_phone = "+1" + convert_phone
+    # convert_phone = user_phone.replace("-", "")
+    # us_code_phone = "+1" + convert_phone
     
-    account_sid = os.environ['TWILIO_ACCOUNT_SID']
-    auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    # account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    # auth_token = os.environ['TWILIO_AUTH_TOKEN']
 
-    client = Client(account_sid, auth_token)
+    # client = Client(account_sid, auth_token)
 
-    # find arguments needed for message function to run
-    message = client.messages.create(
-        body="Hello from TO-DO...please log-in and complete your task(s)",
-        from_=os.environ['PHONE_ORIGIN'],
-        to=us_code_phone
-    )
-    print(message.sid)
-    print(us_code_phone)
+    # # find arguments needed for message function to run
+    # message = client.messages.create(
+    #     body="Hello from TO-DO...please log-in and complete your task(s)",
+    #     from_=os.environ['PHONE_ORIGIN'],
+    #     to=us_code_phone
+    # )
+    # print(message.sid)
+    # print(us_code_phone)
 
-    return
+    # bc trial account:
+    # message
+
 
 # FORMER CRUD FUNCTIONS NOT IN USE
 # def clear_task(task_name):

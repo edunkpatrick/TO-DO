@@ -31,15 +31,14 @@ def register_household():
 
     household_name = request.form.get("account_name")
     password = request.form.get("password")
-    ph = PasswordHasher()
-    hashed = ph.hash(password)
+
 
     household = crud.get_household_by_login(household_name)
     if household:
         flash("Account with that name already exists, please select a unique name")
     
     else:
-        household = crud.create_household(household_name, hashed)
+        household = crud.create_household(household_name, password)
         db.session.add(household)
         db.session.commit()
         flash("Account created succesfully, please log in")
@@ -53,12 +52,16 @@ def login_household():
 
     household_name = request.form.get("account_name")
     password = request.form.get("password")
-    ph = PasswordHasher()
-    hashed = ph.hash(password)
 
     household = crud.get_household_by_login(household_name)
+
+    ph = PasswordHasher()
+    hashed = ph.hash(password)
+    verify_password = ph.verify(hashed, password)
+
     
-    if not household or household.account_password != hashed:
+    if not household or household.account_password != password:
+    # if not household or household.account_password != hashed:
         flash("The household name or password was incorrect, please try again.")
         return redirect('/')
     
@@ -223,6 +226,7 @@ def add_task():
         task = crud.create_task(task_name=add_task, user_id=user_id, household_id=household_id, completed=False, frequency=frequency_task)
         db.session.add(task)
         db.session.commit()
+
         house_completed_tasks = crud.get_house_tasks(household_id)
         as_needed_list = []
         daily_list = []
@@ -312,6 +316,8 @@ def send_reminder():
 
     crud.send_reminder(user_id)
 
+    flash("reminder message sent")
+
     return
 
 @app.route('/sign_out')
@@ -323,7 +329,7 @@ def sign_out():
     return redirect('/')
 
 
-# FORMER HTML ROUTES/FUNCTIONS, REMOVE WHEN MVP COMPLETE
+# FORMER HTML ROUTES/FUNCTIONS, REMOVE WHEN COMPLETE
 # @app.route('/user_profile', methods=["POST"])
 # def show_user_landing():
 #     """Shows tasks for user profile activated"""

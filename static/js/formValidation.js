@@ -1,8 +1,8 @@
 // Example starter JavaScript for disabling form submissions 
 // if there are invalid fields, obtained from Bootstrap docs
+'use strict';
+
 (function () {
-    'use strict'
-  
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     const forms = document.querySelectorAll('.needs-validation')
   
