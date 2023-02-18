@@ -196,17 +196,22 @@ def show_user_landing():
 def delete_user():
     """Deletes user from household"""
 
-    user = request.args.get["user"]
+    user = request.args.get("delete_user")
     household_name = session["account_name"]
+
+    if user:
     
-    household_id = crud.get_household_id_by_name(household_name)
+        household_id = crud.get_household_id_by_name(household_name)
 
-    deleted_user = crud.delete_user(user, household_id)
-    flash(f"{deleted_user.user_name}, deleted")
-    db.session.delete(deleted_user)
-    db.session.commit()
+        deleted_user = crud.delete_user(user, household_id)
+        # flash(f"{deleted_user.user_name}, deleted")
+        db.session.delete(deleted_user)
+        db.session.commit()
 
-    return
+        return "user deleted"
+    
+    else:
+        return "user not deleted"
 
 
 @app.route('/add_task')
@@ -311,14 +316,18 @@ def send_reminder():
     reminder_user = request.args.get("reminder")
 
     household_name = session["account_name"]
-    household_id = crud.get_household_id_by_name(household_name)
-    user_id = crud.get_user_id(reminder_user, household_id)
 
-    crud.send_reminder(user_id)
+    if reminder_user:
 
-    flash("reminder message sent")
+        household_id = crud.get_household_id_by_name(household_name)
+        user_id = crud.get_user_id(reminder_user, household_id)
 
-    return
+        crud.send_reminder(user_id)
+
+        return "message sent"
+    else:
+
+        return "no text sent"
 
 @app.route('/sign_out')
 def sign_out():

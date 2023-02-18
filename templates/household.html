@@ -122,9 +122,10 @@
 
     <div class="row" id="user_tasks_div">
             {% if not user_profile_selected %} 
+
             {% else %}
                 <div class="col-3" id="user_tasks">
-                    <div id="user_div" value="{{ user_profile_selected }}"></div>
+                    <h1 id="user_div" value="{{ user_profile_selected }}"></h1>
                     <div id="tasksdiv" class="row" >
                     {% if get_tasks %}
                         <h3 id="user_heading" value="{{ user_profile_seleced }}">Here are your tasks, {{ user_profile_selected }}</h3>

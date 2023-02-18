@@ -22,7 +22,9 @@
 
 
 // DELETES CHECKED TASKS
-document.getElementById('delete_tasks').addEventListener('click', (evt) => {
+const deleteTask = document.getElementById('delete_tasks');
+
+if (deleteTask) {deleteTask.addEventListener('click', (evt) => {
     evt.preventDefault();
     for (const cb of document.querySelectorAll('.form-check-input')){
         if (cb.checked === true){
@@ -37,11 +39,29 @@ document.getElementById('delete_tasks').addEventListener('click', (evt) => {
                     toDelete.remove();
                 })
         }
-    }});
+    }})};
+
+// document.getElementById('delete_tasks').addEventListener('click', (evt) => {
+//     evt.preventDefault();
+//     for (const cb of document.querySelectorAll('.form-check-input')){
+//         if (cb.checked === true){
+//             const toMark = cb.value;
+//             const queryString = new URLSearchParams({ task: toMark }).toString();
+//             const url = `/delete_task?${queryString}`;
+//             fetch(url)
+//                 .then((response) => response.text())
+//                 .then((status) => {
+//                     console.log(status);
+//                     const toDelete = document.getElementById(`${status}div`);
+//                     toDelete.remove();
+//                 })
+//         }
+//     }});
 
 
 // MARKS ALL CHECKED TASKS COMPLETE
-document.getElementById('mark_complete').addEventListener('click', (evt) => {
+const markComplete = document.getElementById('mark_complete');
+if (markComplete) {markComplete.addEventListener('click', (evt) => {
     evt.preventDefault();
     for (const cb of document.querySelectorAll('.form-check-input')){
         if (cb.checked === true){
@@ -57,21 +77,39 @@ document.getElementById('mark_complete').addEventListener('click', (evt) => {
                     selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
                 })
         }
-    }});
+    }})};
+// document.getElementById('mark_complete').addEventListener('click', (evt) => {
+//     evt.preventDefault();
+//     for (const cb of document.querySelectorAll('.form-check-input')){
+//         if (cb.checked === true){
+//             const toMark = cb.value;
+//             const queryString = new URLSearchParams({ task: toMark }).toString();
+//             const url = `/complete_task?${queryString}`;
+//             fetch(url)
+//                 .then((response) => response.text())
+//                 .then((status) => {
+//                     console.log(status);
+//                     const selectItem = document.getElementById(`${status}div`);
+//                     // insertAdjacentHTML placeholder to change style to crossout once CSS made
+//                     selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
+//                 })
+//         }
+//     }});
 
 // DELETES USER
 document.getElementById('delete_user').addEventListener('click', (evt) => {
     evt.preventDefault();
     // need to grab user name to delete and put in toDelete variable
 
-        const toDelete = document.getElementById('user_div').value;
-        const queryString = new URLSearchParams({ user: toDelete }).toString();
+        // const toDelete = document.getElementById('user_div').value;
+        const toDelete = document.querySelector('#user_div');
+        const toDelUser = toDelete.getAttribute('value');
+        const queryString = new URLSearchParams({ delete_user: toDelUser }).toString();
         const url = `/delete_user?${queryString}`;
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                console.log('user deleted');
-                console.log(toDelete);
+                console.log(status);
             })
     }
 );
@@ -79,18 +117,14 @@ document.getElementById('delete_user').addEventListener('click', (evt) => {
 document.getElementById('send_reminder').addEventListener('click', (evt) => {
     evt.preventDefault();
     
-    // need to grab user name to send msg and put in toMessage variable
-        const toMessage = 'erin';
-        const toMesUser = toMessage.value;
-        console.log(toMessage.value);
-        console.log(toMessage);
-        const queryString = new URLSearchParams({ reminder: toMessage }).toString();
+        const toMessage = document.querySelector('#user_div');
+        const toMesUser = toMessage.getAttribute('value');
+        const queryString = new URLSearchParams({ reminder: toMesUser }).toString();
         const url = `/send_reminder?${queryString}`;
-        console.log(url);
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                console.log("message sent");
+                console.log(status);
             })
     }
 );

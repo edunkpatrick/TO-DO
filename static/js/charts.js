@@ -1,5 +1,5 @@
 // GET DATA TO MAKE CHART OF ALL TASKS
-
+'use strict';
 
 // document.getElementById('chart').addEventListener('click', (evt) => {
 //     evt.preventDefault();
@@ -109,15 +109,20 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
     fetch('/house_tasks_complete.json')
         .then((response) => response.json())
         .then((responseJson) => {
+            console.log(`this is responseJson ${responseJson}`);
             // make an array of responseJson key, values
-            const user_data = Object.entries(responseJson['house'])
+            const user_data = Object.entries(responseJson['house']);
+            console.log(`this is user_data ${user_data}`);
             // get dict of colors from bar_colors from responseJson
-            const background_dict = responseJson['bar_colors']
+            const background_dict = responseJson['bar_colors'];
+            console.log(`this is background_colors ${background_dict}`);
 
-            let taskArr = [];
+            const taskArr = [];
 
             // loop through users
             for(const [user_name, user_tasks] of user_data){
+                console.log(user_name);
+                console.log(user_tasks);
                 const data = user_tasks.map((tasks) => ({
                     // x is frequency type
                     x: tasks[0],
@@ -125,22 +130,28 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
                     y: tasks[1],
                 }));
 
-                let dict = {}
+                const dict = {}
+
                 // dict with user_name as key, data as values
                 dict[user_name] = data
+                console.log(`this is dict ${dict}`);
                 // add dict to taskArr
                 taskArr.push(dict);
             }
-
-            let dataArr = [];
+            console.log(`this is taskArr ${taskArr}`);
+            const dataArr = [];
             
             for(let i = 0; i < taskArr.length; i++){
                 // get name from taskArr keys
-                let name = Object.keys(taskArr[i])[0]
+                const name = Object.keys(user_data[i])[0]
+                console.log(name);
+                // const name = Object.keys(taskArr[i])[0]
                 // get task freq type, total values and assign to data
-                let data = taskArr[i][name]
+                const data = Object.keys(user_data[1])[0]
+                console.log(data);
+                // const data = taskArr[i][name]
                 // assign color by iteration
-                let color = background_dict['colors'][i]
+                const color = background_dict['colors'][i]
                 // add name, data, and color to dataArr for chart
                 dataArr.push({
                     label: name,
@@ -148,6 +159,7 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
                     backgroundColor: color,
                     borderColor: color
                 })
+                console.log(`this is dataArr ${dataArr}`);
             }
 
             new Chart(document.querySelector('#house-chart'), {

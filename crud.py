@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 # from twilio.rest import Client
 # import os
 
-from send_sms import message
+
 
 from argon2 import PasswordHasher
 
@@ -315,6 +315,7 @@ def chart_all(household_id):
 
 def send_reminder(user_id):
     """Sends text reminder to complete task(s)"""
+    from send_sms import message
 
     # user = Users.query.filter(Users.user_id == user_id).first()
 
