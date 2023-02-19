@@ -25,15 +25,16 @@ def login_household(household_login, password):
     """logs in household with hashed password"""
 
     household = Household.query.filter(Household.account_login == household_login).first()
-
-    hashed = argon2.hash(password)
-
-    if household:
-        if argon2.verify(password, hashed):
+    attempt = password
+    while True:
+        attempt = password
+        if argon2.verify(attempt, household.account_password):
+            print('yes!')
             return household
 
         else:
             return False
+
 
 def get_household_by_login(household_login):
     """Return a household by name"""

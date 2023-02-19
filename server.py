@@ -57,7 +57,7 @@ def login_household():
     household = crud.login_household(household_name, password)
     
     # if not household or household.account_password != password:
-    if not household:
+    if not household or False:
         flash("The household name or password was incorrect, please try again.")
         return redirect('/')
     
