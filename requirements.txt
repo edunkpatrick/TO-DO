@@ -23,6 +23,7 @@ Jinja2==3.0.1
 MarkupSafe==2.0.1
 matplotlib-inline==0.1.6
 parso==0.8.3
+passlib==1.7.4
 pexpect==4.8.0
 pickleshare==0.7.5
 prompt-toolkit==3.0.36

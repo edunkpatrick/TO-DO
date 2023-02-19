@@ -9,7 +9,7 @@ import crud
 
 from jinja2 import StrictUndefined
 
-from argon2 import PasswordHasher
+# from argon2 import PasswordHasher
 
 app = Flask(__name__)
 
@@ -53,15 +53,11 @@ def login_household():
     household_name = request.form.get("account_name")
     password = request.form.get("password")
 
-    household = crud.get_household_by_login(household_name)
-
-    ph = PasswordHasher()
-    hashed = ph.hash(password)
-    verify_password = ph.verify(hashed, password)
-
+    # household = crud.get_household_by_login(household_name)
+    household = crud.login_household(household_name, password)
     
-    if not household or household.account_password != password:
-    # if not household or household.account_password != hashed:
+    # if not household or household.account_password != password:
+    if not household:
         flash("The household name or password was incorrect, please try again.")
         return redirect('/')
     

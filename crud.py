@@ -7,27 +7,38 @@ from datetime import datetime, timedelta
 # import os
 
 
-
-from argon2 import PasswordHasher
+from passlib.hash import argon2
+# from argon2 import PasswordHasher
 
 # functions start here
 
 def create_household(login, password):
     """Create and return a new household."""
 
-    ph = PasswordHasher()
-    hashed = ph.hash(password)
+    hashed = argon2.hash(password)
 
     household = Household(account_login=login, account_password=hashed)
 
     return household
 
+def login_household(household_login, password):
+    """logs in household with hashed password"""
+
+    household = Household.query.filter(Household.account_login == household_login).first()
+
+    hashed = argon2.hash(password)
+
+    if household:
+        if argon2.verify(password, hashed):
+            return household
+
+        else:
+            return False
 
 def get_household_by_login(household_login):
     """Return a household by name"""
 
-    household = Household.query.filter(Household.account_login == household_login).first()
-    
+    # household = Household.query.filter(Household.account_login == household_login).first()
 
     return Household.query.filter(Household.account_login == household_login).first()
 
