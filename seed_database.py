@@ -34,8 +34,9 @@ model.db.create_all()
 # model.db.session.commit()
 
 households_in_db = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-tasks_in_db = ["clean kitchen", "feed dog", "laundry", "bills", "prep dinner", "grocery shopping",
-    "prep kids lunches", "water plants", "clean bathroom", "help with homework", "dishes", "trash"]
+tasks_in_db = ["clean kitchen", "feed dog AM", "laundry", "bills", "prep dinner", "grocery shopping",
+    "prep kids lunches", "water plants", "clean bathroom", "help with homework", "dishes", "trash",
+    "feed dog PM", "take out trash", "bring in trash"]
 
 frequency_in_db = ["as_needed", "daily", "weekly", "monthly"]
 

@@ -104,43 +104,46 @@
 //         });
 
 // // CHART FOR ALL HOUSEHOLD TASKS
+// https://www.youtube.com/watch?v=Zr0a8dk43Zk
+// https://www.youtube.com/watch?v=mw5i_QGDomw
+// https://www.youtube.com/watch?v=VU5spDuIG2U
 document.getElementById('house_chart').addEventListener('click', (evt) => {
     evt.preventDefault();
     fetch('/house_tasks_complete.json')
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(`this is responseJson ${responseJson}`);
+            // console.log(`this is responseJson ${responseJson}`);
             console.log(JSON.stringify(responseJson));
             // grab data from house key in JSON response
             const user_data = Object.entries(responseJson['house']);
             console.log(JSON.stringify(user_data));
             // get dict of colors from bar_colors from responseJson
             const background_dict = responseJson['bar_colors'];
-            console.log(`this is background_colors ${background_dict}`);
+            // console.log(`this is background_colors ${background_dict}`);
 
             const taskList = [];
 
             // loop through user data in house data (user_data)
             for(const [user_name, user_tasks] of user_data){
-                console.log(user_name);
-                console.log(user_tasks);
+                console.log(`this is user_name ${user_name}`);
+                console.log(`this is user_tasks ${user_tasks}`);
                 const taskData = user_tasks.map((tasks) => ({
                     // x is frequency type
                     x: tasks[0],
                     // y is total occurences of freq type
                     y: tasks[1],
                 }));
-                console.log(`this is taskData ${taskData}`);
+                // console.log(`this is taskData ${taskData}`);
                 
                 const dict = {}
 
                 // dict with user_name as key, data as values
                 dict[user_name] = taskData
-                console.log(`this is dict ${dict}`);
+                // console.log(`this is dict ${dict}`);
                 // tuck dict inside taskList
                 taskList.push(dict);
             }
-            console.log(`this is taskList ${taskList}`);
+            // console.log(`this is taskList ${taskList}`);
             const chartDataList = [];
             
             // python = start at 0 index, continue until len(list), 
@@ -162,7 +165,7 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
                     backgroundColor: color,
                     borderColor: color
                 })
-                console.log(`this is dataList ${chartDataList}`);
+                // console.log(`this is dataList ${chartDataList}`);
             }
 
             new Chart(document.querySelector('#house-chart'), {

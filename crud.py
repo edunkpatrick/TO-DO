@@ -26,14 +26,17 @@ def login_household(household_login, password):
 
     household = Household.query.filter(Household.account_login == household_login).first()
     attempt = password
-    while True:
-        attempt = password
-        if argon2.verify(attempt, household.account_password):
-            print('yes!')
-            return household
 
-        else:
-            return False
+    if household:
+        while True:
+            attempt = password
+            if argon2.verify(attempt, household.account_password):
+                return household
+
+            else:
+                return False
+    else:
+        return False
 
 
 def get_household_by_login(household_login):
