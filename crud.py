@@ -112,7 +112,7 @@ def create_task(task_name, user_id, household_id, completed, frequency):
 
 # FIRST CODE REVIEW 1/25/23 FINISHED HERE #
 def get_house_tasks(household_id):
-    """Get dictionary of completed task w/in appropriate timeframe by household id"""
+    """Create dictionary of completed tasks w/in appropriate timeframe by household id"""
 
     date1 = datetime.now()
     day24_hr = (date1 - timedelta(hours=24))

@@ -1,4 +1,46 @@
+body {
+    background-image: url("/static/images/to_do.jpg");
+    background-size: cover;
+}
 
+.flash-msg {
+    background-color: lavender;
+}
+
+#body_cont {
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+#container {
+    background-color:antiquewhite;
+    /* background-size: cover; */
+    opacity: .8;
+    padding: 20px;
+}
+
+#logo {
+    background-color:#392F5A;
+    
+    /* background-size: cover; */
+    opacity: .8;
+    justify-content: center;
+}
+
+#tag_line {
+    background-color: #392F5A;
+    /* background-size: cover; */
+    opacity: .8;
+    justify-content: center;
+}
+
+#login_cont {
+    background-color: #ECE2D0;
+    /* background-size: cover; */
+    opacity: .8;
+    justify-content: center;
+}
 
 .complete {
     text-decoration: line-through,
