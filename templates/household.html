@@ -5,12 +5,10 @@
 <!-- {# ChartJS #} -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
-
 {% endblock %}
-</head>
 {% block body %}
-<br><b></b>
-<div class="container" id="container">
+
+<div class="container" id="container_dashboard">
     <div class="row">
         <div class="col-3">
             <!-- Log Out -->
@@ -81,7 +79,7 @@
         <div class="col-3">
             These tasks have been completed:
             <br><br>
-            As Needed(refreshes daily):
+            As Needed (refreshes daily):
             <ul class="list-group">
             {% for task in as_needed_list %}
             <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>
@@ -109,7 +107,7 @@
                 {% endfor %}
                 </ul>
                 <br><br>
-            Other(refreshes daily)   
+            Other (refreshes daily)   
             <ul class="list-group">
                 {% for task in other_list %}
                 <li class="list-group-item disabled" id="{{ task }}" value="{{ task }}">{{ task }}</li>

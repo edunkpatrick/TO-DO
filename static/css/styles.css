@@ -1,16 +1,27 @@
 body {
     background-image: url("/static/images/to_do.jpg");
     background-size: cover;
+    align-items: center;
 }
 
 .flash-msg {
     background-color: lavender;
 }
 
-.heading {
+.heading1 {
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Dancing Script", cursive;
     color: #fbfff1ff;
+    font-size: 100px;
+}
+
+.heading2 {
+
+    font-family: "Gloock", sans-serif;
+    color: #fbfff1ff;
+    font-size: 40px;
+    overflow-wrap: break-word;
+    text-align: center;
 }
 
 .subhead {
@@ -19,42 +30,78 @@ body {
 }
 
 #body_cont {
+
     justify-content: center;
     align-items: center;
-    padding: 50px;
-}
+    padding: 150px;
+    position: relative;
 
-#container {
+}
+/* what is container below referring to? */
+/* #container {
+
     background-color:#fbfff1ff;
-    /* background-size: cover; */
-    opacity: .8;
+    background-size: cover;
+    opacity: .5;
     padding: 20px;
+    align-items: center;
+    position: relative;
+
+} */
+
+#container_dashboard {
+
+    background-color: #fbfff1ff;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+    position: relative;
+
 }
 
 #logo {
+
     background-color:#3c1642ff;
     
     /* background-size: cover; */
     opacity: .8;
     justify-content: center;
+
 }
 
 #tag_line {
+
     background-color: #3c1642ff;
     /* background-size: cover; */
     opacity: .8;
     justify-content: center;
+
 }
 
 #login_cont {
+
     background-color: #fbfff1ff;
     /* background-size: cover; */
     opacity: .8;
     justify-content: center;
+    padding: 20px;
+
+
+}
+
+#login {
+
+    opacity: 1;
+    padding: 10px;
+    font-family: "Gloock", sans-serif;
+
+
 }
 
 .complete {
+
     text-decoration: line-through,
+
 }
 
 /* color scheme

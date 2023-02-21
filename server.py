@@ -64,7 +64,7 @@ def login_household():
     else:
         user_list = crud.get_users_by_household(household_name)
         session["account_name"] = household.account_login
-        flash(f"Welcome back, {household_name}!")
+        # flash(f"Welcome back, {household_name}!")
         household_id = crud.get_household_id_by_name(household_name)
         
         # house_completed_tasks is a dict w/ freq as keys, tasks as values list
@@ -297,7 +297,8 @@ def get_all_house_complete():
     household_id = crud.get_household_id_by_name(household_name)
     
     background_dict = {}
-    bar_colors = ['#bf3fbf', '#c09af8', '#9af8f3', '#adf89a', '#f8f79a']
+    # bar_colors = ['#bf3fbf', '#c09af8', '#9af8f3', '#adf89a', '#f8f79a']
+    bar_colors = ['#e5989bff', '#3c1642ff', '#cba328ff', '#3B5249', '#385f71ff']
     background_dict['colors'] = bar_colors
     # tasks_complete is a dict w/user_name as keys and
     # tuple of freq type, total as values

@@ -5,49 +5,90 @@
 <div class="container" id="body_cont">
     <div class="d-flex" id="logo"> 
         <div class="d-flex flex-row">
-            <h1 class="heading">TO-DO</h1>
+            <h1 class="heading1">TO-DO</h1>
         </div>
     </div>
     <div class="d-flex" id="tag_line">
         <div class="d-flex flex-row">
-            <h1 class="heading">Task Organization for Dwelling Optimization</h1>
+            <h1 class="heading2">Task Organization for Dwelling Optimization</h1>
         </div>
     </div>
     <div class="d-flex" id="login_cont">
-        <div class="d-flex flex-row" id="login">
-            <div class="col-sm">
+        <div class="row" id="login">
+            <div class="col" id="create_account">
                 <h2 class="subhead">Create an Account</h2>
-                    <form action="/household" method="POST">
-                        <p>
-                            Account name <input type="text" name="account_name">
+                    <form action="/household" method="POST" class="needs-validation" novalidate>
+                        <!-- <p> -->
+                            <!-- Account name <input type="text" name="account_name"> -->
                             <!-- account name must be less than 20 characters -->
-                        </p>
-                        <p>
-                            Password <input type="password" name="password">
+                            <div class="row">
+                                <label for="validationToolAccount">Account name</label>
+                                <input type="text" class="form-control" id="validationTooltipAccount"
+                                placeholder="account name" name="account_name" required>
+                                <div class="invalid-feedback">Please select an account name.</div>
+                                </div>
+                            <!-- </div> -->
+                        <!-- </p> -->
+                        <!-- <p> -->
+                            <!-- Password <input type="password" name="password"> -->
                             <!-- password must be at least 8 characters -->
                             <!-- can change requirements for password based on db -->
-                        </p>
-                        <p>
-                            <input type="submit">
-                        </p>
+                            <p></p>
+                            <div class="row">
+                                <label for="validationToolPass">Password</label>
+                                <input type="password" class="form-control" id="validationTooltipPass"
+                                placeholder="password" name="password" required>
+                            <div class="invalid-feedback">Please select a password.</div>
+                            </div>
+                            <!-- </div> -->
+                        <!-- </p> -->
+                        <!-- <p> -->
+                            <p></p>
+                            <div class="row">
+                                <input type="submit">
+                        <!-- </p> -->
+                            </div>
                     </form>
             </div>
         </div>
     </div>
     <div class="d-flex" id="login_cont">
-        <div class="d-flex flex-row" id="login">
-            <div class="col-sm">
+        <!-- <div class="d-flex flex-row" id="login"> -->
+            <!-- <div class="col-sm"> -->
+        <div class="row" id="login">
+            <div class="col" id="login_account">
+                <!-- <div class="row"> -->
                 <h2 class="subhead">Login to account</h2>
-                <form action="/household_home" method="POST">
-                    <p>
+                <form action="/household_home" method="POST" class="needs-validation" novalidate>
+                    <!-- <p>
                         Account name <input type="text" name="account_name">
-                    </p>
-                    <p>
+                    </p> -->
+                    <div class="row">
+                        <label for="validationToolLogin">Account name</label>
+                        <input type="text" class="form-control" id="validationTooltipLogin"
+                        placeholder="account name" name="account_name" required>
+                        <div class="invalid-feedback">Please select an account name.</div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- <p>
                         Password <input type="password" name="password">
-                    </p>
-                    <p>
+                    </p> -->
+                    <p></p>
+                    <div class="row">
+                        <label for="validationToolPassword">Password</label>
+                        <input type="password" class="form-control" id="validationTooltipPassword"
+                        placeholder="password" name="password" required>
+                        <div class="invalid-feedback">Please select a password.</div>
+                    </div>
+                    <p></p>
+                    <!-- <p>
                         <input type="submit">
-                    </p>
+                    </p> -->
+                    <div class="row">
+
+                        <input type="submit">
+                <!-- </p> -->
+                    </div>        
                 </form>
             </div>
         </div>
@@ -55,4 +96,5 @@
 </div>
 {% endblock %}
 
-{% block js %}{% endblock %}
+{% block js %}
+<script src="/static/js/formValidation.js"></script>{% endblock %}
