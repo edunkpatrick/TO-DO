@@ -204,7 +204,7 @@ def delete_user():
         db.session.delete(deleted_user)
         db.session.commit()
 
-        return "user deleted"
+        return f"{user} deleted"
     
     else:
         return "user not deleted"
@@ -298,7 +298,7 @@ def get_all_house_complete():
     
     background_dict = {}
     # bar_colors = ['#bf3fbf', '#c09af8', '#9af8f3', '#adf89a', '#f8f79a']
-    bar_colors = ['#e5989bff', '#3c1642ff', '#cba328ff', '#3B5249', '#385f71ff']
+    bar_colors = ['#e5989bff', '#3c1642ff', '#cba328ff', '#3B5249', '#009FB7']
     background_dict['colors'] = bar_colors
     # tasks_complete is a dict w/user_name as keys and
     # tuple of freq type, total as values

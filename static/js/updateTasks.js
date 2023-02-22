@@ -119,7 +119,7 @@ document.getElementById('delete_user').addEventListener('click', (evt) => {
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                console.log(status);
+                alert(status);
             })
     }
 );

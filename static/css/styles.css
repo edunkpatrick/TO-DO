@@ -2,10 +2,21 @@ body {
     background-image: url("/static/images/to_do.jpg");
     background-size: cover;
     align-items: center;
-}
 
+}
+/* fonts */
+.alert {
+    background-color: #fbfff1ff;
+    font-family: "Gloock", sans-serif;
+    color: #3c1642ff;
+    border-color: #fbfff1ff;
+
+}
 .flash-msg {
-    background-color: lavender;
+    background-color: #fbfff1ff;
+    font-family: "Gloock", sans-serif;
+    color: #3c1642ff;
+
 }
 
 .heading1 {
@@ -13,6 +24,7 @@ body {
     font-family: "Dancing Script", cursive;
     color: #fbfff1ff;
     font-size: 100px;
+
 }
 
 .heading2 {
@@ -22,11 +34,111 @@ body {
     font-size: 40px;
     overflow-wrap: break-word;
     text-align: center;
+
 }
 
 .subhead {
 
     color: #3B5249;
+
+}
+
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    font-family: "Gloock", sans-serif;
+    font-size: 50;
+    color: #fbfff1ff;
+    /* background-color:#3B5249; */
+    /* padding: 10px;
+    border-radius: 20px; */
+}
+
+.navbar-custom {
+
+    font-family: "Gloock", sans-serif;
+    background-color:#3B5249;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+}
+
+.btn.btn_light {
+    background-color:#fbfff1ff;
+    color: #3B5249;
+}
+
+.house_complete_font {
+
+    font-family: "Gloock", sans-serif;
+    color: #fbfff1ff;
+
+}
+
+.tasks_complete_font {
+
+    font-family: "Gloock", sans-serif;
+    color: #fbfff1ff;
+
+}
+
+.light_background {
+    color:#3c1642ff;
+    font-family: "Gloock", sans-serif;
+}
+/* homepage */
+#logo {
+
+    background-color:#3c1642ff;
+    
+    /* background-size: cover; */
+    opacity: .8;
+    justify-content: center;
+    border-radius: 20px 20px 0 0;
+
+}
+
+#tag_line {
+
+    background-color: #3c1642ff;
+    /* background-size: cover; */
+    opacity: .8;
+    justify-content: center;
+    /* padding: 0px; */
+
+
+}
+
+#account_cont {
+
+    /* background-color: #fbfff1ff; */
+    background: #fbfff1ff;
+    background: rgba(251, 255, 241, 0.7);
+    /* background-size: cover; */
+    /* opacity: .8; */
+    justify-content: center;
+    padding: 20px;
+
+}
+
+#login_cont {
+
+    /* background-color: #fbfff1ff; */
+    background: #fbfff1ff;
+    background: rgba(251, 255, 241, 0.7);
+    /* background-size: cover; */
+    /* opacity: .8; */
+    justify-content: center;
+    padding: 20px;
+    border-radius: 0 0 20px 20px;
+
+}
+
+
+#login {
+
+    padding: 10px;
+    font-family: "Gloock", sans-serif;
+
 }
 
 #body_cont {
@@ -49,9 +161,10 @@ body {
 
 } */
 
+/* hosue dashboard */
 #container_dashboard {
 
-    background-color: #fbfff1ff;
+    /* background-color: #fbfff1ff; */
     justify-content: center;
     align-items: center;
     padding: 100px;
@@ -59,49 +172,53 @@ body {
 
 }
 
-#logo {
+#house_manage_div {
 
-    background-color:#3c1642ff;
-    
+    /* background-color: #fbfff1ff; */
+    background: #fbfff1ff;
+    background: rgba(251, 255, 241, 0.9);
     /* background-size: cover; */
-    opacity: .8;
-    justify-content: center;
-
-}
-
-#tag_line {
-
-    background-color: #3c1642ff;
-    /* background-size: cover; */
-    opacity: .8;
-    justify-content: center;
-
-}
-
-#login_cont {
-
-    background-color: #fbfff1ff;
-    /* background-size: cover; */
-    opacity: .8;
+    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
-
-
-}
-
-#login {
-
-    opacity: 1;
-    padding: 10px;
-    font-family: "Gloock", sans-serif;
-
+    border-radius: 0 0 0 20px;
 
 }
 
+#mid_div {
+
+    /* background-color: #fbfff1ff; */
+    background: #fbfff1ff;
+    background: rgba(251, 255, 241, 0.9);
+    /* background-size: cover; */
+    /* opacity: .8; */
+    justify-content: center;
+    padding: 20px;
+    /* border-radius: 20px; */
+
+}
+
+#house_complete_div {
+
+    /* background-color: #fbfff1ff; */
+    background: #3c1642ff;
+    background: rgba(60, 22, 66, 0.7);
+    /* background-size: cover; */
+    /* opacity: .8; */
+    justify-content: center;
+    padding: 20px;
+    border-radius: 0 0 20px 0;
+
+}
 .complete {
 
     text-decoration: line-through,
 
+}
+
+.btn.btn-secondary {
+    background-color:#3B5249;
+    color: #fbfff1ff;
 }
 
 /* color scheme
@@ -111,4 +228,5 @@ CSS HEX
 --salmon-pink: #e5989bff;
 --russian-violet: #3c1642ff;
 --satin-sheen-gold: #cba328ff;
---feldgrau green: #3B5249 */
+--feldgrau green: #3B5249 ;
+--moonstone: #009FB7*/
