@@ -138,7 +138,8 @@ document.getElementById('send_reminder').addEventListener('click', (evt) => {
                 // alert(status);
                 Swal.fire({
                     // icon: ,
-
+                    icon: 'success',
+                    iconColor: '#3B5249',
                     text: status,
                     confirmButtonText: 'Thanks!',
                     confirmButtonColor: '#3B5249',
