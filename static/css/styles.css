@@ -4,7 +4,7 @@ body {
     align-items: center;
 
 }
-/* fonts */
+
 .alert {
     background-color: #fbfff1ff;
     font-family: "Gloock", sans-serif;
@@ -148,7 +148,7 @@ body {
     color:#3c1642ff;
     font-family: "Gloock", sans-serif;
 }
-/* homepage */
+
 #logo {
 
     background-color:#3c1642ff;
