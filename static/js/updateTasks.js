@@ -135,7 +135,14 @@ document.getElementById('send_reminder').addEventListener('click', (evt) => {
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                alert(status);
+                // alert(status);
+                Swal.fire({
+                    // icon: ,
+
+                    text: status,
+                    confirmButtonText: 'Thanks!',
+                    confirmButtonColor: '#3B5249',
+                }) 
             })
     }
 );

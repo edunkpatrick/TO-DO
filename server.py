@@ -321,7 +321,7 @@ def send_reminder():
 
         crud.send_reminder(user_id)
 
-        return "message sent"
+        return "Reminder text message sent with Twilio"
     else:
 
         return "no text sent"
