@@ -71,7 +71,7 @@ if (markComplete) {markComplete.addEventListener('click', (evt) => {
             fetch(url)
                 .then((response) => response.text())
                 .then((status) => {
-                    console.log(status);
+                    // console.log(status);
                     // const selectItem = document.getElementById(`${status}div`);
                     const selectItem = document.getElementById(`${status}div`);
                     // selectItem.remove();
@@ -81,7 +81,8 @@ if (markComplete) {markComplete.addEventListener('click', (evt) => {
                     // selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
                     // const selectItem = document.querySelector(`${status}div`);
                     // console.log(selectItem);
-                    selectItem.className = 'complete';
+                    selectItem.style.textDecoration='line-through';
+                    // selectItem.className = 'complete';
                     // strikethrough = document.querySelectorAll('complete');
                     // strikethrough.style.color = "green";
                     // selectItem.style.color = "black";
