@@ -12,6 +12,7 @@ body {
     border-color: #fbfff1ff;
 
 }
+
 .flash-msg {
     background-color: #fbfff1ff;
     font-family: "Gloock", sans-serif;
@@ -26,7 +27,6 @@ body {
     font-size: 100px;
     text-align: center;
 
-
 }
 
 .heading2 {
@@ -37,8 +37,8 @@ body {
     overflow-wrap: break-word;
     text-align: center;
 
-
 }
+
 .heading1_home {
 
     font-family: "Dancing Script", cursive;
@@ -56,8 +56,8 @@ body {
     overflow-wrap: break-word;
     text-align: center;
 
-
 }
+
 .subhead {
 
     color: #3B5249;
@@ -65,14 +65,11 @@ body {
 }
 
 #flushButton1 {
+
     color: #fbfff1ff;
     font-family: "Gloock", sans-serif;
     font-size: 20px;
-    /* background: #fbfff1ff; */
-    /* background: rgb(59, 82, 73); */
     background: rgba(59, 82, 73, 0.9);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
     border-radius: 20px;
@@ -83,38 +80,21 @@ body {
     color: #fbfff1ff;
     font-family: "Gloock", sans-serif;
     font-size: 20px;
-    /* background: #fbfff1ff; */
-    /* background: rgb(59, 82, 73); */
     background: rgba(59, 82, 73, 0.9);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
     border-radius: 20px;
 
 }
+
 .accordion-item {
     padding: 20px;
     border-radius: 50px;
     background: rgba(251, 255, 241, 0.0);
     color:rgba(251, 255, 241, 0.7);
-}
-/* 
-#flush_collapseOne {
-    padding: 20px;
-    border-radius: 20px;
-    background: rgba(251, 255, 241, 0.7);
-    color:rgba(251, 255, 241, 0.7);
 
 }
 
-#flush_collapseTwo {
-    padding: 20px;
-    border-radius: 20px;
-    background: rgba(251, 255, 241, 0.7);
-    color:rgba(251, 255, 241, 0.7);
-
-} */
 .accordion-body {
     padding: 20px;
     border-radius: 20px;
@@ -122,6 +102,7 @@ body {
     color: #3B5249;
     font-size: 24px;
     width: 400px;
+
 }
 
 
@@ -130,9 +111,7 @@ body {
     font-family: "Gloock", sans-serif;
     font-size: 50;
     color: #fbfff1ff;
-    /* background-color:#3B5249; */
-    /* padding: 10px;
-    border-radius: 20px; */
+
 }
 
 .navbar-custom {
@@ -140,12 +119,14 @@ body {
     font-family: "Gloock", sans-serif;
     background-color:#3B5249;
     padding: 10px;
-    /* border-radius: 20px 20px 0 0; */
+
 }
 
 .btn.btn_light {
+
     background-color:#fbfff1ff;
     color: #3B5249;
+
 }
 
 .house_complete_font {
@@ -163,6 +144,7 @@ body {
 }
 
 .light_background {
+
     color:#3c1642ff;
     font-family: "Gloock", sans-serif;
 }
@@ -170,8 +152,6 @@ body {
 #logo {
 
     background-color:#3c1642ff;
-    
-    /* background-size: cover; */
     opacity: .8;
     justify-content: center;
     border-radius: 20px 20px 0 0;
@@ -181,25 +161,20 @@ body {
 #tag_line {
 
     background-color: #3c1642ff;
-    /* background-size: cover; */
     opacity: .8;
     justify-content: center;
-    /* padding: 0px; */
-
 
 }
 
 #account_cont {
 
-    /* background-color: #fbfff1ff; */
     background: #fbfff1ff;
     background: rgba(251, 255, 241, 0.7);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
 
 }
+
 #create_account {
 
         background-color: #fbfff1ff;
@@ -215,29 +190,20 @@ body {
 
 #account_cont {
 
-    /* background-color: #fbfff1ff; */
     background: #fbfff1ff;
     background: rgba(251, 255, 241, 0.7);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
-    /* padding: 20px; */
 
 }
 
 #login_cont {
 
-    /* background-color: #fbfff1ff; */
     background: #fbfff1ff;
     background: rgba(251, 255, 241, 0.7);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
-    /* padding: 20px; */
     border-radius: 0 0 20px 20px;
 
 }
-
 
 #login {
 
@@ -254,46 +220,39 @@ body {
     position: relative;
 
 }
-/* what is container below referring to? */
-/* #container {
-
-    background-color:#fbfff1ff;
-    background-size: cover;
-    opacity: .5;
-    padding: 20px;
-    align-items: center;
-    position: relative;
-
-} */
 
 /* hosue dashboard */
 #container_dashboard {
 
-    /* background-color: #fbfff1ff; */
     justify-content: center;
     align-items: center;
     padding: 100px;
     position: relative;
 
 }
+
 #house_div {
+
     padding: 20px;
+
 }
 
 #user_tasks_div {
+
     padding: 20px;
+
 }
 
 #chart_div {
+
     padding: 20px;
+
 }
+
 #house_manage_div {
 
-    /* background-color: #fbfff1ff; */
     background: #fbfff1ff;
     background: rgba(251, 255, 241, 0.9);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
     border-radius: 0 0 0 20px;
@@ -302,40 +261,25 @@ body {
 
 #mid_div {
 
-    /* background-color: #fbfff1ff; */
     background: #fbfff1ff;
     background: rgba(251, 255, 241, 0.9);
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
-    /* border-radius: 20px; */
 
 }
 
 #house_complete_div {
 
-    /* background-color: #fbfff1ff; */
-    /* background: #3c1642ff;
-    background: rgba(60, 22, 66, 0.7); */
-    /* background: #cba328ff;
-    background: rgba(203, 163, 40, 0.7); */
     background: rgb(59, 82, 73, 0.8);
-    /* background: #385f71cc; */
-    /* background-size: cover; */
-    /* opacity: .8; */
     justify-content: center;
     padding: 20px;
     border-radius: 0 0 20px 0;
 
 }
-/* .complete {
 
-    text-decoration: line-through,
-
-} */
 
 .btn.btn-secondary {
+
     background-color:#3B5249;
     color: #fbfff1ff;
 }
