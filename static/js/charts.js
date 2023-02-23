@@ -113,10 +113,10 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
         .then((response) => response.json())
         .then((responseJson) => {
             // console.log(`this is responseJson ${responseJson}`);
-            console.log(JSON.stringify(responseJson));
+            // console.log(JSON.stringify(responseJson));
             // grab data from house key in JSON response
             const user_data = Object.entries(responseJson['house']);
-            console.log(JSON.stringify(user_data));
+            // console.log(JSON.stringify(user_data));
             // get dict of colors from bar_colors from responseJson
             const background_dict = responseJson['bar_colors'];
             // console.log(`this is background_colors ${background_dict}`);
@@ -125,8 +125,8 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
 
             // loop through user data in house data (user_data)
             for(const [user_name, user_tasks] of user_data){
-                console.log(`this is user_name ${user_name}`);
-                console.log(`this is user_tasks ${user_tasks}`);
+                // console.log(`this is user_name ${user_name}`);
+                // console.log(`this is user_tasks ${user_tasks}`);
                 const taskData = user_tasks.map((tasks) => ({
                     // x is frequency type
                     x: tasks[0],
@@ -151,11 +151,11 @@ document.getElementById('house_chart').addEventListener('click', (evt) => {
             for(let i = 0; i < taskList.length; i++){
                 // get name from taskList keys
                 const name = Object.keys(taskList[i])[0]
-                console.log(name);
+                // console.log(name);
                 // get task freq type, total values and assign to data
                 // const data = Object.keys(user_data[i])[0]
                 const data = taskList[i][name]
-                console.log(data);
+                // console.log(data);
                 // assign color by iteration
                 const color = background_dict['colors'][i]
                 // add name, data, and color to chartDataList for chart

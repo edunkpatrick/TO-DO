@@ -16,23 +16,65 @@
     <div class="d-flex" id="account_cont">
         <div class="row" id="login">
             <div class="col" id="create_account">
-                <h2 class="subhead">Create an Account</h2>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button
+                            id="flushButton1"
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-mb-toggle="collapse"
+                            data-mb-target="#flush-collapseOne"
+                            aria-expanded="false"
+                            aria-controls="flush-collapseOne"
+                            >
+                            Create an Account 
+                        </button>
+                        </h2>
+                        <div
+                        id="flush-collapseOne"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="flush-headingOne"
+                        data-mb-parent="#accordionFlushExample"
+                        >
+                            <div class="accordion-body">
+                                <!-- <h2 class="subhead">Create an Account</h2> -->
+                                <form action="/household" method="POST" class="needs-validation" novalidate>
+                                    <div class="row">
+                                        <label for="validationToolAccount">Account name</label>
+                                        <input type="text" class="form-control" id="validationTooltipAccount"
+                                        placeholder="account name" name="account_name" required>
+                                        <div class="invalid-feedback">Please select an account name.</div>
+                                        </div>
+
+                                    <p></p>
+                                    <div class="row">
+                                        <label for="validationToolPass">Password</label>
+                                        <input type="password" class="form-control" id="validationTooltipPass"
+                                        placeholder="password" name="password" required>
+                                    <div class="invalid-feedback">Please select a password.</div>
+                                    </div>
+
+                                    <p></p>
+                                    <div class="row">
+                                        <input class="btn btn-secondary" type="submit" value="Sign Up">
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <h2 class="subhead">Create an Account</h2>
                     <form action="/household" method="POST" class="needs-validation" novalidate>
-                        <!-- <p> -->
-                            <!-- Account name <input type="text" name="account_name"> -->
-                            <!-- account name must be less than 20 characters -->
+
                             <div class="row">
                                 <label for="validationToolAccount">Account name</label>
                                 <input type="text" class="form-control" id="validationTooltipAccount"
                                 placeholder="account name" name="account_name" required>
                                 <div class="invalid-feedback">Please select an account name.</div>
                                 </div>
-                            <!-- </div> -->
-                        <!-- </p> -->
-                        <!-- <p> -->
-                            <!-- Password <input type="password" name="password"> -->
-                            <!-- password must be at least 8 characters -->
-                            <!-- can change requirements for password based on db -->
+
                             <p></p>
                             <div class="row">
                                 <label for="validationToolPass">Password</label>
@@ -40,25 +82,42 @@
                                 placeholder="password" name="password" required>
                             <div class="invalid-feedback">Please select a password.</div>
                             </div>
-                            <!-- </div> -->
-                        <!-- </p> -->
-                        <!-- <p> -->
+
                             <p></p>
                             <div class="row">
-                                <input class="btn btn-secondary" type="submit">
-                        <!-- </p> -->
+                                <input class="btn btn-secondary" type="submit" value="Sign Up">
+
                             </div>
-                    </form>
+                    </form> -->
             </div>
         </div>
     </div>
     <div class="d-flex" id="login_cont">
-        <!-- <div class="d-flex flex-row" id="login"> -->
-            <!-- <div class="col-sm"> -->
-        <div class="row" id="login">
-            <div class="col" id="login_account">
-                <!-- <div class="row"> -->
-                <h2 class="subhead">Login to account</h2>
+    <div class="row" id="login">
+        <div class="col" id="create_account">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button
+                        id="flushButton2"
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-mb-toggle="collapse"
+                        data-mb-target="#flush-collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseTwo"
+                        >
+                        Login to Account 
+                    </button>
+                    </h2>
+                    <div
+                    id="flush-collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingTwo"
+                    data-mb-parent="#accordionFlushExample"
+                    >
+                        <div class="accordion-body">
+                            <!-- <h2 class="subhead">Login to account</h2> -->
                 <form action="/household_home" method="POST" class="needs-validation" novalidate>
                     <!-- <p>
                         Account name <input type="text" name="account_name">
@@ -86,17 +145,88 @@
                     </p> -->
                     <div class="row">
 
-                        <input class="btn btn-secondary" type="submit">
+                        <input class="btn btn-secondary" type="submit" value="Sign In">
                 <!-- </p> -->
                     </div>        
                 </form>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- <h2 class="subhead">Create an Account</h2>
+                <form action="/household" method="POST" class="needs-validation" novalidate>
+
+                        <div class="row">
+                            <label for="validationToolAccount">Account name</label>
+                            <input type="text" class="form-control" id="validationTooltipAccount"
+                            placeholder="account name" name="account_name" required>
+                            <div class="invalid-feedback">Please select an account name.</div>
+                            </div>
+
+                        <p></p>
+                        <div class="row">
+                            <label for="validationToolPass">Password</label>
+                            <input type="password" class="form-control" id="validationTooltipPass"
+                            placeholder="password" name="password" required>
+                        <div class="invalid-feedback">Please select a password.</div>
+                        </div>
+
+                        <p></p>
+                        <div class="row">
+                            <input class="btn btn-secondary" type="submit" value="Sign Up">
+
+                        </div>
+                </form> -->
         </div>
     </div>
+    </div>
+    <!-- <div class="d-flex" id="login_cont"> -->
+        <!-- <div class="d-flex flex-row" id="login"> -->
+            <!-- <div class="col-sm"> -->
+        <!-- <div class="row" id="login">
+            <div class="col" id="login_account"> -->
+                <!-- <div class="row"> -->
+                <!-- <h2 class="subhead">Login to account</h2>
+                <form action="/household_home" method="POST" class="needs-validation" novalidate> -->
+                    <!-- <p>
+                        Account name <input type="text" name="account_name">
+                    </p> -->
+                    <!-- <div class="row">
+                        <label for="validationToolLogin">Account name</label>
+                        <input type="text" class="form-control" id="validationTooltipLogin"
+                        placeholder="account name" name="account_name" required>
+                        <div class="invalid-feedback">Please select an account name.</div>
+                    </div> -->
+                    <!-- </div> -->
+                    <!-- <p>
+                        Password <input type="password" name="password">
+                    </p> -->
+                    <!-- <p></p>
+                    <div class="row">
+                        <label for="validationToolPassword">Password</label>
+                        <input type="password" class="form-control" id="validationTooltipPassword"
+                        placeholder="password" name="password" required>
+                        <div class="invalid-feedback">Please select a password.</div>
+                    </div>
+                    <p></p> -->
+                    <!-- <p>
+                        <input type="submit">
+                    </p> -->
+                    <!-- <div class="row">
+
+                        <input class="btn btn-secondary" type="submit" value="Sign In"> -->
+                <!-- </p> -->
+                    <!-- </div>        
+                </form>
+            </div>
+        </div>
+    </div> -->
 </div>
 {% endblock %}
 
 {% block js %}
-<!-- <script src="/static/js/formValidation.js"></script>
-<script src="/static/js/bootstrapFunctions.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="/static/js/formValidation.js"></script>
+<script src="/static/js/bootstrapFunctions.js"></script>
 {% endblock %}

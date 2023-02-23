@@ -4,14 +4,23 @@
 
 <!-- {# ChartJS #} -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-
+<script src="https://kit.fontawesome.com/d2adac5584.js" crossorigin="anonymous"></script>
 {% endblock %}
 {% block body %}
 
 <div class="container" id="container_dashboard">
+    <div class="row" id="logo"> 
+
+            <h1 class="heading1_home">TO-DO</h1>
+
+    </div>
+    <div class="row" id="tag_line">
+            <h1 class="heading2_home">Task Organization for Dwelling Optimization</h1>
+
+    </div>
     <div class="row" id="navbar">
         <nav class="navbar navbar-custom">
-        <span class="navbar-brand">{{ household_name }}'s home</span>
+        <span class="navbar-brand"><i class="fa-solid fa-people-roof"></i> {{ household_name }}'s home tasks </span>
         <!-- <div class="navbar-nav">
             <a class="nav-item">
                 <form action="/user_profile">
@@ -38,6 +47,7 @@
             </div>
         </nav>
     </div>
+
     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">{{ household_name }}'home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +64,7 @@
     <!-- </div> -->
     <div class="row">
         <div class="col-9" id="house_manage_div">
-            <div class="row">
+            <div class="row" id="house_div">
             <!-- Log Out -->
             <!-- <form action="/sign_out">
                 <button id="log_out" onclick="location.href='/sign_out'" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Log Out"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
@@ -65,7 +75,7 @@
 
             <!-- <h1 class="home" value="{{ household_name}}"> {{ household_name }}'s home </h1> -->
             <!-- <h2 id="user_profile"> -->
-                <div class="col">
+                <div class="col-6">
                     <h2 class="light_background">Pick your user profile</h2>
                     <form action="/user_profile">
                     <select name="available_users" id="users" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px">
@@ -92,7 +102,7 @@
 
                     </form>
                 </div>
-                <div class="col">
+                <div class="col"-6>
                     <form action="/add_user" class="needs-validation" novalidate>
                         <p>
                             <br><br>
@@ -116,21 +126,13 @@
             </div>
             <!-- <div class="col-6" id="mid_div"> -->
             <div class="row" id="user_tasks_div">
-                <div class="col" id="user_tasks">
-                    {% if not user_profile_selected %} 
-                    <div class="row">
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                    </div>
-                    {% else %}
+                <div class="col-6" id="user_tasks">
+
                         <!-- <div class="row"> -->
                             <!-- <div class="col" id="user_tasks"> -->
 
                     <div class="row">
+
                         <h1 id="user_div" value="{{ user_profile_selected }}"></h1>
                         <div id="tasksdiv" class="col">
                         {% if get_tasks %}
@@ -146,8 +148,12 @@
                             </div>
                             {% endfor %}
                         {% else %}
+                            {% if not user_profile_selected %} 
+                            <h2 class="light_background">Please select a user</h2>
+                            {% else %}
                             <h2 class="light_background">No tasks for {{ user_profile_selected }}, add a task!</h3>
-                        {% endif %}
+                            {% endif %}
+                        {% endif %}                    
                         </div>
                     </div>
                     <br><br>
@@ -167,10 +173,11 @@
                     </div>
                             <!-- <div id="pop_delete" style="display: none">Delete Selected Tasks</div> -->
                             <!-- <button id="remove_complete">Remove Completed Task</button> -->
+
                 </div>
 
 
-                <div id="add_task_div" class="col">
+                <div id="add_task_div" class="col-6">
                     <!-- <div class="col"> -->
                     <form action="/add_task" class="needs-validation" novalidate>
                         <p>
@@ -196,13 +203,13 @@
                     </form>
 
                 </div>
-                    {% endif %}
+
             </div>
 
 
                 <br><br>
             <div class="row" id="chart_div">
-                <div class="col">
+                <div class="col-12">
                 <button id="house_chart" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="House Chart"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
                     <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
                     </svg></button>
@@ -215,7 +222,7 @@
         </div>
                 
 
-        <div class="col-3" id="house_complete_div">
+        <div class="col-3 order-last" id="house_complete_div">
             <h2 class="house_complete_font">These tasks have been completed:</h2>
             <br><br>
             <h4 class="tasks_complete_font">As Needed (refreshes daily):</h3>

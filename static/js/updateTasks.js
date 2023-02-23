@@ -74,14 +74,14 @@ if (markComplete) {markComplete.addEventListener('click', (evt) => {
                     console.log(status);
                     // const selectItem = document.getElementById(`${status}div`);
                     const selectItem = document.getElementById(`${status}div`);
-                    selectItem.remove();
+                    // selectItem.remove();
                     // selectItem.insertAdjacentHTML('beforebegin', '<s>');
                     // selectItem.insertAdjacentHTML('afterend', '</s>');
                     // // insertAdjacentHTML placeholder to change style to crossout once CSS made
                     // selectItem.insertAdjacentHTML('afterbegin', '<s>complete</s>');
                     // const selectItem = document.querySelector(`${status}div`);
                     // console.log(selectItem);
-                    // selectItem.className = 'complete';
+                    selectItem.className = 'complete';
                     // strikethrough = document.querySelectorAll('complete');
                     // strikethrough.style.color = "green";
                     // selectItem.style.color = "black";
