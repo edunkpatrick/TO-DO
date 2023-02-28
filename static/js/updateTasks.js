@@ -120,7 +120,15 @@ document.getElementById('delete_user').addEventListener('click', (evt) => {
         fetch(url)
             .then((response) => response.text())
             .then((status) => {
-                alert(status);
+                Swal.fire({
+                    // icon: ,
+                    icon: 'success',
+                    iconColor: '#3B5249',
+                    text: status,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3B5249',
+                }) 
+                // alert(status);
             })
     }
 );
