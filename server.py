@@ -264,7 +264,9 @@ def delete_selected_task():
     selected_task = request.args.get("task")
 
     if selected_task:
-        delete = crud.delete_task(user_assigned, selected_task)
+        household_name = session["account_name"]
+        household_id = crud.get_household_id_by_name(household_name)
+        delete = crud.delete_task(user_assigned, selected_task, household_id)
         db.session.delete(delete)
         db.session.commit()
         return selected_task
@@ -281,7 +283,9 @@ def complete_selected_task():
     selected_task = request.args.get("task")
 
     if selected_task:
-        complete = crud.complete_task(user_assigned, selected_task)
+        household_name = session["account_name"]
+        household_id = crud.get_household_id_by_name(household_name)
+        complete = crud.complete_task(user_assigned, selected_task, household_id)
         db.session.commit()
         completed_task = complete.task_name
         return completed_task

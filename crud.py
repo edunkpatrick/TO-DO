@@ -177,11 +177,10 @@ def get_tasks(user_assigned, household_name):
     return tasks_list
 
 
-def delete_task(user_name, task_name):
+def delete_task(user_name, task_name, household_id):
     """Delete selected task from list"""
 
-    # need to make sure specific user selected, using houseid
-    user = Users.query.filter(Users.user_name == user_name).first()
+    user = Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
     user_id = user.user_id
 
     deleted_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
@@ -189,10 +188,10 @@ def delete_task(user_name, task_name):
     return deleted_task
 
 
-def complete_task(user_name, task_name):
+def complete_task(user_name, task_name, household_id):
     """Marks task complete"""
 
-    user = Users.query.filter(Users.user_name == user_name).first()
+    user = Users.query.filter(Users.user_name == user_name, Users.household_id == household_id).first()
     user_id = user.user_id
 
     completed_task = Tasks.query.filter(Tasks.task_name == task_name, Tasks.user_id == user_id).first()
@@ -202,7 +201,7 @@ def complete_task(user_name, task_name):
     return completed_task
 
 
-# 2.0 FUNCTIONS FOR CHARTS - IN PROGRESS
+# 2.0 FUNCTIONS FOR CHARTS
 # user charts removed for better user interface
 # def get_count_of_tasks(user_id):
 #     """Returns a list of tuples of all tasks completed for chartsjs"""
@@ -242,7 +241,6 @@ def complete_task(user_name, task_name):
 
 #     return list_for_chart
 
-# # IN PROGRESS
 # def get_range(user_id):
 #     """Returns a list of tuples of all tasks completed w/in 30 days for chartsjs"""
     
@@ -344,7 +342,6 @@ def send_reminder(user_id):
 
     # client = Client(account_sid, auth_token)
 
-    # # find arguments needed for message function to run
     # message = client.messages.create(
     #     body="Hello from TO-DO...please log-in and complete your task(s)",
     #     from_=os.environ['PHONE_ORIGIN'],
@@ -354,7 +351,7 @@ def send_reminder(user_id):
     # print(us_code_phone)
 
     # bc trial account:
-    # message
+    message
 
 
 # FORMER CRUD FUNCTIONS NOT IN USE
