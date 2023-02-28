@@ -6,11 +6,12 @@ TO-DO is a web app created by Erin Dunkley. As a full-time working mom, Erin wan
 
 ## Table of Contents
 
-    * [Technologies Used](#technologiesused)
+    * [Technologies Used](#technologies)
     * [How to locally run TO-DO](#run)
     * [How to use TO-DO](#use)
 
-## <a name="technologiesused"></a>Technologies Used
+<!-- ## <a name="technologiesused"></a> -->
+## Technologies Used
 
     * Python
     * Flask
