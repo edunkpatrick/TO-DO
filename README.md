@@ -4,12 +4,15 @@ TO-DO is a task-tracking Flask app for communicating status of shared tasks with
 
 TO-DO is a web app created by Erin Dunkley. As a full-time working mom, Erin wanted to create a convenient tool for checking the status of commonly shared household tasks and communicating status between household members.
 
+![Alt text](/static/images/homepage.png "Homepage")
+
 # Table of Contents
 
-    * [ Technologies Used ](#technologiesused)
-    * [ How to locally run TO-DO ](#run)
-    * [ How to use TO-DO ](#use)
-    * [ Author ](#author)
+    :star: [Technologies Used](#technologiesused)
+    :star: [Features](#features)
+    :star: [How to locally run TO-DO](#run)
+    :star: [How to use TO-DO](#use)
+    :star: [Author](#author)
 
 <a name="technologiesused"></a>
 ## Technologies Used
@@ -26,6 +29,8 @@ TO-DO is a web app created by Erin Dunkley. As a full-time working mom, Erin wan
     * Twilio API
 
 (dependencies are listed in requirements.txt)
+
+![Alt text](/static/images/remindertext.png "Reminder Text")
 
 <a name="run"></a>
 ## How to locally run TO-DO
