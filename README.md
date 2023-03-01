@@ -49,6 +49,7 @@ TO-DO has not been deployed yet, so follow the instructions below to run the app
 
 ### Create an account. Once logged in, add your household users and assign tasks to users
 ![User Landing](/static/images/userlanding.png)
+
 ![Chart](/static/images/chartjs.png)
 
 ## Author
