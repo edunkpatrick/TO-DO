@@ -8,11 +8,10 @@ TO-DO is a web app created by Erin Dunkley. As a full-time working mom, Erin wan
 
 # Table of Contents
 
-    :star: [Technologies Used](#technologiesused)
-    :star: [Features](#features)
-    :star: [How to locally run TO-DO](#run)
-    :star: [How to use TO-DO](#use)
-    :star: [Author](#author)
+    ⭐ Technologies Used
+    ⭐ How to locally run TO-DO
+    ⭐ How to use TO-DO
+    ⭐ About Me
 
 ## Technologies Used
 
@@ -52,5 +51,6 @@ TO-DO has not been deployed yet, so follow the instructions below to run the app
 
 ![Chart](/static/images/chartjs.png)
 
-## Author
-Erin Dunkley is a Criminalist and Software Engineer in the East Bay Area, CA
+## About Me
+Hello everyone! I'm Erin, a soon-to-be grad of the full-time immersive 12-week full-stack software engineering fellowship at Hackbright Academy. I have a background in forensic DNA and crime scene processing and have a Green Belt in Lean Six Sigma.  I love to make proccesses more efficient and am a strict rule-follower by nature. Please reach out if you would like to connect or learn more about my project.
+[LinkedIn](https://www.linkedin.com/in/erin-dunkley-39823023/)
